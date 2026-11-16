@@ -180,15 +180,41 @@ const swarmtroopers = create({
 });
 
 controls(swarmtroopers);`,
+  skill: `# Claude Code skill, installed into this project
+npx swarmtroopers skill
+
+# or once for every project
+npx swarmtroopers skill --global
+
+# then ask Claude Code:
+# "add swarmtroopers to the demo section"`,
 };
 const code = document.querySelector('#install-code');
 const copyButton = document.querySelector('#copy-code');
 const copyStatus = document.querySelector('#copy-status');
-let install = 'script';
+let install = 'module';
 const installNotes = {
   script: 'Pinned CDN, no build step. Or copy the file from node_modules and self-host.',
   module: 'npm i swarmtroopers. Create on mount. Call swarmtroopers.destroy() when the view unmounts.',
+  skill: 'Copies skills/swarmtroopers-overlay into .claude/skills. Run it at your project root.',
 };
+const copiedNotes = {
+  script: 'Copied. Paste it before the closing body tag.',
+  module: 'Copied. Run npm i swarmtroopers, then paste it where the view mounts.',
+  skill: 'Copied. Run it in your terminal at the project root.',
+};
+
+const npmButton = document.querySelector('#copy-npm');
+npmButton?.addEventListener('click', async () => {
+  const state = npmButton.querySelector('.cmd-state');
+  try {
+    await navigator.clipboard.writeText('npm i swarmtroopers');
+    state.textContent = 'copied';
+  } catch {
+    state.textContent = 'copy failed';
+  }
+  setTimeout(() => { state.textContent = 'copy'; }, 1800);
+});
 
 document.querySelectorAll('[data-install]').forEach((button) => {
   button.addEventListener('click', () => {
@@ -204,7 +230,7 @@ copyButton.addEventListener('click', async () => {
   try {
     await navigator.clipboard.writeText(snippets[install]);
     copyButton.querySelector('span').textContent = 'copied';
-    copyStatus.textContent = 'Copied. Paste it before the closing body tag.';
+    copyStatus.textContent = copiedNotes[install];
   } catch {
     const selection = window.getSelection();
     const range = document.createRange();

@@ -32,7 +32,7 @@
         <div class="row"><span class="st" data-s="done"><span class="g" aria-hidden="true">✓</span>v0.4.0</span><span class="st">MIT</span><span class="st">0 dependencies</span></div>
         <h1 id="hero-title">five agents build your page.<br><span class="dim">you watch the run.</span></h1>
         <p class="copy"><b>Swarm Troopers puts named cursor agents on your existing HTML.</b> They survey each section, call four tools and hand the page back, built. Your markup stays the source of truth. The board logs a real run, step by step.</p>
-        <div class="actions"><a class="btn btn-ink" href="#install">install <span aria-hidden="true">→</span></a><button class="btn btn-line" type="button" id="replay"><span aria-hidden="true">▶</span> replay the run</button></div>
+        <div class="actions"><button class="btn btn-ink cmd" type="button" id="copy-npm" aria-label="Copy npm i swarmtroopers"><span aria-hidden="true">$</span> npm i swarmtroopers <span class="cmd-state">copy</span></button><button class="btn btn-line" type="button" id="replay"><span aria-hidden="true">▶</span> replay the run</button></div>
         <p class="fine label">html · react · vue · svelte · astro · any stack</p>
       </section>
 
@@ -99,23 +99,28 @@
     <section class="lsec install" id="install" aria-labelledby="install-title">
       <div>
         <span class="label">install</span>
-        <h2 id="install-title">one script tag.<br>no build step.</h2>
-        <p>Keep your markup. Copy the script into your public folder, point it at your main element, and the agents do the rest.</p>
+        <h2 id="install-title">npm i swarmtroopers.<br>or one script tag.</h2>
+        <p>Keep your markup. Install the package, point it at your main element, and the agents do the rest. Working with Claude Code? One command installs the integration skill, then ask it to add Swarm Troopers to your page.</p>
         <div class="row" aria-label="Supported frameworks"><span class="st">html</span><span class="st">react</span><span class="st">vue</span><span class="st">svelte</span><span class="st">astro</span></div>
-        <p class="more"><a href="docs/installation.html">read the installation guide <span aria-hidden="true">↗</span></a></p>
+        <ul class="more">
+          <li><a href="https://www.npmjs.com/package/swarmtroopers" target="_blank" rel="noopener">swarmtroopers on npm <span aria-hidden="true">↗</span></a></li>
+          <li><a href="https://github.com/hugomrvt/swarmtroopers/tree/main/skills/swarmtroopers-overlay" target="_blank" rel="noopener">the agent skill on github <span aria-hidden="true">↗</span></a></li>
+          <li><a href="docs/installation.html">installation guide <span aria-hidden="true">↗</span></a></li>
+        </ul>
       </div>
       <div class="code">
-        <div class="code-head"><span>install</span><span class="sp"></span><div class="code-tabs" role="group" aria-label="Choose installation method"><button type="button" data-install="script" aria-pressed="true">script tag</button><button type="button" data-install="module" aria-pressed="false">es module</button></div><button type="button" id="copy-code" aria-label="Copy installation code"><span>copy</span></button></div>
-        <pre tabindex="0" aria-label="Installation code"><code id="install-code">&lt;!-- Copy dist/swarmtroopers.core.iife.js into public/vendor. --&gt;
-&lt;script
-  src="/vendor/swarmtroopers.core.iife.js"
-  data-swarmtroopers-init='{
-    "root": "main",
-    "auto": true,
-    "controls": true
-  }'
-&gt;&lt;/script&gt;</code></pre>
-        <div class="code-foot" id="copy-status" role="status" aria-live="polite">Serve the file from your own site. No build step needed.</div>
+        <div class="code-head"><span>install</span><span class="sp"></span><div class="code-tabs" role="group" aria-label="Choose installation method"><button type="button" data-install="module" aria-pressed="true">npm</button><button type="button" data-install="script" aria-pressed="false">script tag</button><button type="button" data-install="skill" aria-pressed="false">agent skill</button></div><button type="button" id="copy-code" aria-label="Copy installation code"><span>copy</span></button></div>
+        <pre tabindex="0" aria-label="Installation code"><code id="install-code">// npm i swarmtroopers
+import { create, controls } from 'swarmtroopers';
+
+const swarmtroopers = create({
+  root: 'main',
+  auto: true,
+  inspect: true,
+});
+
+controls(swarmtroopers);</code></pre>
+        <div class="code-foot" id="copy-status" role="status" aria-live="polite">npm i swarmtroopers. Create on mount. Call swarmtroopers.destroy() when the view unmounts.</div>
       </div>
     </section>
 
@@ -126,14 +131,14 @@
         <h2 id="closing-title">run complete.<br>your page stays.</h2>
         <p>Free to use, open to fork. MIT licensed.</p>
       </div>
-      <a class="btn btn-ink" data-github-link role="link" aria-disabled="true" tabindex="-1" title="Swarm Troopers on GitHub" target="_blank" rel="noopener">get it on github <span aria-hidden="true">↗</span></a>
+      <div class="actions"><a class="btn btn-ink" data-github-link role="link" aria-disabled="true" tabindex="-1" title="Swarm Troopers on GitHub" target="_blank" rel="noopener">get it on github <span aria-hidden="true">↗</span></a><a class="btn btn-line" href="https://www.npmjs.com/package/swarmtroopers" target="_blank" rel="noopener">npm <span aria-hidden="true">↗</span></a></div>
     </section>
   </main>
 
   <footer class="site-footer wrap">
     <a class="swarmtroopers-brand" href="./" aria-label="Swarm Troopers home"><img src="assets/swarmtroopers-mark-sm.svg" width="28" height="28" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a>
     <span>a side project by <a href="https://hugo.mourlev.at" target="_blank" rel="noopener">Hugo Mourlevat</a></span>
-    <nav aria-label="Footer"><a href="docs/">docs</a><a data-github-link role="link" aria-disabled="true" tabindex="-1" title="Swarm Troopers on GitHub" target="_blank" rel="noopener">source ↗</a><span>© 2026</span></nav>
+    <nav aria-label="Footer"><a href="docs/">docs</a><a href="https://www.npmjs.com/package/swarmtroopers" target="_blank" rel="noopener">npm ↗</a><a data-github-link role="link" aria-disabled="true" tabindex="-1" title="Swarm Troopers on GitHub" target="_blank" rel="noopener">source ↗</a><span>© 2026</span></nav>
   </footer>
 </body>
 </html>

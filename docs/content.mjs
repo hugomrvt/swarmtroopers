@@ -68,6 +68,7 @@ controls(swarmtroopers);`)}
 <h2 id="agent-skill">Agent skill</h2>
 <p>To let Claude Code integrate Swarm Troopers for you, copy the packaged skill into your project. Add <code>--global</code> to install it for every project, or <code>--dir &lt;path&gt;</code> to choose the folder.</p>
 ${code('sh', `npx swarmtroopers skill`)}
+<p>Then ask Claude Code to add Swarm Troopers to a section of your site. Read the skill before installing it: <a href="https://github.com/hugomrvt/swarmtroopers/tree/main/skills/swarmtroopers-overlay">skills/swarmtroopers-overlay on GitHub</a>. The package itself is <a href="https://www.npmjs.com/package/swarmtroopers">swarmtroopers on npm</a>.</p>
 <h2 id="optional-artwork">Optional layered finale</h2>
 <p>The main ESM and CommonJS entries contain no raster completion images. Enable the supplied artwork in ESM with a side-effect import before creating instances:</p>
 ${code('js', `import { create } from 'swarmtroopers';
