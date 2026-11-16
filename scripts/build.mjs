@@ -13,7 +13,7 @@ const common = {
   logLevel: 'info',
   loader: { '.webp': 'dataurl', '.svg': 'dataurl' },
   define: { __VERSION__: JSON.stringify(version) },
-  banner: { js: `/*! Swarm Troopers v${version} | @mrvt/swarmtroopers | MIT */` },
+  banner: { js: `/*! Swarm Troopers v${version} | swarmtroopers | MIT */` },
 };
 // Classic scripts expose the module as window.SwarmTroopers.
 const script = { ...common, format: 'iife', globalName: 'SwarmTroopers', minify: true };

@@ -163,15 +163,15 @@ window.addEventListener('message', (event) => {
 const snippets = {
   script: `<!-- No build step: pinned CDN, or self-host from node_modules. -->
 <script
-  src="https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
+  src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{
     "root": "main",
     "auto": true,
     "controls": true
   }'
 ><\/script>`,
-  module: `// npm i @mrvt/swarmtroopers
-import { create, controls } from '@mrvt/swarmtroopers';
+  module: `// npm i swarmtroopers
+import { create, controls } from 'swarmtroopers';
 
 const swarmtroopers = create({
   root: 'main',
@@ -187,7 +187,7 @@ const copyStatus = document.querySelector('#copy-status');
 let install = 'script';
 const installNotes = {
   script: 'Pinned CDN, no build step. Or copy the file from node_modules and self-host.',
-  module: 'npm i @mrvt/swarmtroopers. Create on mount. Call swarmtroopers.destroy() when the view unmounts.',
+  module: 'npm i swarmtroopers. Create on mount. Call swarmtroopers.destroy() when the view unmounts.',
 };
 
 document.querySelectorAll('[data-install]').forEach((button) => {

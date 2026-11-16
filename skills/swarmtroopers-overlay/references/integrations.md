@@ -1,6 +1,6 @@
 # Integration recipes
 
-Choose the recipe matching the site's actual mounted content. These examples use the published package `@mrvt/swarmtroopers`; install it first with `npm i @mrvt/swarmtroopers`.
+Choose the recipe matching the site's actual mounted content. These examples use the published package `swarmtroopers`; install it first with `npm i swarmtroopers`.
 
 ## Static HTML and CMS custom code
 
@@ -19,7 +19,7 @@ Choose `swarmtroopers.iife.js` instead when the supplied layered artwork is want
 ```jsx
 'use client';
 import { useEffect } from 'react';
-import { create, controls } from '@mrvt/swarmtroopers';
+import { create, controls } from 'swarmtroopers';
 
 export function SwarmTroopersOverlay({ routeKey }) {
   useEffect(() => {
@@ -31,7 +31,7 @@ export function SwarmTroopersOverlay({ routeKey }) {
 }
 ```
 
-Pass the actual route identity, for example Next's `usePathname()`, only after that route's content has mounted. Streamed or suspended content may need a component-local ref and an explicit refresh after descendants arrive. Do not use a global route listener as a substitute for mounted DOM. Optional artwork: import `@mrvt/swarmtroopers/finale` in the client integration module. The repository's React browser fixture verifies Strict Mode and repeated route changes in Chrome, Firefox and Playwright WebKit; it does not validate every Next.js streaming pattern.
+Pass the actual route identity, for example Next's `usePathname()`, only after that route's content has mounted. Streamed or suspended content may need a component-local ref and an explicit refresh after descendants arrive. Do not use a global route listener as a substitute for mounted DOM. Optional artwork: import `swarmtroopers/finale` in the client integration module. The repository's React browser fixture verifies Strict Mode and repeated route changes in Chrome, Firefox and Playwright WebKit; it does not validate every Next.js streaming pattern.
 
 ## Vue / Nuxt
 

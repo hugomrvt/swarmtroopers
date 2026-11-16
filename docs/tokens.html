@@ -43,7 +43,7 @@ h2 { color: var(--color-text-primary); font-size: var(--font-size-title); }</cod
 <p>Cross-origin stylesheets that the browser refuses to expose through CSSOM are skipped. Component-only declarations are not an independent token source. Use the explicit <code>source</code> option when your tokens live elsewhere.</p>
 <h2 id="token-options"><a class="heading-anchor" href="#token-options" aria-label="Link to section: TokensOptions">##</a>TokensOptions</h2>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Reference table"><table><thead><tr><th scope="col">Field</th><th scope="col">Default</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td><code>source</code></td><td>None</td><td>Extra token object, flat or in the supported DTCG-like structure.</td></tr><tr><td><code>css</code></td><td><code>true</code></td><td>Read root CSS custom properties; set false for an external-only source.</td></tr><tr><td><code>max</code></td><td><code>2</code></td><td>Maximum token names in a label.</td></tr></tbody></table></div>
-<div class="code-block"><div class="code-heading"><span>javascript</span><button class="copy-code" type="button" aria-label="Copy JavaScript example"><span>copy</span></button></div><pre data-language="js" tabindex="0"><code>import { create, tokens } from &#39;@mrvt/swarmtroopers&#39;;
+<div class="code-block"><div class="code-heading"><span>javascript</span><button class="copy-code" type="button" aria-label="Copy JavaScript example"><span>copy</span></button></div><pre data-language="js" tabindex="0"><code>import { create, tokens } from &#39;swarmtroopers&#39;;
 
 create({
   root: &#39;main&#39;, auto: true, inspect: true,

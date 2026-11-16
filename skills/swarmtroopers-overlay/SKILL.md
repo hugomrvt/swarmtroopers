@@ -20,14 +20,14 @@ Install the tested engine; do not copy or regenerate its internals for each site
 
 ## Install and integrate
 
-Install with the site's package manager (`npm i @mrvt/swarmtroopers`), or use the no-build script tag from a pinned CDN, `https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js`, or self-host by copying `dist/swarmtroopers.core.iife.js` from `node_modules/@mrvt/swarmtroopers`. The skill itself installs with `npx @mrvt/swarmtroopers skill`. Do not invent other packages, CDNs, domains, or deployments.
+Install with the site's package manager (`npm i swarmtroopers`), or use the no-build script tag from a pinned CDN, `https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js`, or self-host by copying `dist/swarmtroopers.core.iife.js` from `node_modules/swarmtroopers`. The skill itself installs with `npx swarmtroopers skill`. Do not invent other packages, CDNs, domains, or deployments.
 
 Choose the build deliberately:
 
 - `dist/swarmtroopers.core.iife.js`: lightweight, self-contained script with a vector completion fallback.
 - `dist/swarmtroopers.iife.js`: self-contained full script with the supplied layered high-five artwork.
-- ESM: import `create` and `controls` from `@mrvt/swarmtroopers`. Add `import '@mrvt/swarmtroopers/finale'` only when the layered artwork is wanted. For a no-bundler ESM installation, copy the complete `dist` directory and keep its chunks adjacent.
-- CommonJS: `@mrvt/swarmtroopers` for core, `@mrvt/swarmtroopers/full` for the artwork profile.
+- ESM: import `create` and `controls` from `swarmtroopers`. Add `import 'swarmtroopers/finale'` only when the layered artwork is wanted. For a no-bundler ESM installation, copy the complete `dist` directory and keep its chunks adjacent.
+- CommonJS: `swarmtroopers` for core, `swarmtroopers/full` for the artwork profile.
 
 Use auto mode for a semantic content region. Use `data-swarmtroopers="type|frame|rule|stamp"`, `data-swarmtroopers="repeat"`, or `data-swarmtroopers="scan"` when the selection needs deliberate control.
 

@@ -26,14 +26,14 @@
     <main class="docs-main"><article id="docs-content" tabindex="-1"><header class="article-header"><p class="article-eyebrow">docs <span>/</span> getting started <span>/</span> index</p><h1>Meet Swarm Troopers</h1><p class="article-description">Coordinate a swarm of named cursor agents on your existing page.</p></header><div class="doc-content">
 <p>Swarm Troopers is a browser overlay that reveals your existing HTML through familiar cursor gestures. Agents type text, frame cards, draw dividers, and stamp repeated items. One orchestrator coordinates small squads around the content currently in view.</p>
 <p>Your HTML remains complete. Swarm Troopers does not generate copy, duplicate elements, or rearrange your layout. When JavaScript is unavailable, the page remains readable. Readers can skip the effect with the quality controls.</p>
-<aside class="note"><strong>Install.</strong> Run <code>npm i @mrvt/swarmtroopers</code>, or add one script tag from a pinned CDN. No build step is required.</aside>
+<aside class="note"><strong>Install.</strong> Run <code>npm i swarmtroopers</code>, or add one script tag from a pinned CDN. No build step is required.</aside>
 <h2 id="first-build"><a class="heading-anchor" href="#first-build" aria-label="Link to section: Your first build">##</a>Your first build</h2>
-<ol><li>Add the pinned script from the CDN (<code>https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js</code>), or self-host it: install the package with <code>npm i @mrvt/swarmtroopers</code> and copy <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/@mrvt/swarmtroopers</code> into your website’s public files.</li><li>Add the script after your page content. Swarm Troopers starts when the DOM is ready.</li></ol>
+<ol><li>Add the pinned script from the CDN (<code>https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js</code>), or self-host it: install the package with <code>npm i swarmtroopers</code> and copy <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your website’s public files.</li><li>Add the script after your page content. Swarm Troopers starts when the DOM is ready.</li></ol>
 <div class="code-block"><div class="code-heading"><span>html</span><button class="copy-code" type="button" aria-label="Copy HTML example"><span>copy</span></button></div><pre data-language="html" tabindex="0"><code>&lt;main&gt;
   &lt;h1&gt;A page with a little character.&lt;/h1&gt;
   &lt;p&gt;Your own content, already here.&lt;/p&gt;
 &lt;/main&gt;
-&lt;script src=&quot;https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js&quot;
+&lt;script src=&quot;https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js&quot;
   data-swarmtroopers-init=&#39;{&quot;root&quot;:&quot;main&quot;,&quot;auto&quot;:true,&quot;controls&quot;:true}&#39;&gt;&lt;/script&gt;</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
 <p>The script creates <code>window.swarmtroopers</code>, exposes helpers through <code>window.SwarmTroopers</code>, and adds Full, Light, and Off controls. Keep the controls outside the animated content; the built-in helper handles this for you.</p>
 <h2 id="how-it-works"><a class="heading-anchor" href="#how-it-works" aria-label="Link to section: What happens on the page">##</a>What happens on the page</h2>

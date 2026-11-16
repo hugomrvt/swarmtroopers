@@ -28,7 +28,7 @@
 <h2 id="react"><a class="heading-anchor" href="#react" aria-label="Link to section: React">##</a>React</h2>
 <p>Create the instance in an effect after content mounts. Keep the root stable, and return cleanup. Development Strict Mode can exercise setup and cleanup twice; the cleanup is essential.</p>
 <div class="code-block"><div class="code-heading"><span>jsx</span><button class="copy-code" type="button" aria-label="Copy JSX example"><span>copy</span></button></div><pre data-language="jsx" tabindex="0"><code>import { useEffect } from &#39;react&#39;;
-import { create, controls } from &#39;@mrvt/swarmtroopers&#39;;
+import { create, controls } from &#39;swarmtroopers&#39;;
 
 export function SwarmTroopersOverlay() {
   useEffect(() =&gt; {
@@ -44,7 +44,7 @@ export function SwarmTroopersOverlay() {
 <div class="code-block"><div class="code-heading"><span>jsx</span><button class="copy-code" type="button" aria-label="Copy JSX example"><span>copy</span></button></div><pre data-language="jsx" tabindex="0"><code>&#39;use client&#39;;
 import { useEffect } from &#39;react&#39;;
 import { usePathname } from &#39;next/navigation&#39;;
-import { create } from &#39;@mrvt/swarmtroopers&#39;;
+import { create } from &#39;swarmtroopers&#39;;
 
 export default function SwarmTroopersOverlay() {
   const pathname = usePathname();
@@ -58,7 +58,7 @@ export default function SwarmTroopersOverlay() {
 <h2 id="vue-nuxt"><a class="heading-anchor" href="#vue-nuxt" aria-label="Link to section: Vue and Nuxt">##</a>Vue and Nuxt</h2>
 <div class="code-block"><div class="code-heading"><span>vue</span><button class="copy-code" type="button" aria-label="Copy Vue example"><span>copy</span></button></div><pre data-language="vue" tabindex="0"><code>&lt;script setup&gt;
 import { onMounted, onBeforeUnmount } from &#39;vue&#39;;
-import { create } from &#39;@mrvt/swarmtroopers&#39;;
+import { create } from &#39;swarmtroopers&#39;;
 
 let swarmtroopers;
 onMounted(() =&gt; {
@@ -70,7 +70,7 @@ onBeforeUnmount(() =&gt; swarmtroopers?.destroy());
 <h2 id="svelte"><a class="heading-anchor" href="#svelte" aria-label="Link to section: Svelte and SvelteKit">##</a>Svelte and SvelteKit</h2>
 <div class="code-block"><div class="code-heading"><span>svelte</span><button class="copy-code" type="button" aria-label="Copy Svelte example"><span>copy</span></button></div><pre data-language="svelte" tabindex="0"><code>&lt;script&gt;
   import { onMount } from &#39;svelte&#39;;
-  import { create } from &#39;@mrvt/swarmtroopers&#39;;
+  import { create } from &#39;swarmtroopers&#39;;
 
   onMount(() =&gt; {
     const swarmtroopers = create({ root: &#39;main&#39;, auto: true });
@@ -81,7 +81,7 @@ onBeforeUnmount(() =&gt; swarmtroopers?.destroy());
 <h2 id="astro"><a class="heading-anchor" href="#astro" aria-label="Link to section: Astro and client navigation">##</a>Astro and client navigation</h2>
 <p>A plain Astro page can use a processed client script after its content. When using the client router, create on <code>astro:page-load</code> and destroy before the document is swapped. Keep this script registered once.</p>
 <div class="code-block"><div class="code-heading"><span>astro</span><button class="copy-code" type="button" aria-label="Copy Astro example"><span>copy</span></button></div><pre data-language="astro" tabindex="0"><code>&lt;script&gt;
-  import { create, type SwarmTroopers } from &#39;@mrvt/swarmtroopers&#39;;
+  import { create, type SwarmTroopers } from &#39;swarmtroopers&#39;;
   let swarmtroopers: SwarmTroopers | undefined;
 
   document.addEventListener(&#39;astro:page-load&#39;, () =&gt; {
@@ -100,7 +100,7 @@ onBeforeUnmount(() =&gt; swarmtroopers?.destroy());
 import {
   AfterViewInit, Component, NgZone, OnDestroy, PLATFORM_ID, inject,
 } from &#39;@angular/core&#39;;
-import { create, type SwarmTroopers } from &#39;@mrvt/swarmtroopers&#39;;
+import { create, type SwarmTroopers } from &#39;swarmtroopers&#39;;
 
 @Component({ selector: &#39;app-swarmtroopers&#39;, template: &#39;&#39; })
 export class SwarmTroopersOverlay implements AfterViewInit, OnDestroy {

@@ -13,14 +13,14 @@ export const pages = [
     body: `
 <p>Swarm Troopers is a browser overlay that reveals your existing HTML through familiar cursor gestures. Agents type text, frame cards, draw dividers, and stamp repeated items. One orchestrator coordinates small squads around the content currently in view.</p>
 <p>Your HTML remains complete. Swarm Troopers does not generate copy, duplicate elements, or rearrange your layout. When JavaScript is unavailable, the page remains readable. Readers can skip the effect with the quality controls.</p>
-<aside class="note"><strong>Install.</strong> Run <code>npm i @mrvt/swarmtroopers</code>, or add one script tag from a pinned CDN. No build step is required.</aside>
+<aside class="note"><strong>Install.</strong> Run <code>npm i swarmtroopers</code>, or add one script tag from a pinned CDN. No build step is required.</aside>
 <h2 id="first-build">Your first build</h2>
-<ol><li>Add the pinned script from the CDN (<code>https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js</code>), or self-host it: install the package with <code>npm i @mrvt/swarmtroopers</code> and copy <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/@mrvt/swarmtroopers</code> into your website’s public files.</li><li>Add the script after your page content. Swarm Troopers starts when the DOM is ready.</li></ol>
+<ol><li>Add the pinned script from the CDN (<code>https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js</code>), or self-host it: install the package with <code>npm i swarmtroopers</code> and copy <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your website’s public files.</li><li>Add the script after your page content. Swarm Troopers starts when the DOM is ready.</li></ol>
 ${code('html', `<main>
   <h1>A page with a little character.</h1>
   <p>Your own content, already here.</p>
 </main>
-<script src="https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
+<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{"root":"main","auto":true,"controls":true}'></script>`)}
 <p>The script creates <code>window.swarmtroopers</code>, exposes helpers through <code>window.SwarmTroopers</code>, and adds Full, Light, and Off controls. Keep the controls outside the animated content; the built-in helper handles this for you.</p>
 <h2 id="how-it-works">What happens on the page</h2>
@@ -42,8 +42,8 @@ npm run build
 python3 -m http.server 8765`)}
 <p>Open <code>http://localhost:8765/</code> for the landing page, or <code>/demo/index.html</code> for the full-page example. Serve files over HTTP; opening an ES module directly from a <code>file:</code> URL is not an equivalent test.</p>
 <h2 id="script-tag">One script tag</h2>
-<p>Load the pinned file from the CDN, or self-host it by copying <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/@mrvt/swarmtroopers</code> into your public directory. This lightweight script embeds the mark and uses a vector finale. Choose <code>dist/swarmtroopers.iife.js</code> instead for the self-contained bundle with layered high-five artwork. Do not load both script profiles on one page.</p>
-${code('html', `<script src="https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
+<p>Load the pinned file from the CDN, or self-host it by copying <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your public directory. This lightweight script embeds the mark and uses a vector finale. Choose <code>dist/swarmtroopers.iife.js</code> instead for the self-contained bundle with layered high-five artwork. Do not load both script profiles on one page.</p>
+${code('html', `<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{
     "root": "main",
     "auto": true,
@@ -51,7 +51,7 @@ ${code('html', `<script src="https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/sw
     "controls": { "position": "bottom-right" }
   }'></script>`)}
 <p><code>data-swarmtroopers-init</code> must contain valid JSON, including double-quoted keys. An empty attribute uses default options. Without that attribute, the script only makes <code>window.SwarmTroopers</code> available and registers the custom element; it does not create an instance automatically.</p>
-${code('html', `<script src="https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"></script>
+${code('html', `<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"></script>
 <script>
   const swarmtroopers = SwarmTroopers.create({ root: 'main', auto: true });
   SwarmTroopers.controls(swarmtroopers);
@@ -59,28 +59,28 @@ ${code('html', `<script src="https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/sw
 <p>Automatic startup stores the instance as <code>window.swarmtroopers</code> and dispatches <code>window</code>’s <code>swarmtroopers-ready</code> CustomEvent with the instance in <code>event.detail</code>. Register your listener before loading the automatic script if you need it.</p>
 <h2 id="local-package">Install from npm</h2>
 <p>Install the package from your application directory.</p>
-${code('sh', `npm i @mrvt/swarmtroopers`)}
-${code('js', `import { create, controls } from '@mrvt/swarmtroopers';
+${code('sh', `npm i swarmtroopers`)}
+${code('js', `import { create, controls } from 'swarmtroopers';
 
 const swarmtroopers = create({ root: 'main', auto: true });
 controls(swarmtroopers);`)}
 <p>Call <code>swarmtroopers.destroy()</code> when the view is removed, inside its unmount or teardown callback. See the <a href="frameworks.html">framework recipes</a> for cleanup that runs at the right time.</p>
 <h2 id="agent-skill">Agent skill</h2>
 <p>To let Claude Code integrate Swarm Troopers for you, copy the packaged skill into your project. Add <code>--global</code> to install it for every project, or <code>--dir &lt;path&gt;</code> to choose the folder.</p>
-${code('sh', `npx @mrvt/swarmtroopers skill`)}
+${code('sh', `npx swarmtroopers skill`)}
 <h2 id="optional-artwork">Optional layered finale</h2>
 <p>The main ESM and CommonJS entries contain no raster completion images. Enable the supplied artwork in ESM with a side-effect import before creating instances:</p>
-${code('js', `import { create } from '@mrvt/swarmtroopers';
-import '@mrvt/swarmtroopers/finale';
+${code('js', `import { create } from 'swarmtroopers';
+import 'swarmtroopers/finale';
 const swarmtroopers = create({ root: 'main', auto: true });`)}
-<p>For CommonJS, use <code>require('@mrvt/swarmtroopers/full')</code>. The self-contained <code>dist/swarmtroopers.iife.js</code> script includes the same artwork for classic-script integrations. Even in that full build, completion images are prepared only when enabled build work starts; disabled finales and inspection-only instances do not decode them.</p>
+<p>For CommonJS, use <code>require('swarmtroopers/full')</code>. The self-contained <code>dist/swarmtroopers.iife.js</code> script includes the same artwork for classic-script integrations. Even in that full build, completion images are prepared only when enabled build work starts; disabled finales and inspection-only instances do not decode them.</p>
 <h2 id="browser-modules">Native ES modules and CommonJS</h2>
 <p>For browser-native modules, copy the entire <code>dist/</code> directory, including generated <code>chunk-*.js</code> files. Its small <code>swarmtroopers.js</code> entry imports a shared chunk; copying that entry alone will fail.</p>
 ${code('html', `<script type="module">
   import { create } from '/vendor/swarmtroopers/swarmtroopers.js';
   create({ root: 'main', auto: true });
 </script>`)}
-<p>Keep adjacent CommonJS registry files when copying artifacts manually; installing the complete package handles this. Node toolchains can resolve the CommonJS entry with <code>require('@mrvt/swarmtroopers')</code>. Importing the package is safe during server rendering, but calling <code>create()</code> requires a mounted browser document.</p>
+<p>Keep adjacent CommonJS registry files when copying artifacts manually; installing the complete package handles this. Node toolchains can resolve the CommonJS entry with <code>require('swarmtroopers')</code>. Importing the package is safe during server rendering, but calling <code>create()</code> requires a mounted browser document.</p>
 ${table(['Entry', 'Purpose'], [
 ['<code>dist/swarmtroopers.core.iife.js</code>', 'Lightweight self-contained classic script; exposes <code>window.SwarmTroopers</code>.'],
 ['<code>dist/swarmtroopers.iife.js</code>', 'Full single-file profile with layered completion artwork.'],
@@ -202,9 +202,9 @@ ${table(['Field', 'Default', 'Meaning'], [
 <h2 id="exports">Package exports</h2>
 ${code('js', `import {
   SwarmTroopers, create, controls, tokens, defineTool, version,
-} from '@mrvt/swarmtroopers';`)}
+} from 'swarmtroopers';`)}
 <p><code>create(options?)</code> returns a new <code>SwarmTroopers</code>; <code>new SwarmTroopers(options)</code> is equivalent. <code>controls()</code> returns a control element, <code>tokens()</code> returns a plugin, and <code>defineTool(name, generator)</code> registers a tool for subsequent tasks. <code>version</code> is the built package version. The IIFE exposes these on <code>window.SwarmTroopers</code>.</p>
-<p>The separate <code>@mrvt/swarmtroopers/element</code> entry exports <code>SwarmTroopersOverlayElement</code> and <code>defineElement</code>, and registers the <code>swarmtroopers-overlay</code> tag as a side effect. The IIFE includes that registration; the main ES module entry does not.</p>
+<p>The separate <code>swarmtroopers/element</code> entry exports <code>SwarmTroopersOverlayElement</code> and <code>defineElement</code>, and registers the <code>swarmtroopers-overlay</code> tag as a side effect. The IIFE includes that registration; the main ES module entry does not.</p>
 <h2 id="methods">Lifecycle methods</h2>
 ${table(['Method', 'Result and behavior'], [
 ['<code>start(): void</code>', 'Starts a manual or not-yet-started instance. Repeated calls are ignored.'],
@@ -252,7 +252,7 @@ swarmtroopers.start();
     body: `
 <h2 id="register-element">Register once</h2>
 <p>The classic IIFE registers the element automatically. With package modules, import its separate entry once in client code:</p>
-${code('js', `import '@mrvt/swarmtroopers/element';`)}
+${code('js', `import 'swarmtroopers/element';`)}
 ${code('html', `<main>
   <h1>Your existing page</h1>
 </main>
@@ -309,7 +309,7 @@ document.body.appendChild(element);
 <h2 id="react">React</h2>
 <p>Create the instance in an effect after content mounts. Keep the root stable, and return cleanup. Development Strict Mode can exercise setup and cleanup twice; the cleanup is essential.</p>
 ${code('jsx', `import { useEffect } from 'react';
-import { create, controls } from '@mrvt/swarmtroopers';
+import { create, controls } from 'swarmtroopers';
 
 export function SwarmTroopersOverlay() {
   useEffect(() => {
@@ -325,7 +325,7 @@ export function SwarmTroopersOverlay() {
 ${code('jsx', `'use client';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { create } from '@mrvt/swarmtroopers';
+import { create } from 'swarmtroopers';
 
 export default function SwarmTroopersOverlay() {
   const pathname = usePathname();
@@ -339,7 +339,7 @@ export default function SwarmTroopersOverlay() {
 <h2 id="vue-nuxt">Vue and Nuxt</h2>
 ${code('vue', `<script setup>
 import { onMounted, onBeforeUnmount } from 'vue';
-import { create } from '@mrvt/swarmtroopers';
+import { create } from 'swarmtroopers';
 
 let swarmtroopers;
 onMounted(() => {
@@ -351,7 +351,7 @@ onBeforeUnmount(() => swarmtroopers?.destroy());
 <h2 id="svelte">Svelte and SvelteKit</h2>
 ${code('svelte', `<script>
   import { onMount } from 'svelte';
-  import { create } from '@mrvt/swarmtroopers';
+  import { create } from 'swarmtroopers';
 
   onMount(() => {
     const swarmtroopers = create({ root: 'main', auto: true });
@@ -362,7 +362,7 @@ ${code('svelte', `<script>
 <h2 id="astro">Astro and client navigation</h2>
 <p>A plain Astro page can use a processed client script after its content. When using the client router, create on <code>astro:page-load</code> and destroy before the document is swapped. Keep this script registered once.</p>
 ${code('astro', `<script>
-  import { create, type SwarmTroopers } from '@mrvt/swarmtroopers';
+  import { create, type SwarmTroopers } from 'swarmtroopers';
   let swarmtroopers: SwarmTroopers | undefined;
 
   document.addEventListener('astro:page-load', () => {
@@ -381,7 +381,7 @@ ${code('ts', `import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit, Component, NgZone, OnDestroy, PLATFORM_ID, inject,
 } from '@angular/core';
-import { create, type SwarmTroopers } from '@mrvt/swarmtroopers';
+import { create, type SwarmTroopers } from 'swarmtroopers';
 
 @Component({ selector: 'app-swarmtroopers', template: '' })
 export class SwarmTroopersOverlay implements AfterViewInit, OnDestroy {
@@ -405,7 +405,7 @@ export class SwarmTroopersOverlay implements AfterViewInit, OnDestroy {
     description: 'Respect reader preferences and expose a clear Full, Light, Off choice.',
     body: `
 <h2 id="add-controls">Add the built-in controls</h2>
-${code('js', `import { create, controls } from '@mrvt/swarmtroopers';
+${code('js', `import { create, controls } from 'swarmtroopers';
 
 const swarmtroopers = create({ root: 'main', auto: true });
 const panel = controls(swarmtroopers, {
@@ -468,7 +468,7 @@ ${table(['Field', 'Default', 'Meaning'], [
 ['<code>css</code>', '<code>true</code>', 'Read root CSS custom properties; set false for an external-only source.'],
 ['<code>max</code>', '<code>2</code>', 'Maximum token names in a label.'],
 ])}
-${code('js', `import { create, tokens } from '@mrvt/swarmtroopers';
+${code('js', `import { create, tokens } from 'swarmtroopers';
 
 create({
   root: 'main', auto: true, inspect: true,
@@ -546,7 +546,7 @@ ${code('js', `create({
     body: `
 <h2 id="custom-tool">Register a generator tool</h2>
 <p>A tool is a synchronous generator. Each <code>yield</code> waits for the next frame and receives elapsed seconds adjusted by Swarm Troopers’ pacing. Register the tool before creating the instance or collecting its annotated elements.</p>
-${code('js', `import { create, defineTool } from '@mrvt/swarmtroopers';
+${code('js', `import { create, defineTool } from 'swarmtroopers';
 
 defineTool('spotlight', function* (c) {
   c.shape('cross');
@@ -693,7 +693,7 @@ ${code('html', `<main id="showcase">
     </ul>
   </section>
 </main>
-<script src="https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
+<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{"root":"#showcase","inspect":true,"controls":true}'></script>`)}
 <p>Add your normal typography, spacing, card surfaces, and list styling. The annotations choose tools; they do not replace the host design.</p>
 <h2 id="manual-starter">Start on an intentional action</h2>

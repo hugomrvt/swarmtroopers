@@ -26,7 +26,7 @@
     <main class="docs-main"><article id="docs-content" tabindex="-1"><header class="article-header"><p class="article-eyebrow">docs <span>/</span> reference <span>/</span> extending</p><h1>Custom tools and plugins</h1><p class="article-description">Add a purposeful gesture or supply annotations from your own system.</p></header><div class="doc-content">
 <h2 id="custom-tool"><a class="heading-anchor" href="#custom-tool" aria-label="Link to section: Register a generator tool">##</a>Register a generator tool</h2>
 <p>A tool is a synchronous generator. Each <code>yield</code> waits for the next frame and receives elapsed seconds adjusted by Swarm Troopers’ pacing. Register the tool before creating the instance or collecting its annotated elements.</p>
-<div class="code-block"><div class="code-heading"><span>javascript</span><button class="copy-code" type="button" aria-label="Copy JavaScript example"><span>copy</span></button></div><pre data-language="js" tabindex="0"><code>import { create, defineTool } from &#39;@mrvt/swarmtroopers&#39;;
+<div class="code-block"><div class="code-heading"><span>javascript</span><button class="copy-code" type="button" aria-label="Copy JavaScript example"><span>copy</span></button></div><pre data-language="js" tabindex="0"><code>import { create, defineTool } from &#39;swarmtroopers&#39;;
 
 defineTool(&#39;spotlight&#39;, function* (c) {
   c.shape(&#39;cross&#39;);

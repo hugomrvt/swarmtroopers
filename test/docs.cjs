@@ -49,7 +49,7 @@ function members(file, name) {
     }
   }
   const installation = pages.find(page => page.slug === 'installation').body;
-  for (const identifier of ['@mrvt/swarmtroopers', 'data-swarmtroopers-init', 'window.SwarmTroopers', 'window.swarmtroopers']) {
+  for (const identifier of ['swarmtroopers', 'data-swarmtroopers-init', 'window.SwarmTroopers', 'window.swarmtroopers']) {
     assert(installation.includes(identifier), `Installation explains ${identifier}`);
   }
   const overview = pages.find(page => page.slug === 'index').body;

@@ -17,34 +17,34 @@ It has no runtime dependencies, supports client integrations across frameworks a
 With a package manager:
 
 ```sh
-npm i @mrvt/swarmtroopers
+npm i swarmtroopers
 ```
 
 Or with one script tag from a pinned CDN, no build step:
 
 ```html
-<script src="https://unpkg.com/@mrvt/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
+<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
         data-swarmtroopers-init='{"auto": true, "controls": true}'></script>
 ```
 
-To self-host instead, copy `dist/swarmtroopers.core.iife.js` from `node_modules/@mrvt/swarmtroopers` and serve it from your own site. The lightweight bundle includes the Swarm Troopers mark and a vector completion fallback. Choose the self-contained `dist/swarmtroopers.iife.js` profile for the supplied layered high-five artwork; do not load both scripts on the same page.
+To self-host instead, copy `dist/swarmtroopers.core.iife.js` from `node_modules/swarmtroopers` and serve it from your own site. The lightweight bundle includes the Swarm Troopers mark and a vector completion fallback. Choose the self-contained `dist/swarmtroopers.iife.js` profile for the supplied layered high-five artwork; do not load both scripts on the same page.
 
 For Claude Code, install the integration skill into your project (or add `--global` for all projects):
 
 ```sh
-npx @mrvt/swarmtroopers skill
+npx swarmtroopers skill
 ```
 
 The module examples in this guide use the npm package:
 
 ```js
-import { create, controls } from '@mrvt/swarmtroopers';
+import { create, controls } from 'swarmtroopers';
 
 const swarmtroopers = create({ auto: true });
 controls(swarmtroopers);
 ```
 
-For layered completion artwork with ESM, add `import '@mrvt/swarmtroopers/finale'` before creating instances. For CommonJS, use `require('@mrvt/swarmtroopers/full')` instead of the core entry. The core contains no raster finale images; even the full profile prepares them only for enabled build work, not inspection-only instances. Keep adjacent CommonJS registry files if copying artifacts manually.
+For layered completion artwork with ESM, add `import 'swarmtroopers/finale'` before creating instances. For CommonJS, use `require('swarmtroopers/full')` instead of the core entry. The core contains no raster finale images; even the full profile prepares them only for enabled build work, not inspection-only instances. Keep adjacent CommonJS registry files if copying artifacts manually.
 
 Alternatively, copy the entire `dist/` directory to your static files and import `create` and `controls` from its `swarmtroopers.js` entry. Keep the generated chunk files alongside it.
 
@@ -159,7 +159,7 @@ npm run build
 The `tokens` plugin labels finished elements with the design tokens that match their computed style, font size and colour for text, radius, background, padding and border for boxes. It reads the custom properties declared on `:root`, whatever their naming, and resolves them through the browser, so `clamp()`, `rem`, `color-mix()` and aliases all work. It also accepts tokens from outside the CSS, flat or in the DTCG format.
 
 ```js
-import { create, tokens } from '@mrvt/swarmtroopers';
+import { create, tokens } from 'swarmtroopers';
 import designTokens from './tokens.json';
 
 create({ auto: true, inspect: true, plugins: [tokens({ source: designTokens })] });
@@ -170,7 +170,7 @@ create({ auto: true, inspect: true, plugins: [tokens({ source: designTokens })] 
 A tool is a generator. Each `yield` waits for the next frame and receives the elapsed time, so a gesture reads like a script.
 
 ```js
-import { defineTool } from '@mrvt/swarmtroopers';
+import { defineTool } from 'swarmtroopers';
 
 defineTool('pop', function* (c) {
   const r = c.rect();
@@ -199,7 +199,7 @@ React and Next.js (App Router):
 'use client';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { create } from '@mrvt/swarmtroopers';
+import { create } from 'swarmtroopers';
 
 export default function SwarmTroopersOverlay() {
   const pathname = usePathname();
@@ -216,7 +216,7 @@ Vue:
 ```vue
 <script setup>
 import { onMounted, onBeforeUnmount } from 'vue';
-import { create } from '@mrvt/swarmtroopers';
+import { create } from 'swarmtroopers';
 
 let swarmtroopers;
 onMounted(() => { swarmtroopers = create({ root: 'main', auto: true }); });
@@ -229,7 +229,7 @@ Svelte:
 ```svelte
 <script>
   import { onMount } from 'svelte';
-  import { create } from '@mrvt/swarmtroopers';
+  import { create } from 'swarmtroopers';
 
   onMount(() => {
     const swarmtroopers = create({ root: 'main', auto: true });
@@ -242,7 +242,7 @@ Astro, with or without view transitions:
 
 ```astro
 <script>
-  import { create } from '@mrvt/swarmtroopers';
+  import { create } from 'swarmtroopers';
   let swarmtroopers;
   document.addEventListener('astro:page-load', () => { swarmtroopers = create({ root: 'main', auto: true }); });
   document.addEventListener('astro:before-swap', () => swarmtroopers?.destroy());

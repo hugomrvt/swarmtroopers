@@ -1,8 +1,8 @@
-/*! Swarm Troopers v0.4.0 | @mrvt/swarmtroopers | MIT */
+/*! Swarm Troopers v0.4.0 | swarmtroopers | MIT */
 import {
   SwarmTroopers,
   TOOLS
-} from "./chunk-RRRAK5X3.js";
+} from "./chunk-IVEBKNAV.js";
 
 // src/index.ts
 var version = true ? "0.4.0" : "dev";
@@ -18,4 +18,4 @@ export {
   create,
   defineTool
 };
-//# sourceMappingURL=chunk-AHTZL34Y.js.map
+//# sourceMappingURL=chunk-RQK2C4QW.js.map
