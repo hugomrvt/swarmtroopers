@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Swarm Troopers puts five named cursor agents on your existing HTML. They type, frame, rule and stamp your page into view, then hand it back. Zero runtime dependencies.">
+  <meta name="theme-color" content="#0D0E11">
+  <meta property="og:title" content="Swarm Troopers — five agents build your page. You watch the run.">
+  <meta property="og:description" content="Named cursor agents reveal your existing page with four tools, then hand it back. Your markup stays the source of truth. Zero runtime dependencies.">
+  <title>Swarm Troopers — five agents build your page</title>
+  <link rel="icon" type="image/svg+xml" href="assets/swarmtroopers-mark-sm.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="site.css">
+  <script src="brand.js" defer></script>
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <svg width="0" height="0" class="sprite" aria-hidden="true"><defs><path id="arrow" d="M0 0V17L4.6 13.1L7.6 19.8L10.5 18.5L7.6 12H13.6Z"/></defs></svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="swarmtroopers-brand" href="./" aria-label="Swarm Troopers home"><img src="assets/swarmtroopers-mark-sm.svg" width="28" height="28" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a>
+    <nav aria-label="Main navigation"><a href="#playground">playground</a><a href="docs/">docs</a><a href="#install">install</a></nav>
+    <a class="swarmtroopers-github" data-github-stars data-github-link data-state="pending" role="link" aria-disabled="true" tabindex="-1" aria-label="Swarm Troopers on GitHub: star count unavailable" title="Swarm Troopers on GitHub" target="_blank" rel="noopener"><span>github</span><svg class="swarmtroopers-github-star" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2.5 2.2 4.6 5.1.7-3.7 3.6.9 5.1-4.5-2.4-4.5 2.4.9-5.1L2.7 7.8l5.1-.7L10 2.5Z"/></svg><span data-github-count>—</span></a>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="hero">
+      <section class="hero-copy" aria-labelledby="hero-title">
+        <div class="row"><span class="st" data-s="done"><span class="g" aria-hidden="true">✓</span>v0.4.0</span><span class="st">MIT</span><span class="st">0 dependencies</span></div>
+        <h1 id="hero-title">five agents build your page.<br><span class="dim">you watch the run.</span></h1>
+        <p class="copy"><b>Swarm Troopers puts named cursor agents on your existing HTML.</b> They survey each section, call four tools and hand the page back, built. Your markup stays the source of truth. The board logs a real run, step by step.</p>
+        <div class="actions"><a class="btn btn-ink" href="#install">install <span aria-hidden="true">→</span></a><button class="btn btn-line" type="button" id="replay"><span aria-hidden="true">▶</span> replay the run</button></div>
+        <p class="fine label">html · react · vue · svelte · astro · any stack</p>
+      </section>
+
+      <section class="pane board" id="playground" aria-labelledby="playground-title">
+        <h2 id="playground-title" class="sr-only">Live playground</h2>
+        <div class="pane-head">
+          <img src="assets/swarmtroopers-mark-sm.svg" width="14" height="14" alt="">
+          <div class="scene-tabs" role="group" aria-label="Choose a demonstration"><button type="button" data-scene="page" aria-pressed="true">website</button><button type="button" data-scene="tools" aria-pressed="false">gestures</button><button type="button" data-scene="finale" aria-pressed="false">high five</button></div>
+          <span class="sp"></span><span class="file">site-demo.html</span>
+        </div>
+        <div class="preview-wrap">
+          <div class="preview-placeholder" aria-hidden="true"><span class="label">form® / tools for focused work</span><strong>A calmer<br>workspace.</strong><span class="label">agents getting into position</span></div>
+          <iframe id="live-preview" title="Live Swarm Troopers demonstration: a website revealed by cursor agents" data-src="site-demo.html?scene=page"></iframe>
+          <noscript><style>#live-preview,.preview-placeholder{display:none}</style><iframe title="Swarm Troopers website example without animation" src="site-demo.html?scene=page"></iframe></noscript>
+        </div>
+        <ol class="plan" id="plan" aria-label="Run plan">
+          <li class="root"><span class="g" aria-hidden="true">▾</span><span id="run-name">run · website</span><span class="t" id="run-state">queued</span></li>
+          <li data-s="queued" data-row="plan"><span class="tr" aria-hidden="true">├─</span><span class="g">○</span><span class="fn">plan</span><span class="what">eli · survey sections</span><span class="t">–</span></li>
+          <li data-s="queued" data-row="type"><span class="tr" aria-hidden="true">├─</span><span class="g">○</span><span class="fn">type()</span><span class="what">text</span><span class="t">–</span></li>
+          <li data-s="queued" data-row="frame"><span class="tr" aria-hidden="true">├─</span><span class="g">○</span><span class="fn">frame()</span><span class="what">boxes</span><span class="t">–</span></li>
+          <li data-s="queued" data-row="rule"><span class="tr" aria-hidden="true">├─</span><span class="g">○</span><span class="fn">rule()</span><span class="what">lines</span><span class="t">–</span></li>
+          <li data-s="queued" data-row="stamp"><span class="tr" aria-hidden="true">├─</span><span class="g">○</span><span class="fn">stamp()</span><span class="what">list items</span><span class="t">–</span></li>
+          <li data-s="queued" data-row="done"><span class="tr" aria-hidden="true">└─</span><span class="g">○</span><span class="fn">done</span><span class="what">eli · hand back</span><span class="t">–</span></li>
+        </ol>
+        <div class="status-line"><span id="preview-status" role="status" aria-live="polite">Your HTML, built by the agents.</span><span><b id="run-steps">0/0</b> steps · <b id="run-time">0.0s</b></span></div>
+      </section>
+    </div>
+    <p class="board-note">Same library, full page: <a href="demo/index.html" target="_blank" rel="noopener">the everyday website <span aria-hidden="true">↗</span></a> <a href="demo/hugo.html" target="_blank" rel="noopener">a real portfolio <span aria-hidden="true">↗</span></a></p>
+
+    <section class="lsec" aria-labelledby="agents-title">
+      <div class="lsec-head"><h2 id="agents-title">the agents</h2><p>Up to five on this page: one lead and four agents, sent as the page needs them. Pass <code>names</code> to rename them, or <code>false</code> to hide the tags.</p></div>
+      <div class="pane roster-wrap"><table class="roster">
+        <thead><tr><th scope="col">id</th><th scope="col">role</th><th scope="col">tools</th><th scope="col">colour</th></tr></thead>
+        <tbody>
+          <tr style="--c:var(--eli)"><td class="id">eli</td><td>lead · surveys sections, checks them, hands back</td><td>plan, done</td><td>ink</td></tr>
+          <tr style="--c:var(--ada)"><td class="id">ada</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#7DB4FF</td></tr>
+          <tr style="--c:var(--mia)"><td class="id">mia</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#B98CFF</td></tr>
+          <tr style="--c:var(--noe)"><td class="id">noé</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#5FE3D0</td></tr>
+          <tr style="--c:var(--iris)"><td class="id">iris</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#FF7EB6</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section class="lsec" aria-labelledby="tools-title">
+      <div class="lsec-head"><h2 id="tools-title">four tools</h2><p>Picked from your markup. Text gets typed, boxes get framed, lines get drawn, lists get stamped.</p></div>
+      <div class="tools">
+        <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-type">Made with care</span><span class="cursor" style="--c:var(--ada);--x:200px;--y:58px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">ada <i>type</i></span></span></div><div class="txt"><span class="sig">type<span>(el, text)</span></span><h3>Words with a human rhythm</h3><p>A click, a caret, a short pause. Text appears where it already sits, so the layout never jumps.</p></div></article>
+        <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-frame"></span><span class="cursor" style="--c:var(--mia);--x:148px;--y:96px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">mia <i>frame</i></span></span></div><div class="txt"><span class="sig">frame<span>(el)</span></span><h3>A precise drag for every box</h3><p>Cards, images and fields open from one corner to the other, then release.</p></div></article>
+        <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-rule"></span><span class="cursor" style="--c:var(--noe);--x:170px;--y:66px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">noé <i>rule</i></span></span></div><div class="txt"><span class="sig">rule<span>(el)</span></span><h3>Lines drawn end to end</h3><p>Separators and borders get one steady stroke.</p></div></article>
+        <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-stamp"><i></i><i></i><i></i></span><span class="cursor" style="--c:var(--iris);--x:150px;--y:72px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">iris <i>stamp</i></span></span></div><div class="txt"><span class="sig">stamp<span>(list)</span></span><h3>Lists pressed into place</h3><p>The first item is framed. The rest follow it, one stamp at a time.</p></div></article>
+      </div>
+    </section>
+
+    <section class="lsec" aria-labelledby="guards-title">
+      <div class="lsec-head"><h2 id="guards-title">guardrails</h2><p>The agents are guests on your page. Four checks pass on every run.</p></div>
+      <div class="guards">
+        <div class="pane"><span class="st" data-s="done"><span class="g" aria-hidden="true">✓</span>content</span><h3>Your HTML is the source of truth</h3><p>Real content from the first byte. Search engines and screen readers get the whole page.</p></div>
+        <div class="pane"><span class="st" data-s="done"><span class="g" aria-hidden="true">✓</span>weight</span><h3>One canvas, no dependencies</h3><p>The overlay draws on a single canvas and goes idle when the run ends.</p></div>
+        <div class="pane"><span class="st" data-s="done"><span class="g" aria-hidden="true">✓</span>motion</span><h3>Reduced motion is respected</h3><p>With the setting on, the page shows up built. No agents, no wait.</p></div>
+        <div class="pane"><span class="st" data-s="done"><span class="g" aria-hidden="true">✓</span>control</span><h3>Readers can switch it off</h3><p>Full, light, off. The choice is remembered for the next visit.</p></div>
+      </div>
+    </section>
+
+    <section class="lsec install" id="install" aria-labelledby="install-title">
+      <div>
+        <span class="label">install</span>
+        <h2 id="install-title">one script tag.<br>no build step.</h2>
+        <p>Keep your markup. Copy the script into your public folder, point it at your main element, and the agents do the rest.</p>
+        <div class="row" aria-label="Supported frameworks"><span class="st">html</span><span class="st">react</span><span class="st">vue</span><span class="st">svelte</span><span class="st">astro</span></div>
+        <p class="more"><a href="docs/installation.html">read the installation guide <span aria-hidden="true">↗</span></a></p>
+      </div>
+      <div class="code">
+        <div class="code-head"><span>install</span><span class="sp"></span><div class="code-tabs" role="group" aria-label="Choose installation method"><button type="button" data-install="script" aria-pressed="true">script tag</button><button type="button" data-install="module" aria-pressed="false">es module</button></div><button type="button" id="copy-code" aria-label="Copy installation code"><span>copy</span></button></div>
+        <pre tabindex="0" aria-label="Installation code"><code id="install-code">&lt;!-- Copy dist/swarmtroopers.core.iife.js into public/vendor. --&gt;
+&lt;script
+  src="/vendor/swarmtroopers.core.iife.js"
+  data-swarmtroopers-init='{
+    "root": "main",
+    "auto": true,
+    "controls": true
+  }'
+&gt;&lt;/script&gt;</code></pre>
+        <div class="code-foot" id="copy-status" role="status" aria-live="polite">Serve the file from your own site. No build step needed.</div>
+      </div>
+    </section>
+
+    <section class="pane closing" aria-labelledby="closing-title">
+      <div>
+        <pre aria-hidden="true"><span class="ok">✓</span> <span id="closing-run">html served · content complete from the first byte</span>
+<span class="ok">✓</span> agents handed back</pre>
+        <h2 id="closing-title">run complete.<br>your page stays.</h2>
+        <p>Free to use, open to fork. MIT licensed.</p>
+      </div>
+      <a class="btn btn-ink" data-github-link role="link" aria-disabled="true" tabindex="-1" title="Swarm Troopers on GitHub" target="_blank" rel="noopener">get it on github <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <a class="swarmtroopers-brand" href="./" aria-label="Swarm Troopers home"><img src="assets/swarmtroopers-mark-sm.svg" width="28" height="28" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a>
+    <span>a side project by <a href="https://hugo.mourlev.at" target="_blank" rel="noopener">Hugo Mourlevat</a></span>
+    <nav aria-label="Footer"><a href="docs/">docs</a><a data-github-link role="link" aria-disabled="true" tabindex="-1" title="Swarm Troopers on GitHub" target="_blank" rel="noopener">source ↗</a><span>© 2026</span></nav>
+  </footer>
+</body>
+</html>

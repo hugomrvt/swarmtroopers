@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Swarm Troopers — Portfolio in motion</title>
+<link rel="icon" type="image/svg+xml" href="../assets/swarmtroopers-mark-sm.svg">
+<meta name="description" content="Swarm Troopers brings an existing dark portfolio to life with collaborative cursor agents, live text reveals and a closing high five.">
+<link rel="stylesheet" href="demo.css">
+<link rel="stylesheet" href="../brand.css">
+<script src="../brand.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Swarm Troopers preload snippet: hides the content until the troopers take over, with a 2.5 s safety net. -->
+<style>html.swarmtroopers-preload main{opacity:0}</style>
+<script>(function(d,k){try{var q=localStorage.getItem(k+':quality');if(q==='off'||(!q&&matchMedia('(prefers-reduced-motion: reduce)').matches))return}catch(e){}d.documentElement.classList.add('swarmtroopers-preload');setTimeout(function(){d.documentElement.classList.remove('swarmtroopers-preload')},2500)})(document,'swarmtroopers')</script>
+<style>
+  /* Tokens of hugo.mourlev.at. Dark only, like the site. */
+  :root {
+    --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --text-xs: clamp(.6rem, .58rem + .1vw, .68rem);
+    --text-sm: clamp(.78rem, .74rem + .2vw, .88rem);
+    --text-base: clamp(.95rem, .9rem + .25vw, 1.05rem);
+    --text-lg: clamp(1.1rem, 1rem + .4vw, 1.3rem);
+    --text-xl: clamp(1.4rem, 1.2rem + .6vw, 1.75rem);
+    --text-2xl: clamp(1.8rem, 1.5rem + 1vw, 2.3rem);
+    --text-3xl: clamp(2.5rem, 2rem + 1.5vw, 3.5rem);
+    --text-4xl: clamp(3.5rem, 3rem + 2.5vw, 5rem);
+    --space-1: .25rem;
+    --space-2: .5rem;
+    --space-3: .75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-7: 3rem;
+    --space-8: 4rem;
+    --space-9: 6rem;
+    --space-10: 8rem;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-pill: 9999px;
+    --gray-0: #fff;
+    --gray-5: gray;
+    --gray-8: #222;
+    --gray-11: #000;
+    --orange-500: #ff6a00;
+    --green-500: #2ed573;
+    --color-bg: var(--gray-11);
+    --color-surface: #ffffff05;
+    --color-surface-elevated: #111111;
+    --color-text-strong: #fff;
+    --color-text-primary: #e0e0e0;
+    --color-text-muted: gray;
+    --color-border: #ffffff0f;
+    --color-border-strong: #ffffff26;
+    --color-brand: var(--orange-500);
+    --color-status-available: var(--green-500);
+    --color-fg: #fff;
+    --color-fg-50: color-mix(in srgb, var(--color-fg) 50%, transparent);
+    --color-fg-60: color-mix(in srgb, var(--color-fg) 60%, transparent);
+    --color-fg-70: color-mix(in srgb, var(--color-fg) 70%, transparent);
+    --color-fg-85: color-mix(in srgb, var(--color-fg) 85%, transparent);
+    --container: clamp(1.5rem, 4vw, 4rem);
+    --section: clamp(5rem, 11vh, 9rem);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--color-bg); color: var(--color-text-primary); font: 400 var(--text-base)/1.6 var(--font-sans); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, p, blockquote, ul { margin: 0; }
+  ul { padding: 0; list-style: none; }
+  strong { color: var(--color-fg-85); font-weight: 600; }
+  .noise { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  main { position: relative; z-index: 1; padding-left: max(16px, var(--container), env(safe-area-inset-left, 0px)); padding-right: max(16px, var(--container), env(safe-area-inset-right, 0px)); }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  .mono { font-family: var(--font-mono); }
+  .label { font: 400 var(--text-xs)/1.6 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--color-text-muted); }
+
+  .hero { display: grid; gap: var(--space-6); padding-block: clamp(5rem, 16vh, 11rem) var(--space-7); }
+  .hero h1 { font-size: clamp(3.4rem, 1.5rem + 9vw, 9rem); font-weight: 800; line-height: .86; letter-spacing: -.05em; color: var(--color-text-strong); }
+  .intro { max-width: 40ch; font-size: var(--text-lg); font-weight: 300; line-height: 1.7; color: var(--color-fg-50); }
+  .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, max-content)); gap: var(--space-5) var(--space-7); padding-top: var(--space-6); border-top: 1px solid var(--color-border); }
+  .meta div { display: grid; gap: var(--space-1); }
+  .meta span { font: 400 var(--text-xs)/1.6 var(--font-mono); letter-spacing: 0; text-transform: none; color: var(--color-fg-70); }
+
+  section { padding-block: var(--section); border-top: 1px solid var(--color-border); }
+  section > .label { margin-bottom: var(--space-6); }
+  h2 { font-size: var(--text-2xl); font-weight: 600; line-height: 1.2; letter-spacing: -.03em; color: var(--color-text-strong); text-wrap: balance; }
+  .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-7); align-items: start; }
+  .prose { display: grid; gap: var(--space-5); max-width: 62ch; font-size: var(--text-sm); color: var(--color-fg-50); line-height: 1.75; }
+
+  .exp { display: grid; }
+  .exp-item { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: var(--space-5); padding-block: var(--space-6); border-bottom: 1px solid var(--color-border); }
+  .exp-item:first-child { border-top: 1px solid var(--color-border); }
+  .logo { display: grid; place-items: center; width: 48px; height: 48px; border-radius: var(--radius-lg); background: var(--color-surface-elevated); border: 1px solid var(--color-border-strong); font: 500 var(--text-xs)/1 var(--font-mono); color: var(--color-fg-70); }
+  .exp-body { display: grid; gap: var(--space-2); min-width: 0; }
+  .exp-title { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+  h3 { font-size: var(--text-lg); font-weight: 700; letter-spacing: -.02em; color: var(--color-text-strong); }
+  .company { font: 400 var(--text-xs)/1.6 var(--font-mono); color: var(--color-text-muted); }
+  .desc { max-width: 78ch; font-size: var(--text-sm); color: var(--color-fg-70); line-height: 1.7; margin-top: var(--space-2); }
+  .tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+  .tags li { padding: .2rem .6rem; border: 1px solid var(--color-border); border-radius: var(--radius-pill); font: 400 .62rem/1.6 var(--font-mono); color: var(--color-text-muted); }
+  .available { display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .75rem; border: 1px solid color-mix(in srgb, var(--color-status-available) 35%, transparent); border-radius: var(--radius-pill); font: 400 .6rem/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--color-status-available); }
+  .available::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: var(--space-4); }
+  .card { display: grid; gap: var(--space-3); align-content: start; padding: var(--space-6); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+  .card .num { font: 400 var(--text-xs)/1.6 var(--font-mono); color: var(--color-text-muted); }
+  .card p { font-size: var(--text-sm); color: var(--color-fg-70); line-height: 1.65; }
+  .card .proof { font: 400 .7rem/1.7 var(--font-mono); color: var(--color-fg-50); padding-top: var(--space-3); border-top: 1px solid var(--color-border); }
+
+  .talks { display: grid; }
+  .talk { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: var(--space-5); padding-block: var(--space-6); border-bottom: 1px solid var(--color-border); }
+  .talk:first-child { border-top: 1px solid var(--color-border); }
+  .talk-body { display: grid; gap: var(--space-3); min-width: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .chips span { padding: .25rem .7rem; border: 1px solid var(--color-border); border-radius: var(--radius-pill); font: 400 .6rem/1.5 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-muted); }
+  .talk-title { font-size: var(--text-lg); font-weight: 500; color: var(--color-fg-85); letter-spacing: -.01em; line-height: 1.35; }
+  .talk:hover .talk-title, .post:hover .post-title, .link:hover { color: var(--color-text-strong); }
+  .talk-desc { max-width: 52ch; font-size: var(--text-sm); color: var(--color-fg-70); line-height: 1.65; }
+
+  .posts { display: grid; }
+  .post { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--space-5); align-items: baseline; padding-block: var(--space-5); border-bottom: 1px solid var(--color-border); }
+  .post:first-child { border-top: 1px solid var(--color-border); }
+  .post-title { color: var(--color-fg-60); }
+  .post-date, .arrow { font: 400 var(--text-xs)/1.6 var(--font-mono); color: var(--color-text-muted); }
+
+  .statement { max-width: 22ch; font-size: clamp(2rem, 1rem + 3.4vw, 3.5rem); font-weight: 300; line-height: 1.22; letter-spacing: -.02em; color: var(--color-fg-85); text-wrap: balance; }
+
+  .connect-left { display: grid; gap: var(--space-8); align-content: space-between; min-height: 100%; }
+  .email { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); }
+  .email-text { font-size: clamp(1.8rem, 1rem + 3vw, 3.4rem); font-weight: 600; letter-spacing: -.03em; color: var(--color-text-strong); overflow-wrap: anywhere; }
+  .copy { display: grid; place-items: center; width: 52px; height: 52px; border: 0; border-radius: 50%; background: var(--color-surface-elevated); color: var(--color-fg-85); cursor: pointer; }
+  .copy:focus-visible, a:focus-visible { outline: 1px solid var(--color-fg-70); outline-offset: 3px; border-radius: 4px; }
+  .links { display: grid; }
+  .link { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding-block: var(--space-4); border-bottom: 1px solid var(--color-border); color: var(--color-fg-60); }
+  .link:first-child { border-top: 1px solid var(--color-border); }
+  .link-label { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+
+  footer.site { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-4); padding-block: var(--space-6) var(--space-9); border-top: 1px solid var(--color-border); font: 400 var(--text-xs)/1.6 var(--font-mono); color: var(--color-text-muted); }
+  footer.site ul { display: flex; gap: var(--space-5); text-transform: uppercase; letter-spacing: .08em; color: var(--color-fg-50); }
+
+  .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 8px); z-index: 5; padding: 8px 12px; border-radius: var(--radius-md); background: #161616; border: 1px solid var(--color-border-strong); color: var(--color-text-primary); font: 400 var(--text-xs)/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; opacity: 0; transition: opacity .25s ease, transform .25s ease; pointer-events: none; }
+  .toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (max-width: 760px) {
+    .split { grid-template-columns: 1fr; gap: var(--space-6); }
+    .talk { grid-template-columns: 1fr; gap: var(--space-3); }
+    .post { grid-template-columns: minmax(0, 1fr) auto; }
+    .post .arrow { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+</style>
+</head>
+<body data-demo="portfolio">
+<header class="demo-bar">
+  <a class="demo-home swarmtroopers-brand" href="../" aria-label="Swarm Troopers home"><img src="../assets/swarmtroopers-mark-sm.svg" width="28" height="28" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a>
+  <a class="swarmtroopers-github" data-github-stars data-github-link data-state="pending" role="link" aria-disabled="true" tabindex="-1" aria-label="Swarm Troopers on GitHub: star count unavailable" title="The repository is not published yet" target="_blank" rel="noopener"><span>GitHub</span><svg class="swarmtroopers-github-star" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2.5 2.2 4.6 5.1.7-3.7 3.6.9 5.1-4.5-2.4-4.5 2.4.9-5.1L2.7 7.8l5.1-.7L10 2.5Z"/></svg><span data-github-count>—</span></a>
+  <span class="demo-status" id="demo-status" role="status" aria-live="polite">Getting the swarm ready</span>
+  <nav class="demo-links" aria-label="Demos"><a href="index.html">Playground</a><a href="../docs/">Docs</a><a href="hugo.html" aria-current="page">Portfolio</a><button class="demo-replay" id="demo-replay" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2 7M3 4v7h7"/></svg>Replay</button></nav>
+</header>
+<div class="noise" aria-hidden="true"></div>
+<main>
+  <div class="wrap">
+    <header class="hero">
+      <p class="label">Chief Design Officer · AI Product Builder · Lyon</p>
+      <h1>Hugo<br>Mourlevat</h1>
+      <p class="intro">Design doesn't survive scale. Not unless you industrialize it without stripping its soul. That's the bet I've been holding at Michelin for the past decade.</p>
+      <div class="meta">
+        <div class="label">Location<span>Lyon, France</span></div>
+        <div class="label">Focus<span>Design Leadership, Strategy &amp; AI</span></div>
+        <div class="label">Experience<span>10+ Years</span></div>
+        <div class="label">Status<span>Open to advisory</span></div>
+      </div>
+    </header>
+
+    <section id="about">
+      <p class="label">01 / About</p>
+      <div class="split">
+        <h2>Industrialize<br>without betraying.</h2>
+        <div class="prose">
+          <p>I'm Chief Design Officer at <strong>Michelin Group</strong> and a member of the <strong>Digital Experience Executive Committee</strong>. My work is to orchestrate <strong>UX Transformation</strong>, design, content and digital experience across <strong>Michelin Group’s brands</strong> in 170 countries.</p>
+          <p>What matters most is not only what we build, but the <strong>quality of the experience</strong> people have with it. Every digital touchpoint has to help, clarify a choice, simplify a journey, create confidence, remove friction. At our scale, these details are not details, <strong>they are the experience</strong>.</p>
+          <p>That is the tension I hold every day: bringing the rigor of a <strong>century-old industrial company</strong> into the digital age. Between global ambition and local craft. Between long-term vision and daily execution. Between scale and soul.</p>
+          <p>This belief also shapes my commitments outside Michelin. I sit on the <strong>Board of APCI</strong> to contribute to national design policy, and on the <strong>Scientific Committee of ISCOM</strong> to help align future programs with industrial reality. Shaping the profession isn't separate from the work; it’s what allows that work to remain relevant ten years from now.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <p class="label">02 / Experience</p>
+      <div class="exp">
+        <article class="exp-item">
+          <span class="logo" aria-hidden="true">M</span>
+          <div class="exp-body">
+            <h3>Chief Design Officer</h3>
+            <p class="company">Michelin Group · 2016 – Present · 10 years</p>
+            <p class="desc">Grew a 4-person cell into a global ecosystem of <strong>50+ experts</strong> across France and India. Steered the experience produced by every digital factory with a <strong>P&amp;L above €5M</strong>. Shaped the <strong>Michelin Design System</strong>, now deployed across <strong>25+ brands</strong>. Embedded a creative studio at the core of the brand experience. Drove a UX maturity program that carried thousands of collaborators. A culture installed, not a process imposed.</p>
+            <ul class="tags"><li>Design Strategy</li><li>Design Ops</li><li>Design Systems</li><li>Content Engineering</li><li>UX Maturity</li><li>AI Integration</li></ul>
+          </div>
+        </article>
+        <article class="exp-item">
+          <span class="logo" aria-hidden="true">GR</span>
+          <div class="exp-body">
+            <h3>Founder</h3>
+            <p class="company">GenAI Radar · 2025 – Present</p>
+            <p class="desc">A weekly publication decoding generative AI with proven research frameworks. No hype, no complacency. My way of holding a demanding watch and sharing a sharp read on the forces reshaping design, product, and business.</p>
+            <ul class="tags"><li>GenAI</li><li>Newsletter</li><li>Research</li><li>Thought Leadership</li></ul>
+          </div>
+        </article>
+        <article class="exp-item">
+          <span class="logo" aria-hidden="true">MRVT</span>
+          <div class="exp-body">
+            <div class="exp-title">
+              <h3>(AI) Product Builder</h3>
+              <a class="available" href="https://mrvt.link/mission-malt" target="_blank" rel="noopener">Available for missions</a>
+            </div>
+            <p class="company">Freelance · 2014 – Present · 11 years</p>
+            <p class="desc">Eleven years designing, building and scaling digital products. Today, I translate emerging AI capabilities into tangible business value. I don't ship AI wrappers. I architect intelligent, resilient ecosystems built to solve complex problems with measurable ROI.</p>
+            <ul class="tags"><li>Automation</li><li>Apps</li><li>Websites</li><li>AI Workflow</li><li>Prototype</li></ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="expertise">
+      <p class="label">03 / Expertise</p>
+      <div class="cards">
+        <article class="card"><p class="num">01</p><h3>Scale without dilution</h3><p>A design team only grows well when it installs a culture, not a process.</p><p class="proof">From 4 to 50+ experts, a design system across 25+ brands, a €5M+ P&amp;L defended at board level.</p></article>
+        <article class="card"><p class="num">02</p><h3>Content is the interface</h3><p>When AI generates the experience, editorial becomes product architecture.</p><p class="proof">A global content engineering infrastructure that feeds both traditional interfaces and new generative surfaces.</p></article>
+        <article class="card"><p class="num">03</p><h3>AI as creative material</h3><p>AI isn't a tool you plug in. It's a material you work, with the same rigor you'd work rubber.</p><p class="proof">Two years embedding AI into workflows, deploying brand voice across algorithmic surfaces, and running GenAI Radar as an intelligence platform.</p></article>
+        <article class="card"><p class="num">04</p><h3>Shaping the profession</h3><p>Tomorrow's design only exists if we train the practitioners who'll carry it.</p><p class="proof">Board of APCI, contributing to national design policy. Scientific Committee of ISCOM, helping align future programs with industrial reality.</p></article>
+        <article class="card"><p class="num">05</p><h3>Design at the executive table</h3><p>Design matters when it earns a seat at the exec table, defends a P&amp;L, and shapes board decisions.</p><p class="proof">Seat on Michelin's Digital Experience Executive Committee. A €5M+ P&amp;L defended and grown across digital factories.</p></article>
+        <article class="card"><p class="num">06</p><h3>Intelligence, not opinion</h3><p>You don't lead on AI by amplifying the loudest voices. You lead by running your own research.</p><p class="proof">GenAI Radar as a weekly intelligence practice. Frameworks applied to cut through hype and surface what actually moves design and product.</p></article>
+      </div>
+    </section>
+
+    <section id="speaking">
+      <p class="label">04 / Speaking &amp; Thought Leadership</p>
+      <div class="talks">
+        <a class="talk" href="https://www.ai-product-day.com/en/talks/powered-by-ai-driven-by-content-nouvelles-product-surfaces" target="_blank" rel="noopener"><span class="label">Talk</span><div class="talk-body"><div class="chips"><span>AI Product Day 2026</span><span>Watch ↗</span></div><p class="talk-title">Powered by AI, Driven by Content</p><p class="talk-desc">When content becomes the interface, design shifts from crafting screens to orchestrating intelligent experiences. Exploring new product surfaces at the intersection of AI and editorial strategy.</p></div></a>
+        <a class="talk" href="https://www.iscom.fr/actualite/40-ans-discom-40-ans-dicones-hugo-mourlevat" target="_blank" rel="noopener"><span class="label">Interview</span><div class="talk-body"><div class="chips"><span>ISCOM 2026</span><span>Read ↗</span></div><p class="talk-title">40 Years of ISCOM, 40 Icons</p><p class="talk-desc">Featured as part of ISCOM's 40th anniversary celebrating leaders who shaped the industry. A conversation on aligning academic programs with the reality of our profession.</p></div></a>
+        <a class="talk" href="https://blog.monsieurguiz.fr/portrait-hugo-mourlevat/" target="_blank" rel="noopener"><span class="label">Interview</span><div class="talk-body"><div class="chips"><span>MonsieurGuiz 2025</span><span>Read ↗</span></div><p class="talk-title">Design Ops Portrait: Hugo Mourlevat, Chief Design &amp; Content Officer</p><p class="talk-desc">An in-depth portrait exploring my journey from creative technologist to Chief Design Officer. How a decade of building at the intersection of design, technology, and business shaped my vision.</p></div></a>
+        <a class="talk" href="https://www.linkedin.com/posts/hugomrvt_bibendum-digitaltransformation-ai-activity-7406399416179462145-sI1e" target="_blank" rel="noopener"><span class="label">Interview</span><div class="talk-body"><div class="chips"><span>Design Fax 2025</span><span>Read ↗</span></div><p class="talk-title">Digital Experience at Michelin</p><p class="talk-desc">A conversation with Design Fax on Michelin's digital experience and how a 40+ design org scales strategy at group level. On design maturing from execution to strategic lever, and the designer's evolving role as AI rewrites the production workflow.</p></div></a>
+        <a class="talk" href="https://justaclick.fr/podcast/ia-generative-x-design-le-playbook-de-michelin-hugo-mourlevat/" target="_blank" rel="noopener"><span class="label">Podcast</span><div class="talk-body"><div class="chips"><span>Just a Click 2025</span><span>Listen ↗</span></div><p class="talk-title">Generative AI x Design: The Michelin Playbook</p><p class="talk-desc">A deep-dive into how Michelin integrates generative AI into its design workflows. From the GenAI Radar to enterprise-scale deployment, building AI culture within a century-old manufacturer.</p></div></a>
+        <a class="talk" href="https://podcasts.apple.com/us/podcast/michelin-design-global-transformation-leadership-faire/id1724846821?i=1000713525064" target="_blank" rel="noopener"><span class="label">Podcast</span><div class="talk-body"><div class="chips"><span>Head Of Design 2025</span><span>Listen ↗</span></div><p class="talk-title">Michelin Design: Global Transformation &amp; Leadership</p><p class="talk-desc">Scaling a 4-person team into a 50+ expert global ecosystem. Lessons on building design culture across 170 countries and making the CDO role matter at the executive level.</p></div></a>
+        <a class="talk" href="https://www.linkedin.com/pulse/ladoption-des-design-systems-au-del%C3%A0-du-code-une-de-et-hugo-mourlevat-7trff/" target="_blank" rel="noopener"><span class="label">Talk</span><div class="talk-body"><div class="chips"><span>LinkedIn 2024</span><span>Read ↗</span></div><p class="talk-title">The Adoption of Design Systems: Beyond Code</p><p class="talk-desc">The real challenge of design systems is not building them. It is making an entire organization adopt them. A strategic framework for documentation, tooling, and business alignment.</p></div></a>
+      </div>
+    </section>
+
+    <section id="writing">
+      <p class="label">05 / Writing</p>
+      <div class="posts">
+        <a class="post" href="https://loop.genairadar.co/build-the-roadmap-lose-the-product-capture-patterns-in-openclaws-open-source-ecosystem-4eebc9590dc1" target="_blank" rel="noopener"><span class="post-title">Build the roadmap, lose the product: capture patterns in OpenClaw’s open-source ecosystem</span><span class="post-date">Mar 2026</span><span class="arrow">↗</span></a>
+        <a class="post" href="https://loop.genairadar.co/aligned-but-unfit-what-happens-when-ai-agents-get-real-tools-and-no-judgment-31f39823c472" target="_blank" rel="noopener"><span class="post-title">Aligned but unfit: What happens when AI agents get real tools and no judgment</span><span class="post-date">Mar 2026</span><span class="arrow">↗</span></a>
+        <a class="post" href="https://loop.genairadar.co/ai-as-a-new-territory-for-brand-expression-beyond-technology-07403706a9b6" target="_blank" rel="noopener"><span class="post-title">AI as a new territory for brand expression, beyond technology</span><span class="post-date">Jan 2026</span><span class="arrow">↗</span></a>
+        <a class="post" href="https://loop.genairadar.co/when-ai-devours-its-own-children-the-existential-crisis-of-tailwind-css-eb0d5498e82f" target="_blank" rel="noopener"><span class="post-title">When AI devours its own children: The existential crisis of Tailwind CSS</span><span class="post-date">Jan 2026</span><span class="arrow">↗</span></a>
+        <a class="post" href="https://loop.genairadar.co/the-super-app-inflection-point-how-openai-is-redesigning-the-digital-experience-a97495bfd866" target="_blank" rel="noopener"><span class="post-title">The Super-App inflection point: How OpenAI is redesigning the digital experience</span><span class="post-date">Oct 2025</span><span class="arrow">↗</span></a>
+      </div>
+    </section>
+
+    <section id="statement">
+      <blockquote class="statement">The mark of a design organization isn't what it ships on its best day. It's what it refuses to ship on its worst one, a million times in a row.</blockquote>
+    </section>
+
+    <section id="connect">
+      <p class="label">06 / Connect</p>
+      <div class="split">
+        <div class="connect-left">
+          <h2>Let's build something<br>worth building.</h2>
+          <div class="email">
+            <span class="email-text" id="email">hello@hugo.design</span>
+            <button class="copy" id="copy" type="button" aria-label="Copy the email address">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="links">
+          <a class="link" href="https://linkedin.com/in/hugomrvt" target="_blank" rel="noopener"><span class="link-label">LinkedIn</span><span class="arrow">↗</span></a>
+          <a class="link" href="https://genairadar.co" target="_blank" rel="noopener"><span class="link-label">GenAI Radar</span><span class="arrow">↗</span></a>
+          <a class="link" href="https://stories.mrvt.io" target="_blank" rel="noopener"><span class="link-label">Medium</span><span class="arrow">↗</span></a>
+          <a class="link" href="https://x.com/HUGOMRVT" target="_blank" rel="noopener"><span class="link-label">𝕏</span><span class="arrow">↗</span></a>
+          <a class="link" href="https://github.com/hugomrvt" target="_blank" rel="noopener"><span class="link-label">GitHub</span><span class="arrow">↗</span></a>
+          <a class="link" href="https://mrvt.link/mission-malt" target="_blank" rel="noopener"><span class="link-label">Malt <span class="available">Available for missions</span></span><span class="arrow">↗</span></a>
+          <a class="link" href="https://adplist.org/mentors/hugo-mourlevat" target="_blank" rel="noopener"><span class="link-label">ADPList Mentoring Program</span><span class="arrow">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site">
+      <span>© 2026 Hugo Mourlevat</span>
+      <ul><li>Legal notice</li><li>Privacy</li><li>Credits</li></ul>
+      <span>Lyon, France</span>
+    </footer>
+  </div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../dist/swarmtroopers.iife.js"></script>
+<script src="demo.js"></script>
+<script>
+  (function () {
+    var btn = document.getElementById('copy'), toast = document.getElementById('toast'), email = document.getElementById('email'), timer;
+    function show(msg) { toast.textContent = msg; toast.classList.add('on'); clearTimeout(timer); timer = setTimeout(function () { toast.classList.remove('on'); }, 1600); }
+    function select() { var r = document.createRange(); r.selectNodeContents(email); var s = getSelection(); s.removeAllRanges(); s.addRange(r); show('Email selected'); }
+    btn.addEventListener('click', function () {
+      try { navigator.clipboard.writeText(email.textContent.trim()).then(function () { show('Email copied'); }, select); } catch (e) { select(); }
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Mount one instance on the client and clean it up with the view.">
+  <meta name="theme-color" content="#0D0E11">
+  <title>Framework integrations — Swarm Troopers documentation</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/swarmtroopers-mark-sm.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../brand.css">
+  <link rel="stylesheet" href="docs.css">
+  <script src="../brand.js" defer></script>
+  <script src="docs.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#docs-content">Skip to documentation</a>
+  <header class="docs-header"><div class="docs-header-inner"><div class="header-brand"><a class="swarmtroopers-brand" href="../" aria-label="Swarm Troopers home"><img src="../assets/swarmtroopers-mark-sm.svg" width="24" height="24" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a><span class="header-divider" aria-hidden="true"></span><a class="docs-home" href="index.html">docs</a></div><div class="docs-search" role="search"><label class="visually-hidden" for="docs-search">Search documentation</label><div class="search-input"><span class="search-prompt" aria-hidden="true">›</span><input id="docs-search" type="search" placeholder="search the docs" autocomplete="off" aria-controls="docs-search-results" aria-keyshortcuts="Meta+K Control+K"><kbd aria-hidden="true">⌘K</kbd></div><div class="search-panel"><p id="docs-search-status" role="status" aria-live="polite"></p><ol id="docs-search-results" hidden aria-label="Search results"></ol></div></div><span class="docs-version">v0.4.0</span><nav aria-label="Site navigation"><a href="../">overview</a><a href="../demo/index.html">playground <span aria-hidden="true">↗</span></a></nav><a class="swarmtroopers-github" data-github-stars data-github-link data-state="pending" role="link" aria-disabled="true" tabindex="-1" aria-label="Swarm Troopers on GitHub: star count unavailable" title="The repository is not published yet" target="_blank" rel="noopener"><span>GitHub</span><svg class="swarmtroopers-github-star" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2.5 2.2 4.6 5.1.7-3.7 3.6.9 5.1-4.5-2.4-4.5 2.4.9-5.1L2.7 7.8l5.1-.7L10 2.5Z"/></svg><span data-github-count>—</span></a></div></header>
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <details id="docs-menu" open><summary>browse documentation <span aria-hidden="true">▸</span></summary><nav class="docs-nav" aria-label="Documentation pages"><section class="nav-group"><h2>Getting started</h2><ul><li><a href="index.html">Meet Swarm Troopers</a></li><li><a href="installation.html">Installation</a></li><li><a href="markup.html">Markup and scanning</a></li><li><a href="examples.html">Working examples</a></li></ul></section><section class="nav-group"><h2>Guides</h2><ul><li><a href="element.html">HTML custom element</a></li><li><a href="frameworks.html" aria-current="page">Framework integrations</a></li><li><a href="controls.html">Quality and controls</a></li><li><a href="tokens.html">Design tokens</a></li><li><a href="localization.html">Names and localization</a></li><li><a href="accessibility.html">Accessibility and performance</a></li><li><a href="troubleshooting.html">Troubleshooting</a></li></ul></section><section class="nav-group"><h2>Reference</h2><ul><li><a href="options.html">Options reference</a></li><li><a href="api.html">JavaScript API</a></li><li><a href="extending.html">Custom tools and plugins</a></li></ul></section></nav></details>
+      <a class="sidebar-playground" href="../demo/index.html"><img src="../assets/swarmtroopers-mark-sm.svg" alt="" width="20" height="20"><span>Less reading. More playing.<small>Open the full-page demo ↗</small></span></a>
+    </aside>
+    <main class="docs-main"><article id="docs-content" tabindex="-1"><header class="article-header"><p class="article-eyebrow">docs <span>/</span> guides <span>/</span> frameworks</p><h1>Framework integrations</h1><p class="article-description">Mount one instance on the client and clean it up with the view.</p></header><div class="doc-content">
+<p>Install the npm package into your application first, as described in <a href="installation.html#local-package">Installation</a>. These recipes assume the listed framework is already part of your project. Swarm Troopers does not install React, Vue, Svelte, Astro, Angular, or a router.</p>
+<h2 id="react"><a class="heading-anchor" href="#react" aria-label="Link to section: React">##</a>React</h2>
+<p>Create the instance in an effect after content mounts. Keep the root stable, and return cleanup. Development Strict Mode can exercise setup and cleanup twice; the cleanup is essential.</p>
+<div class="code-block"><div class="code-heading"><span>jsx</span><button class="copy-code" type="button" aria-label="Copy JSX example"><span>copy</span></button></div><pre data-language="jsx" tabindex="0"><code>import { useEffect } from &#39;react&#39;;
+import { create, controls } from &#39;@mrvt/swarmtroopers&#39;;
+
+export function SwarmTroopersOverlay() {
+  useEffect(() =&gt; {
+    const swarmtroopers = create({ root: &#39;main&#39;, auto: true });
+    controls(swarmtroopers);
+    return () =&gt; swarmtroopers.destroy();
+  }, []);
+  return null;
+}</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p>Use <a href="https://react.dev/reference/react/useEffect" target="_blank" rel="noopener">React’s effect lifecycle</a> to synchronize with an external DOM system. Do not create Swarm Troopers during render.</p>
+<h2 id="next"><a class="heading-anchor" href="#next" aria-label="Link to section: Next.js App Router">##</a>Next.js App Router</h2>
+<p>Use a client component. A pathname dependency recreates the instance after route changes; ensure the target page content has mounted before starting, especially with streamed or suspended content. For content arriving later, call <code>refresh()</code> after it becomes available.</p>
+<div class="code-block"><div class="code-heading"><span>jsx</span><button class="copy-code" type="button" aria-label="Copy JSX example"><span>copy</span></button></div><pre data-language="jsx" tabindex="0"><code>&#39;use client&#39;;
+import { useEffect } from &#39;react&#39;;
+import { usePathname } from &#39;next/navigation&#39;;
+import { create } from &#39;@mrvt/swarmtroopers&#39;;
+
+export default function SwarmTroopersOverlay() {
+  const pathname = usePathname();
+  useEffect(() =&gt; {
+    const swarmtroopers = create({ root: &#39;main&#39;, auto: true });
+    return () =&gt; swarmtroopers.destroy();
+  }, [pathname]);
+  return null;
+}</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p>See the framework’s <a href="https://nextjs.org/docs/app/api-reference/functions/use-pathname" target="_blank" rel="noopener">usePathname reference</a> for routing constraints in your application.</p>
+<h2 id="vue-nuxt"><a class="heading-anchor" href="#vue-nuxt" aria-label="Link to section: Vue and Nuxt">##</a>Vue and Nuxt</h2>
+<div class="code-block"><div class="code-heading"><span>vue</span><button class="copy-code" type="button" aria-label="Copy Vue example"><span>copy</span></button></div><pre data-language="vue" tabindex="0"><code>&lt;script setup&gt;
+import { onMounted, onBeforeUnmount } from &#39;vue&#39;;
+import { create } from &#39;@mrvt/swarmtroopers&#39;;
+
+let swarmtroopers;
+onMounted(() =&gt; {
+  swarmtroopers = create({ root: &#39;main&#39;, auto: true });
+});
+onBeforeUnmount(() =&gt; swarmtroopers?.destroy());
+&lt;/script&gt;</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p><a href="https://vuejs.org/api/composition-api-lifecycle.html" target="_blank" rel="noopener">Vue lifecycle hooks</a> keep browser work outside server rendering. In Nuxt, put this in a <code>.client.vue</code> component or mount it inside <code>&lt;ClientOnly&gt;</code>. If your router keeps a layout mounted, subscribe to navigation after its DOM update and recreate or refresh deliberately; mounting a second global instance is not navigation handling.</p>
+<h2 id="svelte"><a class="heading-anchor" href="#svelte" aria-label="Link to section: Svelte and SvelteKit">##</a>Svelte and SvelteKit</h2>
+<div class="code-block"><div class="code-heading"><span>svelte</span><button class="copy-code" type="button" aria-label="Copy Svelte example"><span>copy</span></button></div><pre data-language="svelte" tabindex="0"><code>&lt;script&gt;
+  import { onMount } from &#39;svelte&#39;;
+  import { create } from &#39;@mrvt/swarmtroopers&#39;;
+
+  onMount(() =&gt; {
+    const swarmtroopers = create({ root: &#39;main&#39;, auto: true });
+    return () =&gt; swarmtroopers.destroy();
+  });
+&lt;/script&gt;</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p>The synchronous <a href="https://svelte.dev/docs/svelte/lifecycle-hooks" target="_blank" rel="noopener">onMount callback</a> returns teardown. Do not make this callback async: returning a Promise is not the cleanup function. In persistent layouts, handle later navigation separately.</p>
+<h2 id="astro"><a class="heading-anchor" href="#astro" aria-label="Link to section: Astro and client navigation">##</a>Astro and client navigation</h2>
+<p>A plain Astro page can use a processed client script after its content. When using the client router, create on <code>astro:page-load</code> and destroy before the document is swapped. Keep this script registered once.</p>
+<div class="code-block"><div class="code-heading"><span>astro</span><button class="copy-code" type="button" aria-label="Copy Astro example"><span>copy</span></button></div><pre data-language="astro" tabindex="0"><code>&lt;script&gt;
+  import { create, type SwarmTroopers } from &#39;@mrvt/swarmtroopers&#39;;
+  let swarmtroopers: SwarmTroopers | undefined;
+
+  document.addEventListener(&#39;astro:page-load&#39;, () =&gt; {
+    swarmtroopers?.destroy();
+    swarmtroopers = create({ root: &#39;main&#39;, auto: true });
+  });
+  document.addEventListener(&#39;astro:before-swap&#39;, () =&gt; {
+    swarmtroopers?.destroy();
+    swarmtroopers = undefined;
+  });
+&lt;/script&gt;</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p>The <a href="https://docs.astro.build/en/guides/view-transitions/#lifecycle-events" target="_blank" rel="noopener">Astro navigation lifecycle</a> describes when the new document is ready.</p>
+<h2 id="angular"><a class="heading-anchor" href="#angular" aria-label="Link to section: Angular">##</a>Angular</h2>
+<p>Initialize after view creation, guard server rendering, and clean up at destruction. In a zone-based application, run the animation outside Angular’s zone to avoid scheduling change detection for each animation frame.</p>
+<div class="code-block"><div class="code-heading"><span>typescript</span><button class="copy-code" type="button" aria-label="Copy TypeScript example"><span>copy</span></button></div><pre data-language="ts" tabindex="0"><code>import { isPlatformBrowser } from &#39;@angular/common&#39;;
+import {
+  AfterViewInit, Component, NgZone, OnDestroy, PLATFORM_ID, inject,
+} from &#39;@angular/core&#39;;
+import { create, type SwarmTroopers } from &#39;@mrvt/swarmtroopers&#39;;
+
+@Component({ selector: &#39;app-swarmtroopers&#39;, template: &#39;&#39; })
+export class SwarmTroopersOverlay implements AfterViewInit, OnDestroy {
+  private zone = inject(NgZone);
+  private platform = inject(PLATFORM_ID);
+  private swarmtroopers?: SwarmTroopers;
+
+  ngAfterViewInit() {
+    if (!isPlatformBrowser(this.platform)) return;
+    this.zone.runOutsideAngular(() =&gt; {
+      this.swarmtroopers = create({ root: &#39;main&#39;, auto: true });
+    });
+  }
+
+  ngOnDestroy() { this.swarmtroopers?.destroy(); }
+}</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p>See <a href="https://angular.dev/guide/components/lifecycle" target="_blank" rel="noopener">Angular lifecycle</a> and <a href="https://angular.dev/api/core/NgZone" target="_blank" rel="noopener">NgZone</a>. With any framework, finish rendering important content first and avoid two animation systems controlling the same element.</p></div></article><nav class="docs-pager" aria-label="Documentation pagination"><a class="pager-previous" href="element.html"><span>← previous</span><strong>HTML custom element</strong></a><a class="pager-next" href="controls.html"><span>next →</span><strong>Quality and controls</strong></a></nav><footer class="docs-footer"><span>Small team. Thoughtful details.</span><a href="../">back to swarmtroopers <span aria-hidden="true">↗</span></a></footer></main>
+    <aside class="docs-toc"><nav aria-label="On this page"><p>on this page</p><ul><li class="toc-level-2"><a href="#react">React</a></li><li class="toc-level-2"><a href="#next">Next.js App Router</a></li><li class="toc-level-2"><a href="#vue-nuxt">Vue and Nuxt</a></li><li class="toc-level-2"><a href="#svelte">Svelte and SvelteKit</a></li><li class="toc-level-2"><a href="#astro">Astro and client navigation</a></li><li class="toc-level-2"><a href="#angular">Angular</a></li></ul></nav><div class="toc-note"><span class="toc-state"><span aria-hidden="true">✓</span>html first</span><p>Your HTML stays the source of truth.</p></div></aside>
+  </div>
+</body>
+</html>

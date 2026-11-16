@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/finale-art.ts"],
+  "sourcesContent": ["/** Shared by the core renderer and the optional artwork entry. No raster imports here. */\nexport interface FinaleArtwork {\n  width: number;\n  height: number;\n  layers: ReadonlyArray<{ src: string; x: number; y: number; w: number; h: number; group: number }>;\n}\nlet artwork: FinaleArtwork | null = null;\nexport const getFinaleArtwork = (): FinaleArtwork | null => artwork;\nexport function setFinaleArtwork(value: FinaleArtwork): void { artwork = value; }\n"],
+  "mappings": ";;;AAMA,IAAI,UAAgC;AAC7B,IAAM,mBAAmB,MAA4B;AACrD,SAAS,iBAAiB,OAA4B;AAAE,YAAU;AAAO;",
+  "names": []
+}

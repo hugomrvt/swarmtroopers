@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Swarm Troopers live playground</title>
+<link rel="icon" type="image/svg+xml" href="assets/swarmtroopers-mark-sm.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+<style>
+:root{--font-sans:"Geist",ui-sans-serif,system-ui,sans-serif;--font-mono:"Geist Mono",ui-monospace,Menlo,monospace;--color-background:#F7F8FA;--color-text:#0D0E11;--color-text-muted:#5F6674;--color-border:#DCDFE5;--color-blue:#0D0E11;color-scheme:light;--radius-card:9px;--space-card:16px;font-family:var(--font-sans);color:var(--color-text);background:var(--color-background)}*{box-sizing:border-box}body{margin:0;padding:27px 34px 22px;min-height:100vh;-webkit-font-smoothing:antialiased}h1,h2,p{margin:0}a{color:inherit;text-decoration:none}button{font:inherit}#stage{max-width:870px;margin:auto}.mini-nav{display:flex;align-items:center;justify-content:space-between;height:27px;margin-bottom:25px;border-bottom:1px solid var(--color-border);padding-bottom:18px}.mini-logo{font-size:16px;font-weight:700;letter-spacing:-.7px}.mini-logo i{color:var(--color-blue);font-style:normal}.mini-nav>span:last-child{font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;color:var(--color-text-muted)}.page-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;align-items:center;padding-block:8px 27px}.page-kicker{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--color-text-muted);margin-bottom:13px}.page-title{font-size:clamp(28px,5.9vw,53px);font-weight:600;line-height:1.12;letter-spacing:-2.4px;max-width:none}.page-desc{font-size:11px;line-height:1.8;color:var(--color-text-muted);max-width:29ch;margin-top:12px}.mini-button{display:inline-flex;background:#0D0E11;color:#fff;border-radius:6px;padding:9px 13px;font-size:10px;gap:20px;align-items:center;margin-top:17px;line-height:1.2}.page-art{position:relative;background:#E4E7EC;border-radius:var(--radius-card);height:185px;display:flex;align-items:center;justify-content:center;overflow:hidden}.sculpture{width:110px;height:140px;border-radius:70px 70px 0 0;background:#C4C8D1;position:relative;transform:rotate(-9deg)}.sculpture:before{content:"";position:absolute;left:22px;bottom:-1px;width:66px;height:106px;border-radius:50px 50px 0 0;background:#E4E7EC}.sculpture:after{content:"";position:absolute;left:66px;top:65px;width:64px;height:64px;border-radius:50%;background:#0D0E11}.art-small-label{position:absolute;right:12px;bottom:10px;font-family:var(--font-mono);font-size:6px;letter-spacing:.1em;color:#5F6674}.mini-rule{border:0;border-top:1px solid var(--color-border);margin:0 0 17px}.bottom-kicker{font-family:var(--font-mono);font-size:9px;color:var(--color-text-muted);margin-bottom:12px;letter-spacing:.08em}.mini-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;padding:0;margin:0;list-style:none}.mini-cards li{border:1px solid var(--color-border);border-radius:6px;background:#fff;padding:13px 12px;min-height:77px;display:flex;flex-direction:column;align-items:start;gap:10px}.mini-cards li:nth-child(2){background:#F1F2F4}.mini-cards li:nth-child(3){background:#0D0E11;color:#fff;border-color:#0D0E11}.card-symbol{font-size:16px;line-height:1;color:#5F6674}.mini-cards li:nth-child(3) .card-symbol{color:#C4C8D1}.mini-cards h2{font-size:11px;font-weight:600}.tools-header{text-align:center;padding:7px 0 23px}.tools-header p,.finale-header p{font-family:var(--font-mono);font-size:7px;letter-spacing:.15em;color:var(--color-text-muted);margin-bottom:10px}.tools-header h1{font-size:30px;line-height:1.25;font-weight:600;letter-spacing:-1.2px}.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.tool-card{min-height:130px;border:1px solid var(--color-border);background:#fff;border-radius:6px;padding:17px;position:relative}.tool-card>span{font-family:var(--font-mono);font-size:7px;letter-spacing:.07em;color:var(--color-text-muted)}.tool-card h2{font-size:18px;letter-spacing:-.5px;line-height:1.3;margin-top:14px;font-weight:600}.tool-card p{font-size:8px;color:var(--color-text-muted);margin-top:7px;line-height:1.6}.frame-card{background:#E4E7EC;display:grid;place-items:center;min-height:75px;margin-top:12px;border-radius:5px}.frame-card i{width:44px;height:44px;border-radius:50%;background:#C4C8D1;box-shadow:12px 0 0 -3px #0D0E11}.rule-card hr{border:0;height:2px;background:#0D0E11;width:100%;margin:24px 0 14px}.stamp-list{list-style:none;padding:0;margin:15px 0 0;display:flex;gap:7px}.stamp-list li{border:1px solid var(--color-border);background:#F1F2F4;border-radius:4px;width:32%;height:38px;display:grid;place-items:center;font-family:var(--font-mono);font-size:8px;color:var(--color-text-muted)}.finale-header{text-align:center;padding:31px 0 0}.finale-header h1{font-size:38px;line-height:1.15;letter-spacing:-1.9px;font-weight:600}.finale-header h1 span{color:var(--color-text-muted)}.finale-header>p:last-child{font-size:10px;line-height:1.8;letter-spacing:0;color:var(--color-text-muted);margin:15px auto 24px;max-width:31ch}.finale-note{display:flex;align-items:center;justify-content:center;gap:13px;border:1px solid var(--color-border);background:#fff;border-radius:6px;padding:20px 23px;max-width:350px;margin:0 auto;font-size:10px;line-height:1.7;color:var(--color-text-muted)}.finale-note>span{font-size:24px;color:var(--color-text)}.finale-footer{text-align:center;font-family:var(--font-mono);font-size:8px;color:var(--color-text-muted);margin-top:24px}body[data-scene=finale]{background:var(--color-background)}.tools-stage{padding-top:7px}
+@media(max-width:600px){body{padding:23px 23px 18px}.mini-nav{margin-bottom:25px}.page-hero{gap:15px;padding-bottom:26px}.page-title{font-size:clamp(21px,7.5vw,37px);letter-spacing:-1.3px}.page-art{height:185px}.sculpture{transform:scale(.85) rotate(-9deg)}.page-desc{font-size:9px;max-width:21ch}.mini-cards{gap:8px}.mini-cards li{padding:12px 9px;min-height:75px}.mini-cards h2{font-size:9px}.tools-header h1{font-size:26px}.tools-header{padding-bottom:24px}.tool-card{padding:14px;min-height:137px}.tool-card h2{font-size:17px}.tool-grid{gap:10px}.finale-header{padding-top:45px}.finale-header h1{font-size:35px}.finale-note{padding:18px 15px;font-size:9px}.finale-footer{font-size:7px}}
+@media(max-width:370px){body{padding-inline:18px}.page-title{font-size:clamp(21px,7.5vw,27px)}.page-art{height:185px}.mini-cards h2{font-size:8px}.page-hero{grid-template-columns:1fr 1fr}.mini-cards li{padding-inline:8px}.mini-button{font-size:7px;padding:9px 10px;gap:10px}.tool-card h2{font-size:15px}.finale-header h1{font-size:30px}}
+</style>
+</head>
+<body>
+<main id="stage">
+  <div class="mini-nav"><span class="mini-logo">form<i>®</i></span><span>TOOLS FOR FOCUSED WORK</span></div>
+  <section class="page-hero" data-swarmtroopers-section="The introduction">
+    <div><p class="page-kicker" data-swarmtroopers="type">LESS NOISE. SHARED FOCUS.</p><h1 class="page-title" data-swarmtroopers="type">A calmer<br>workspace.</h1><p class="page-desc" data-swarmtroopers="type">A place to plan, organize and make room for your next good idea.</p><span class="mini-button" data-swarmtroopers="frame">Find your flow <span aria-hidden="true">↗</span></span></div>
+    <div class="page-art" role="img" aria-label="A sage green sculptural arch and a terracotta sphere"><div class="sculpture"></div><span class="art-small-label">OBJECTS / 001</span></div>
+  </section>
+  <section data-swarmtroopers-section="The collection"><hr class="mini-rule" data-swarmtroopers="rule"><p class="bottom-kicker" data-swarmtroopers="type">YOUR NEXT STEPS. IN GOOD ORDER.</p><ul class="mini-cards" data-swarmtroopers="repeat"><li><span class="card-symbol" aria-hidden="true">◒</span><h2>Plan your next step</h2></li><li><span class="card-symbol" aria-hidden="true">▥</span><h2>Organize your ideas</h2></li><li><span class="card-symbol" aria-hidden="true">✳</span><h2>Make room to create</h2></li></ul></section>
+</main>
+<template id="tools-scene"><div class="tools-stage"><div class="tools-header"><p>FOUR TOOLS. A THOUSAND LITTLE POSSIBILITIES.</p><h1 data-swarmtroopers="type">Every gesture has a purpose.</h1></div><div class="tool-grid"><section class="tool-card" data-swarmtroopers-section="Typography"><span>01 / TYPE</span><h2 data-swarmtroopers="type">Hello, character.</h2><p data-swarmtroopers="type">A familiar rhythm. Already your words.</p></section><section class="tool-card" data-swarmtroopers-section="Framing"><span>02 / FRAME</span><div class="frame-card" data-swarmtroopers="frame" role="img" aria-label="Two overlapping circles"><i></i></div></section><section class="tool-card rule-card" data-swarmtroopers-section="Separators"><span>03 / RULE</span><hr data-swarmtroopers="rule"><p data-swarmtroopers="type">Drawn with intention.</p></section><section class="tool-card" data-swarmtroopers-section="Repetition"><span>04 / STAMP</span><ul class="stamp-list" data-swarmtroopers="repeat"><li>01</li><li>02</li><li>03</li></ul></section></div></div></template>
+<template id="finale-scene"><section class="finale-header" data-swarmtroopers-section="A little celebration"><p data-swarmtroopers="type">SMALL TEAM. GOOD WORK.</p><h1 data-swarmtroopers="type">Made it.<br><span>Together.</span></h1><p data-swarmtroopers="type">The last detail is in place.<br>There's only one thing left to do.</p><div class="finale-note" data-swarmtroopers="frame"><span aria-hidden="true">✳</span><div>Every task is complete.<br>Your page stays ready to explore.</div></div><div class="finale-footer" data-swarmtroopers="type">Real Swarm Troopers finale. No video. No sleight of hand.</div></section></template>
+<script src="dist/swarmtroopers.iife.js"></script>
+<script>
+(() => {
+  const requested = new URLSearchParams(location.search).get('scene');
+  const scene = requested === 'tools' || requested === 'finale' ? requested : 'page';
+  document.body.dataset.scene = scene;
+  if (scene !== 'page') document.querySelector('#stage').replaceChildren(document.querySelector(`#${scene}-scene`).content.cloneNode(true));
+  function report(state, stats, extra) {
+    if (window.parent !== window) window.parent.postMessage({ type: 'swarmtroopers-demo', scene, state, stats, ...extra }, location.origin);
+  }
+  // Expected work per tool, read from the annotations: a stamped list frames its first item, then stamps the rest.
+  function plan() {
+    const count = (tool) => document.querySelectorAll(`[data-swarmtroopers="${tool}"]`).length;
+    const lists = [...document.querySelectorAll('[data-swarmtroopers="repeat"]')];
+    const stamped = lists.reduce((sum, list) => sum + Math.max(0, list.children.length - 1), 0);
+    return { type: count('type'), frame: count('frame') + lists.length, rule: count('rule'), stamp: stamped };
+  }
+  function start() {
+    try {
+      const swarmtroopers = window.swarmtroopers = window.SwarmTroopers.create({
+        root: '#stage',
+        inspect: true,
+        plugins: ['tokens'],
+        palette: ['#7DB4FF', '#B98CFF', '#5FE3D0', '#FF7EB6'],
+        names: ['ada', 'mia', 'noé', 'iris'],
+        leadName: 'eli',
+        scale: innerWidth < 450 ? 1 : 1.1,
+        speed: scene === 'finale' ? 1.15 : 1,
+        patience: 3.5,
+        storageKey: 'swarmtroopers-site-preview',
+      });
+      const tools = plan();
+      const expected = Object.values(tools).reduce((a, b) => a + b, 0);
+      swarmtroopers.on('task', ({ tool }) => report('task', null, { tool, done: swarmtroopers.stats.done, tasks: swarmtroopers.stats.tasks }));
+      swarmtroopers.on('done', (stats) => report('done', stats));
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) report('reduced', null, { tasks: swarmtroopers.stats.tasks || expected });
+      else report('building', null, { tools, tasks: swarmtroopers.stats.tasks || expected });
+    } catch (error) {
+      document.querySelectorAll('.swarmtroopers-pending').forEach((el) => el.classList.remove('swarmtroopers-pending'));
+      report('unavailable');
+      console.error(error);
+    }
+  }
+  if (document.fonts) document.fonts.ready.then(start);
+  else start();
+})();
+</script>
+</body>
+</html>

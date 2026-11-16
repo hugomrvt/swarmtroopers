@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Add a purposeful gesture or supply annotations from your own system.">
+  <meta name="theme-color" content="#0D0E11">
+  <title>Custom tools and plugins — Swarm Troopers documentation</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/swarmtroopers-mark-sm.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../brand.css">
+  <link rel="stylesheet" href="docs.css">
+  <script src="../brand.js" defer></script>
+  <script src="docs.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#docs-content">Skip to documentation</a>
+  <header class="docs-header"><div class="docs-header-inner"><div class="header-brand"><a class="swarmtroopers-brand" href="../" aria-label="Swarm Troopers home"><img src="../assets/swarmtroopers-mark-sm.svg" width="24" height="24" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a><span class="header-divider" aria-hidden="true"></span><a class="docs-home" href="index.html">docs</a></div><div class="docs-search" role="search"><label class="visually-hidden" for="docs-search">Search documentation</label><div class="search-input"><span class="search-prompt" aria-hidden="true">›</span><input id="docs-search" type="search" placeholder="search the docs" autocomplete="off" aria-controls="docs-search-results" aria-keyshortcuts="Meta+K Control+K"><kbd aria-hidden="true">⌘K</kbd></div><div class="search-panel"><p id="docs-search-status" role="status" aria-live="polite"></p><ol id="docs-search-results" hidden aria-label="Search results"></ol></div></div><span class="docs-version">v0.4.0</span><nav aria-label="Site navigation"><a href="../">overview</a><a href="../demo/index.html">playground <span aria-hidden="true">↗</span></a></nav><a class="swarmtroopers-github" data-github-stars data-github-link data-state="pending" role="link" aria-disabled="true" tabindex="-1" aria-label="Swarm Troopers on GitHub: star count unavailable" title="The repository is not published yet" target="_blank" rel="noopener"><span>GitHub</span><svg class="swarmtroopers-github-star" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2.5 2.2 4.6 5.1.7-3.7 3.6.9 5.1-4.5-2.4-4.5 2.4.9-5.1L2.7 7.8l5.1-.7L10 2.5Z"/></svg><span data-github-count>—</span></a></div></header>
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <details id="docs-menu" open><summary>browse documentation <span aria-hidden="true">▸</span></summary><nav class="docs-nav" aria-label="Documentation pages"><section class="nav-group"><h2>Getting started</h2><ul><li><a href="index.html">Meet Swarm Troopers</a></li><li><a href="installation.html">Installation</a></li><li><a href="markup.html">Markup and scanning</a></li><li><a href="examples.html">Working examples</a></li></ul></section><section class="nav-group"><h2>Guides</h2><ul><li><a href="element.html">HTML custom element</a></li><li><a href="frameworks.html">Framework integrations</a></li><li><a href="controls.html">Quality and controls</a></li><li><a href="tokens.html">Design tokens</a></li><li><a href="localization.html">Names and localization</a></li><li><a href="accessibility.html">Accessibility and performance</a></li><li><a href="troubleshooting.html">Troubleshooting</a></li></ul></section><section class="nav-group"><h2>Reference</h2><ul><li><a href="options.html">Options reference</a></li><li><a href="api.html">JavaScript API</a></li><li><a href="extending.html" aria-current="page">Custom tools and plugins</a></li></ul></section></nav></details>
+      <a class="sidebar-playground" href="../demo/index.html"><img src="../assets/swarmtroopers-mark-sm.svg" alt="" width="20" height="20"><span>Less reading. More playing.<small>Open the full-page demo ↗</small></span></a>
+    </aside>
+    <main class="docs-main"><article id="docs-content" tabindex="-1"><header class="article-header"><p class="article-eyebrow">docs <span>/</span> reference <span>/</span> extending</p><h1>Custom tools and plugins</h1><p class="article-description">Add a purposeful gesture or supply annotations from your own system.</p></header><div class="doc-content">
+<h2 id="custom-tool"><a class="heading-anchor" href="#custom-tool" aria-label="Link to section: Register a generator tool">##</a>Register a generator tool</h2>
+<p>A tool is a synchronous generator. Each <code>yield</code> waits for the next frame and receives elapsed seconds adjusted by Swarm Troopers’ pacing. Register the tool before creating the instance or collecting its annotated elements.</p>
+<div class="code-block"><div class="code-heading"><span>javascript</span><button class="copy-code" type="button" aria-label="Copy JavaScript example"><span>copy</span></button></div><pre data-language="js" tabindex="0"><code>import { create, defineTool } from &#39;@mrvt/swarmtroopers&#39;;
+
+defineTool(&#39;spotlight&#39;, function* (c) {
+  c.shape(&#39;cross&#39;);
+  yield* c.move(() =&gt; {
+    const r = c.rect();
+    return { x: r.x + r.w / 2, y: r.y + r.h / 2 };
+  }, { width: 40 });
+  yield* c.click();
+  c.reveal.pop();
+  c.shape(&#39;arrow&#39;);
+});
+
+create({ root: &#39;main&#39; });</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<div class="code-block"><div class="code-heading"><span>html</span><button class="copy-code" type="button" aria-label="Copy HTML example"><span>copy</span></button></div><pre data-language="html" tabindex="0"><code>&lt;div data-swarmtroopers=&quot;spotlight&quot;&gt;This element uses the registered gesture.&lt;/div&gt;</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p>When a generator returns, Swarm Troopers completes the task and restores its prior clip-path value and priority. Tool factories and generator steps are isolated: a failed task is revealed with a diagnostic. Cancellation failures cannot interrupt host cleanup. An unrecoverable renderer failure destroys the instance and restores the host. Use <code>try/finally</code> to release held pointer state and close long-lived annotations when a generator is interrupted.</p>
+<h2 id="tool-context"><a class="heading-anchor" href="#tool-context" aria-label="Link to section: ToolContext reference">##</a>ToolContext reference</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Reference table"><table><thead><tr><th scope="col">Member</th><th scope="col">Purpose</th></tr></thead><tbody><tr><td><code>el</code>, <code>task</code>, <code>agent</code></td><td>The element, current Task, and Agent for this gesture. Treat scheduler state as read-only context.</td></tr><tr><td><code>random</code></td><td>Seeded random helper with <code>next()</code>, <code>range(lo, hi)</code>, <code>chance(p)</code>, and <code>normal(mean?, sd?)</code>.</td></tr><tr><td><code>rect()</code></td><td>Current element rectangle <code>{ x, y, w, h }</code> in document CSS pixels.</td></tr><tr><td><code>sourceRect()</code></td><td>Previous repeat item’s rectangle, or null.</td></tr><tr><td><code>move(pointOrFunction, options?)</code></td><td>Movement generator. Options: target <code>width</code>, <code>drag</code> boolean, and <code>onStep</code> callback. A function tracks a moving destination.</td></tr><tr><td><code>wait(seconds)</code></td><td>Wait generator. Use <code>yield*</code>.</td></tr><tr><td><code>click()</code></td><td>Press-feedback generator. It does not dispatch a real click to your page.</td></tr><tr><td><code>shape(value)</code></td><td>Choose <code>arrow</code>, <code>beam</code>, <code>cross</code>, <code>stamp</code>, or <code>hand</code>.</td></tr><tr><td><code>hold(boolean)</code></td><td>Set the held-down pointer appearance.</td></tr><tr><td><code>dim(boolean)</code></td><td>Dim the pointer, as when typing.</td></tr><tr><td><code>mark(init)</code></td><td>Create a canvas annotation. Its returned <code>done()</code> starts removal.</td></tr><tr><td><code>label()</code></td><td>Ask plugins for a label, with size fallback. Construction labels must be enabled.</td></tr><tr><td><code>text()</code></td><td>Measured TextGeo or null: text sequence, pieces, lines, bands, dimensions, and padding.</td></tr><tr><td><code>reveal.begin(clip?)</code></td><td>Remove the pending class, optionally setting an initial CSS clip-path.</td></tr><tr><td><code>reveal.clip(value)</code></td><td>Update the element’s clip-path.</td></tr><tr><td><code>reveal.end()</code></td><td>Restore the original inline clip-path.</td></tr><tr><td><code>reveal.pop()</code></td><td>Reveal immediately with the short completion fade and mark the task done.</td></tr></tbody></table></div>
+<p><code>ToolGen</code> is <code>Generator&lt;void, void, number&gt;</code>. A <code>Point</code> has <code>x</code> and <code>y</code>; a <code>Rect</code> additionally has <code>w</code> and <code>h</code>. Do not replace a generator with an async function or use timers to mutate an element after the task has finished.</p>
+<h2 id="annotations"><a class="heading-anchor" href="#annotations" aria-label="Link to section: AnnotationInit">##</a>AnnotationInit</h2>
+<p>Every annotation has a required <code>kind</code>, optional <code>color</code>, optional <code>ttl</code> in seconds, and optional <code>label</code>. Color defaults to the agent’s color. Lifetime defaults to infinity, so explicitly call the returned annotation’s <code>done()</code> for temporary marks.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Reference table"><table><thead><tr><th scope="col">Kind</th><th scope="col">Geometry callbacks</th></tr></thead><tbody><tr><td><code>drag</code>, <code>ghost</code>, <code>select</code>, <code>zone</code></td><td><code>rect: () =&gt; Rect</code>; select can display a label.</td></tr><tr><td><code>line</code>, <code>caret</code></td><td><code>a: () =&gt; Point</code> and <code>b: () =&gt; Point</code>.</td></tr><tr><td><code>ripple</code>, <code>spark</code></td><td><code>a: () =&gt; Point</code>; use a finite lifetime for the effect.</td></tr></tbody></table></div>
+<p>Callbacks keep geometry aligned with scrolling and moving content. The public configuration accepts geometry callbacks; the returned annotation’s age, fade state, and closed flag belong to the renderer.</p>
+<h2 id="plugins"><a class="heading-anchor" href="#plugins" aria-label="Link to section: SwarmTroopersPlugin">##</a>SwarmTroopersPlugin</h2>
+<div class="code-block"><div class="code-heading"><span>typescript</span><button class="copy-code" type="button" aria-label="Copy TypeScript example"><span>copy</span></button></div><pre data-language="ts" tabindex="0"><code>interface SwarmTroopersPlugin {
+  name: string;
+  setup?(swarmtroopers: SwarmTroopers): void;
+  label?(el: SwarmTroopersElement, tool: string): string | null | undefined;
+  invalidate?(): void;
+}</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<div class="code-block"><div class="code-heading"><span>javascript</span><button class="copy-code" type="button" aria-label="Copy JavaScript example"><span>copy</span></button></div><pre data-language="js" tabindex="0"><code>const componentNames = {
+  name: &#39;component-names&#39;,
+  label(element) {
+    return element.getAttribute(&#39;data-component&#39;);
+  },
+};
+
+create({
+  root: &#39;main&#39;, auto: true, inspect: true,
+  plugins: [componentNames, &#39;tokens&#39;],
+});</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p><code>setup</code> runs during construction before initial collection. Label providers are checked in order; the first nonempty label wins. Returning null or undefined allows the next provider or default label. <code>invalidate</code> clears plugin caches when Swarm Troopers invalidates geometry. A setup function may return a cleanup callback, called on destroy and initialization rollback. Cleanup and invalidation exceptions are isolated. Register DOM additions with <code>swarmtroopers.own()</code>; use the setup cleanup to release external subscriptions.</p></div></article><nav class="docs-pager" aria-label="Documentation pagination"><a class="pager-previous" href="localization.html"><span>← previous</span><strong>Names and localization</strong></a><a class="pager-next" href="accessibility.html"><span>next →</span><strong>Accessibility and performance</strong></a></nav><footer class="docs-footer"><span>Small team. Thoughtful details.</span><a href="../">back to swarmtroopers <span aria-hidden="true">↗</span></a></footer></main>
+    <aside class="docs-toc"><nav aria-label="On this page"><p>on this page</p><ul><li class="toc-level-2"><a href="#custom-tool">Register a generator tool</a></li><li class="toc-level-2"><a href="#tool-context">ToolContext reference</a></li><li class="toc-level-2"><a href="#annotations">AnnotationInit</a></li><li class="toc-level-2"><a href="#plugins">SwarmTroopersPlugin</a></li></ul></nav><div class="toc-note"><span class="toc-state"><span aria-hidden="true">✓</span>html first</span><p>Your HTML stays the source of truth.</p></div></aside>
+  </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Configure Swarm Troopers declaratively in any template language.">
+  <meta name="theme-color" content="#0D0E11">
+  <title>HTML custom element — Swarm Troopers documentation</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/swarmtroopers-mark-sm.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../brand.css">
+  <link rel="stylesheet" href="docs.css">
+  <script src="../brand.js" defer></script>
+  <script src="docs.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#docs-content">Skip to documentation</a>
+  <header class="docs-header"><div class="docs-header-inner"><div class="header-brand"><a class="swarmtroopers-brand" href="../" aria-label="Swarm Troopers home"><img src="../assets/swarmtroopers-mark-sm.svg" width="24" height="24" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a><span class="header-divider" aria-hidden="true"></span><a class="docs-home" href="index.html">docs</a></div><div class="docs-search" role="search"><label class="visually-hidden" for="docs-search">Search documentation</label><div class="search-input"><span class="search-prompt" aria-hidden="true">›</span><input id="docs-search" type="search" placeholder="search the docs" autocomplete="off" aria-controls="docs-search-results" aria-keyshortcuts="Meta+K Control+K"><kbd aria-hidden="true">⌘K</kbd></div><div class="search-panel"><p id="docs-search-status" role="status" aria-live="polite"></p><ol id="docs-search-results" hidden aria-label="Search results"></ol></div></div><span class="docs-version">v0.4.0</span><nav aria-label="Site navigation"><a href="../">overview</a><a href="../demo/index.html">playground <span aria-hidden="true">↗</span></a></nav><a class="swarmtroopers-github" data-github-stars data-github-link data-state="pending" role="link" aria-disabled="true" tabindex="-1" aria-label="Swarm Troopers on GitHub: star count unavailable" title="The repository is not published yet" target="_blank" rel="noopener"><span>GitHub</span><svg class="swarmtroopers-github-star" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2.5 2.2 4.6 5.1.7-3.7 3.6.9 5.1-4.5-2.4-4.5 2.4.9-5.1L2.7 7.8l5.1-.7L10 2.5Z"/></svg><span data-github-count>—</span></a></div></header>
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <details id="docs-menu" open><summary>browse documentation <span aria-hidden="true">▸</span></summary><nav class="docs-nav" aria-label="Documentation pages"><section class="nav-group"><h2>Getting started</h2><ul><li><a href="index.html">Meet Swarm Troopers</a></li><li><a href="installation.html">Installation</a></li><li><a href="markup.html">Markup and scanning</a></li><li><a href="examples.html">Working examples</a></li></ul></section><section class="nav-group"><h2>Guides</h2><ul><li><a href="element.html" aria-current="page">HTML custom element</a></li><li><a href="frameworks.html">Framework integrations</a></li><li><a href="controls.html">Quality and controls</a></li><li><a href="tokens.html">Design tokens</a></li><li><a href="localization.html">Names and localization</a></li><li><a href="accessibility.html">Accessibility and performance</a></li><li><a href="troubleshooting.html">Troubleshooting</a></li></ul></section><section class="nav-group"><h2>Reference</h2><ul><li><a href="options.html">Options reference</a></li><li><a href="api.html">JavaScript API</a></li><li><a href="extending.html">Custom tools and plugins</a></li></ul></section></nav></details>
+      <a class="sidebar-playground" href="../demo/index.html"><img src="../assets/swarmtroopers-mark-sm.svg" alt="" width="20" height="20"><span>Less reading. More playing.<small>Open the full-page demo ↗</small></span></a>
+    </aside>
+    <main class="docs-main"><article id="docs-content" tabindex="-1"><header class="article-header"><p class="article-eyebrow">docs <span>/</span> guides <span>/</span> element</p><h1>HTML custom element</h1><p class="article-description">Configure Swarm Troopers declaratively in any template language.</p></header><div class="doc-content">
+<h2 id="register-element"><a class="heading-anchor" href="#register-element" aria-label="Link to section: Register once">##</a>Register once</h2>
+<p>The classic IIFE registers the element automatically. With package modules, import its separate entry once in client code:</p>
+<div class="code-block"><div class="code-heading"><span>javascript</span><button class="copy-code" type="button" aria-label="Copy JavaScript example"><span>copy</span></button></div><pre data-language="js" tabindex="0"><code>import &#39;@mrvt/swarmtroopers/element&#39;;</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<div class="code-block"><div class="code-heading"><span>html</span><button class="copy-code" type="button" aria-label="Copy HTML example"><span>copy</span></button></div><pre data-language="html" tabindex="0"><code>&lt;main&gt;
+  &lt;h1&gt;Your existing page&lt;/h1&gt;
+&lt;/main&gt;
+&lt;swarmtroopers-overlay auto inspect tokens controls root=&quot;main&quot;&gt;&lt;/swarmtroopers-overlay&gt;</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p>The element is configuration, not a wrapper. It hides itself and targets content elsewhere through <code>root</code>. Keep content outside it. Connection creates one instance after DOM readiness; disconnection destroys that instance.</p>
+<h2 id="attributes"><a class="heading-anchor" href="#attributes" aria-label="Link to section: Supported attributes">##</a>Supported attributes</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Reference table"><table><thead><tr><th scope="col">Attribute</th><th scope="col">Value / default</th><th scope="col">Effect</th></tr></thead><tbody><tr><td><code>root</code></td><td>Selector; body if absent</td><td>Target content root.</td></tr><tr><td><code>selector</code></td><td><code>[data-swarmtroopers]</code></td><td>Annotation selector.</td></tr><tr><td><code>auto</code></td><td>Absent = false</td><td>Automatic scanning when present and not <code>"false"</code>.</td></tr><tr><td><code>inspect</code></td><td>Absent = false</td><td>Enable finished-element inspection.</td></tr><tr><td><code>tokens</code></td><td>Absent = false</td><td>Install the built-in tokens plugin.</td></tr><tr><td><code>controls</code></td><td>Absent = no controls</td><td>Enable controls; an optional corner value sets position.</td></tr><tr><td><code>quality</code></td><td><code>auto</code></td><td><code>auto</code>, <code>full</code>, <code>light</code>, or <code>off</code>.</td></tr><tr><td><code>trigger</code></td><td><code>immediate</code></td><td><code>immediate</code>, <code>scroll</code>, or <code>manual</code>.</td></tr><tr><td><code>speed</code></td><td><code>1</code></td><td>Numeric gesture multiplier; use positive values.</td></tr><tr><td><code>scale</code></td><td>Responsive default</td><td>Numeric size multiplier; use positive values.</td></tr><tr><td><code>labels</code></td><td><strong>true when absent</strong></td><td>Use <code>labels="false"</code> to match the JavaScript default.</td></tr><tr><td><code>names</code></td><td>Built-in pool</td><td><code>false</code> hides names; a comma-separated list of at least two names replaces the pool.</td></tr><tr><td><code>lang</code></td><td>Document language</td><td>Override Swarm Troopers’ text locale for this element.</td></tr><tr><td><code>chat</code></td><td>Absent = false</td><td>Enable orchestrator bubbles.</td></tr><tr><td><code>finale</code></td><td>Absent = true</td><td><code>false</code> disables the completion celebration.</td></tr><tr><td><code>once</code></td><td>Absent = false</td><td><code>session</code> enables session completion storage.</td></tr></tbody></table></div>
+<div class="code-block"><div class="code-heading"><span>html</span><button class="copy-code" type="button" aria-label="Copy HTML example"><span>copy</span></button></div><pre data-language="html" tabindex="0"><code>&lt;swarmtroopers-overlay
+  root=&quot;main&quot; auto inspect tokens
+  controls=&quot;bottom-right&quot; labels=&quot;false&quot;
+  names=&quot;Ada, Mia, Iris&quot; lang=&quot;en&quot;
+&gt;&lt;/swarmtroopers-overlay&gt;</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p>Boolean attributes are on when present unless their string value is exactly <code>"false"</code>. For example, <code>chat="0"</code> still enables chat. A single custom name such as <code>names="Ada"</code> currently uses the built-in name pool; JavaScript’s <code>names: ['Ada']</code> supports a one-name pool.</p>
+<h2 id="ready-event"><a class="heading-anchor" href="#ready-event" aria-label="Link to section: Access the instance">##</a>Access the instance</h2>
+<div class="code-block"><div class="code-heading"><span>javascript</span><button class="copy-code" type="button" aria-label="Copy JavaScript example"><span>copy</span></button></div><pre data-language="js" tabindex="0"><code>const element = document.createElement(&#39;swarmtroopers-overlay&#39;);
+element.setAttribute(&#39;root&#39;, &#39;main&#39;);
+element.setAttribute(&#39;auto&#39;, &#39;&#39;);
+element.setAttribute(&#39;trigger&#39;, &#39;manual&#39;);
+element.addEventListener(&#39;swarmtroopers-ready&#39;, (event) =&gt; {
+  const swarmtroopers = event.detail;
+  swarmtroopers.on(&#39;done&#39;, (stats) =&gt; console.log(stats));
+  swarmtroopers.start();
+});
+document.body.appendChild(element);
+
+// Once connected, element.swarmtroopers is the same instance.</code></pre><p class="copy-status" role="status" aria-live="polite"></p></div>
+<p>Attach the event listener before connection if you must catch readiness. The event bubbles, and its detail is the same instance exposed as <code>element.swarmtroopers</code>.</p>
+<h2 id="configuration-limits"><a class="heading-anchor" href="#configuration-limits" aria-label="Link to section: Configuration is read on connection">##</a>Configuration is read on connection</h2>
+<p>Attributes are not observed for live changes. Updating <code>speed</code>, <code>root</code>, or <code>lang</code> afterward does not reconfigure the running instance. Use its supported methods for quality or lifecycle changes; use the JavaScript API for object plugins, custom labels, palettes, <code>leadName</code>, <code>patience</code>, or other options without attributes. There is no automatic JavaScript-options-to-attributes mapping.</p>
+<p><code>defineElement(name = 'swarmtroopers-overlay')</code> registers the element under its default tag. A constructor can only be registered under one name, so calling it with another name after the default registration throws.</p></div></article><nav class="docs-pager" aria-label="Documentation pagination"><a class="pager-previous" href="api.html"><span>← previous</span><strong>JavaScript API</strong></a><a class="pager-next" href="frameworks.html"><span>next →</span><strong>Framework integrations</strong></a></nav><footer class="docs-footer"><span>Small team. Thoughtful details.</span><a href="../">back to swarmtroopers <span aria-hidden="true">↗</span></a></footer></main>
+    <aside class="docs-toc"><nav aria-label="On this page"><p>on this page</p><ul><li class="toc-level-2"><a href="#register-element">Register once</a></li><li class="toc-level-2"><a href="#attributes">Supported attributes</a></li><li class="toc-level-2"><a href="#ready-event">Access the instance</a></li><li class="toc-level-2"><a href="#configuration-limits">Configuration is read on connection</a></li></ul></nav><div class="toc-note"><span class="toc-state"><span aria-hidden="true">✓</span>html first</span><p>Your HTML stays the source of truth.</p></div></aside>
+  </div>
+</body>
+</html>

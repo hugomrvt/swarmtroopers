@@ -1,0 +1,108 @@
+{
+  "name": "@mrvt/swarmtroopers",
+  "version": "0.4.0",
+  "description": "Swarm Troopers coordinates a swarm of named cursor agents that reveal your existing page. Framework-agnostic overlay, zero runtime dependencies.",
+  "keywords": [
+    "animation",
+    "scroll",
+    "reveal",
+    "cursor",
+    "agents",
+    "overlay",
+    "progressive-enhancement",
+    "design-tokens",
+    "framework-agnostic"
+  ],
+  "author": "Hugo Mourlevat <hugo@mourlev.at>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hugomrvt/swarmtroopers.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hugomrvt/swarmtroopers/issues"
+  },
+  "homepage": "https://hugomrvt.github.io/swarmtroopers/",
+  "type": "module",
+  "bin": {
+    "swarmtroopers": "./bin/swarmtroopers.mjs"
+  },
+  "main": "./dist/swarmtroopers.cjs",
+  "module": "./dist/swarmtroopers.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/swarmtroopers.js"
+      },
+      "require": {
+        "types": "./dist/types-cjs/index.d.cts",
+        "default": "./dist/swarmtroopers.cjs"
+      }
+    },
+    "./element": {
+      "types": "./dist/types/element.d.ts",
+      "import": "./dist/element.js"
+    },
+    "./iife": "./dist/swarmtroopers.iife.js",
+    "./package.json": "./package.json",
+    "./full": {
+      "import": {
+        "types": "./dist/types/full.d.ts",
+        "default": "./dist/full.js"
+      },
+      "require": {
+        "types": "./dist/types-cjs/full.d.cts",
+        "default": "./dist/full.cjs"
+      }
+    },
+    "./finale": {
+      "types": "./dist/types/finale.d.ts",
+      "import": "./dist/finale.js"
+    },
+    "./core-iife": "./dist/swarmtroopers.core.iife.js"
+  },
+  "unpkg": "./dist/swarmtroopers.iife.js",
+  "jsdelivr": "./dist/swarmtroopers.iife.js",
+  "files": [
+    "bin",
+    "dist",
+    "snippet",
+    "skills"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": [
+    "./dist/element.js",
+    "./dist/finale.js",
+    "./dist/full.js",
+    "./dist/*iife.js",
+    "./dist/chunk-*.js",
+    "./src/finale.ts",
+    "./src/element.ts",
+    "./src/iife.ts"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs && node scripts/build-types.mjs && npm run docs:build",
+    "docs:build": "node scripts/build-docs.mjs",
+    "dev": "node scripts/build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:docs": "node test/docs.cjs",
+    "test:e2e": "node test/e2e.cjs",
+    "size": "node scripts/size.mjs",
+    "test:portability": "node test/portability.cjs",
+    "test:package": "node test/package.cjs",
+    "test:framework": "node test/framework.cjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "playwright": "1.65.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "5.6.3",
+    "vitest": "4.1.12"
+  }
+}

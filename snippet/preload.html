@@ -1,0 +1,24 @@
+<!--
+  Optional Swarm Troopers preload. Omit by default; use only for explicitly selected, noncritical content.
+  Mark eligible elements with data-swarmtroopers-preload as well as their normal data-swarmtroopers annotation,
+  or use auto mode on that region. Never hide all of main or an LCP-critical hero.
+  Containers holding skipped content or essential controls are intentionally not prehidden.
+  Keep the storage prefix below aligned with the instance. With strict CSP, use the site's
+  nonce/hash mechanism on both tags, or omit this snippet. No JavaScript means no hiding.
+-->
+<style>
+@media screen and (prefers-reduced-motion:no-preference){
+  html.swarmtroopers-preload [data-swarmtroopers-preload]:not([data-swarmtroopers-skip]):not([data-swarmtroopers-skip] *):not(a[href],button,input,select,textarea,[contenteditable],[tabindex]:not([tabindex^="-"]),[role=button],[role=link]):not(:has([data-swarmtroopers-skip],a[href],button,input,select,textarea,[contenteditable],[tabindex]:not([tabindex^="-"]),[role=button],[role=link])){opacity:0}
+}
+</style>
+<script>
+(function(d,key){
+  try{
+    var saved=localStorage.getItem(key+':quality');
+    if(saved==='off'||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    if(sessionStorage.getItem(key+':seen')==='1')return;
+  }catch(e){}
+  d.documentElement.classList.add('swarmtroopers-preload');
+  setTimeout(function(){d.documentElement.classList.remove('swarmtroopers-preload');},2500);
+})(document,'swarmtroopers');
+</script>

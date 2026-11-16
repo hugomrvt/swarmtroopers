@@ -1,0 +1,21 @@
+.demo-bar{position:sticky;top:0;z-index:2147483002;display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:76px;padding:12px max(24px,calc((100vw - 1120px)/2));border-bottom:1px solid #dcdfe5;background:#f1f2f4fa;color:#0d0e11;font:500 12px/1.2 "Geist",system-ui,sans-serif}
+.demo-home{display:inline-flex;align-items:center;gap:9px;min-height:44px;color:inherit;text-decoration:none}
+.demo-links{display:flex;align-items:center;gap:4px}
+.demo-links a,.demo-replay{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 13px;border:1px solid transparent;border-radius:6px;color:inherit;background:none;font:inherit;text-decoration:none;white-space:nowrap;transition:background-color 160ms ease,transform 120ms ease,border-color 160ms ease;cursor:pointer}
+.demo-links a[aria-current=page]{background:#0d0e1109;font-weight:700}
+.demo-replay{gap:8px;border-color:#0d0e1128;background:#ffffff;font-weight:650}
+.demo-replay svg{transition:transform 240ms ease}
+.demo-replay:active{transform:scale(.97)}
+.demo-bar a:focus-visible,.demo-replay:focus-visible{outline:2px solid #0d0e11;outline-offset:3px}
+.demo-status{font:500 10px/1.3 "Geist Mono",ui-monospace,SFMono-Regular,monospace;color:#5f6674;white-space:nowrap}
+.demo-status:before{content:"";display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:2px;background:#0b8f57;border:0}
+.demo-bar .swarmtroopers-brand{order:1}.demo-bar .demo-status{order:2;margin-right:auto}.demo-bar .demo-links{order:3}.demo-bar .swarmtroopers-github{order:4}
+body[data-demo=portfolio] .demo-bar{background:#0d0e11fa;color:#ecedf2;border-color:#ffffff24}
+body[data-demo=portfolio] .demo-links a[aria-current=page]{background:#ffffff10}
+body[data-demo=portfolio] .demo-replay{background:#ffffff08;border-color:#ffffff30}
+body[data-demo=portfolio] .demo-status{color:#a6abb6}
+body[data-demo=portfolio] .demo-bar a:focus-visible,body[data-demo=portfolio] .demo-replay:focus-visible{outline-color:#ecedf2}
+@media (hover:hover) and (pointer:fine){.demo-links a:hover{background:#0d0e1109}.demo-replay:hover{background:#0d0e1109;border-color:#0d0e1140}.demo-replay:hover svg{transform:rotate(-35deg)}}
+@media(max-width:900px){.demo-bar .demo-status{display:none}.demo-bar{padding-inline:24px}.demo-bar .swarmtroopers-github{margin-left:auto}.demo-links a,.demo-replay{padding-inline:10px}}
+@media(max-width:640px){.demo-bar{flex-wrap:wrap;justify-content:flex-start;gap:6px 12px;padding:9px 18px;min-height:112px}.demo-bar .swarmtroopers-github{order:2;margin:0 0 0 auto}.demo-bar .demo-links{order:3;flex:0 0 100%;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-top:2px}.demo-links a,.demo-replay{min-height:40px;padding-inline:8px;font-size:11px}.demo-bar .demo-status{display:none}html{scroll-padding-top:178px}}
+@media(prefers-reduced-motion:reduce){.demo-links a,.demo-replay,.demo-replay svg{transition:none}.demo-replay:active{transform:none}}
