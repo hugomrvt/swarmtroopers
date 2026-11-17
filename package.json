@@ -1,6 +1,6 @@
 {
   "name": "swarmtroopers",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Swarm Troopers coordinates a swarm of named cursor agents that reveal your existing page. Framework-agnostic overlay, zero runtime dependencies.",
   "keywords": [
     "animation",
@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/hugomrvt/swarmtroopers/issues"
   },
-  "homepage": "https://hugomrvt.github.io/swarmtroopers/",
+  "homepage": "https://swarmtroopers.mrvt.app/",
   "type": "module",
   "bin": {
     "swarmtroopers": "bin/swarmtroopers.mjs"

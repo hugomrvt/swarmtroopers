@@ -1,4 +1,4 @@
-/*! Swarm Troopers v0.4.0 | swarmtroopers | MIT */
+/*! Swarm Troopers v0.4.1 | swarmtroopers | MIT */
 "use strict";
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -3161,7 +3161,7 @@ function controls(swarmtroopers, options = {}) {
 }
 
 // src/index.ts
-var version = true ? "0.4.0" : "dev";
+var version = true ? "0.4.1" : "dev";
 function create(options) {
   return new SwarmTroopers(options);
 }

@@ -1,4 +1,4 @@
-/*! Swarm Troopers v0.4.0 | swarmtroopers | MIT */
-import "./chunk-PLPJBQZG.js";
-import "./chunk-BREMGXII.js";
+/*! Swarm Troopers v0.4.1 | swarmtroopers | MIT */
+import "./chunk-DHL3I6LY.js";
+import "./chunk-QTJTB2CH.js";
 //# sourceMappingURL=finale.js.map

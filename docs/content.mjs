@@ -15,12 +15,12 @@ export const pages = [
 <p>Your HTML remains complete. Swarm Troopers does not generate copy, duplicate elements, or rearrange your layout. When JavaScript is unavailable, the page remains readable. Readers can skip the effect with the quality controls.</p>
 <aside class="note"><strong>Install.</strong> Run <code>npm i swarmtroopers</code>, or add one script tag from a pinned CDN. No build step is required.</aside>
 <h2 id="first-build">Your first build</h2>
-<ol><li>Add the pinned script from the CDN (<code>https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js</code>), or self-host it: install the package with <code>npm i swarmtroopers</code> and copy <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your website’s public files.</li><li>Add the script after your page content. Swarm Troopers starts when the DOM is ready.</li></ol>
+<ol><li>Add the pinned script from the CDN (<code>https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js</code>), or self-host it: install the package with <code>npm i swarmtroopers</code> and copy <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your website’s public files.</li><li>Add the script after your page content. Swarm Troopers starts when the DOM is ready.</li></ol>
 ${code('html', `<main>
   <h1>A page with a little character.</h1>
   <p>Your own content, already here.</p>
 </main>
-<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
+<script src="https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{"root":"main","auto":true,"controls":true}'></script>`)}
 <p>The script creates <code>window.swarmtroopers</code>, exposes helpers through <code>window.SwarmTroopers</code>, and adds Full, Light, and Off controls. Keep the controls outside the animated content; the built-in helper handles this for you.</p>
 <h2 id="how-it-works">What happens on the page</h2>
@@ -43,7 +43,7 @@ python3 -m http.server 8765`)}
 <p>Open <code>http://localhost:8765/</code> for the landing page, or <code>/demo/index.html</code> for the full-page example. Serve files over HTTP; opening an ES module directly from a <code>file:</code> URL is not an equivalent test.</p>
 <h2 id="script-tag">One script tag</h2>
 <p>Load the pinned file from the CDN, or self-host it by copying <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your public directory. This lightweight script embeds the mark and uses a vector finale. Choose <code>dist/swarmtroopers.iife.js</code> instead for the self-contained bundle with layered high-five artwork. Do not load both script profiles on one page.</p>
-${code('html', `<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
+${code('html', `<script src="https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{
     "root": "main",
     "auto": true,
@@ -51,7 +51,7 @@ ${code('html', `<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtro
     "controls": { "position": "bottom-right" }
   }'></script>`)}
 <p><code>data-swarmtroopers-init</code> must contain valid JSON, including double-quoted keys. An empty attribute uses default options. Without that attribute, the script only makes <code>window.SwarmTroopers</code> available and registers the custom element; it does not create an instance automatically.</p>
-${code('html', `<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"></script>
+${code('html', `<script src="https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js"></script>
 <script>
   const swarmtroopers = SwarmTroopers.create({ root: 'main', auto: true });
   SwarmTroopers.controls(swarmtroopers);
@@ -694,7 +694,7 @@ ${code('html', `<main id="showcase">
     </ul>
   </section>
 </main>
-<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
+<script src="https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{"root":"#showcase","inspect":true,"controls":true}'></script>`)}
 <p>Add your normal typography, spacing, card surfaces, and list styling. The annotations choose tools; they do not replace the host design.</p>
 <h2 id="manual-starter">Start on an intentional action</h2>

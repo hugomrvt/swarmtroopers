@@ -5,7 +5,7 @@
 import { lookup } from 'node:dns/promises';
 import { BlockList, isIP } from 'node:net';
 
-const CDN = 'https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.iife.js';
+const CDN = 'https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.iife.js';
 const MAX_BYTES = 3_000_000;
 const MAX_REDIRECTS = 4;
 const TIMEOUT_MS = 9000;
@@ -36,7 +36,7 @@ async function fetchPage(start) {
     const response = await fetch(url, {
       redirect: 'manual',
       signal: AbortSignal.timeout(TIMEOUT_MS),
-      headers: { 'user-agent': 'Mozilla/5.0 (compatible; swarmtroopers-demo/0.4; +https://swarmtroopers.mrvt.app/try.html)', accept: 'text/html,application/xhtml+xml' },
+      headers: { 'user-agent': 'Mozilla/5.0 (compatible; swarmtroopers-demo/0.4.1; +https://swarmtroopers.mrvt.app/try.html)', accept: 'text/html,application/xhtml+xml' },
     });
     if (response.status >= 300 && response.status < 400 && response.headers.get('location')) {
       url = new URL(response.headers.get('location'), url);

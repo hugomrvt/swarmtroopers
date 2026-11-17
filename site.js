@@ -163,7 +163,7 @@ window.addEventListener('message', (event) => {
 const snippets = {
   script: `<!-- No build step: pinned CDN, or self-host from node_modules. -->
 <script
-  src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
+  src="https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{
     "root": "main",
     "auto": true,

@@ -1,6 +1,13 @@
 # Swarm Troopers
 
-Swarm Troopers is currently being prepared locally. The GitHub repository and GitHub Pages site are offline until publication is explicitly approved. Run `python3 -m http.server 8765` and open [the local playground](http://localhost:8765/), [the full-page demo](http://localhost:8765/demo/index.html), [the portfolio demo](http://localhost:8765/demo/hugo.html), or [the complete documentation](http://localhost:8765/docs/).
+[Website and playground](https://swarmtroopers.mrvt.app/) · [Try it on any URL](https://swarmtroopers.mrvt.app/try.html) · [Documentation](https://swarmtroopers.mrvt.app/docs/) · [npm](https://www.npmjs.com/package/swarmtroopers) · [Agent skill](skills/swarmtroopers-overlay/SKILL.md)
+
+```sh
+npm i swarmtroopers
+npx swarmtroopers skill   # Claude Code integration skill
+```
+
+To work on the library itself: `npm ci && npm run build`, then `python3 -m http.server 8765` and open [the local playground](http://localhost:8765/), [the full-page demo](http://localhost:8765/demo/index.html), [the portfolio demo](http://localhost:8765/demo/hugo.html) or [the documentation](http://localhost:8765/docs/). The try page needs the `/api/try` function: run it with `vercel dev`.
 
 **A swarm of cursors. Working in sync.**
 
@@ -23,7 +30,7 @@ npm i swarmtroopers
 Or with one script tag from a pinned CDN, no build step:
 
 ```html
-<script src="https://unpkg.com/swarmtroopers@0.4.0/dist/swarmtroopers.core.iife.js"
+<script src="https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js"
         data-swarmtroopers-init='{"auto": true, "controls": true}'></script>
 ```
 

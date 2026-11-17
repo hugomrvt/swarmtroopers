@@ -1,4 +1,4 @@
-/*! Swarm Troopers v0.4.0 | swarmtroopers | MIT */
+/*! Swarm Troopers v0.4.1 | swarmtroopers | MIT */
 
 // src/finale-art.ts
 var artwork = null;
@@ -11,4 +11,4 @@ export {
   getFinaleArtwork,
   setFinaleArtwork
 };
-//# sourceMappingURL=chunk-BREMGXII.js.map
+//# sourceMappingURL=chunk-QTJTB2CH.js.map
