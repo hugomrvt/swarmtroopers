@@ -6,46 +6,41 @@ if (location.hostname === 'hugomrvt.github.io') {
 (() => {
   const badges = [...document.querySelectorAll('[data-github-stars]')];
   if (!badges.length) return;
-  const links = [...document.querySelectorAll('[data-github-link]')];
-  const repository = 'https://github.com/hugomrvt/swarmtroopers';
   const format = new Intl.NumberFormat('en-US');
+  // ponytail: polls the public API (60 req/h per visitor IP); a cached /api/stars proxy if that ever runs short.
+  const REFRESH_MS = 120_000;
+  let last = 0;
 
   function update(state, count) {
     const ready = state === 'ready';
-    const label = ready ? `${format.format(count)} ${count === 1 ? 'star' : 'stars'}` : state === 'unpublished' ? 'Repository not published yet' : 'Star count unavailable';
+    // A failed refresh keeps the last good count instead of blanking it.
+    if (!ready && badges[0].dataset.state === 'ready') return;
+    const label = ready ? `${format.format(count)} ${count === 1 ? 'star' : 'stars'}` : 'Star count unavailable';
     for (const badge of badges) {
       badge.dataset.state = state;
-      badge.querySelector('[data-github-count]').textContent = ready ? format.format(count) : state === 'unpublished' ? 'Not published' : '—';
+      badge.querySelector('[data-github-count]').textContent = ready ? format.format(count) : '—';
       badge.setAttribute('aria-label', `Swarm Troopers on GitHub: ${label}`);
       badge.title = label;
     }
-    for (const link of links) {
-      if (ready) {
-        link.href = repository + (link.dataset.githubLink === 'readme' ? '#readme' : '');
-        link.removeAttribute('aria-disabled');
-        link.removeAttribute('tabindex');
-        link.removeAttribute('role');
-      } else {
-        link.removeAttribute('href');
-        link.setAttribute('aria-disabled', 'true');
-        link.setAttribute('tabindex', '-1');
-        link.setAttribute('role', 'link');
-      }
-      link.title = label;
-    }
   }
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 5000);
-  fetch('https://api.github.com/repos/hugomrvt/swarmtroopers', {
-    headers: { Accept: 'application/vnd.github+json' },
-    credentials: 'omit',
-    signal: controller.signal,
-  }).then(async (response) => {
-    if (response.status === 404) return update('unpublished');
-    if (!response.ok) return update('unavailable');
-    const data = await response.json();
-    if (!Number.isSafeInteger(data.stargazers_count) || data.stargazers_count < 0) return update('unavailable');
-    update('ready', data.stargazers_count);
-  }).catch(() => update('unavailable')).finally(() => clearTimeout(timeout));
+  function refresh() {
+    if (document.hidden || Date.now() - last < REFRESH_MS / 2) return;
+    last = Date.now();
+    fetch('https://api.github.com/repos/hugomrvt/swarmtroopers', {
+      headers: { Accept: 'application/vnd.github+json' },
+      credentials: 'omit',
+      cache: 'no-cache',
+      signal: AbortSignal.timeout(5000),
+    }).then(async (response) => {
+      if (!response.ok) return update('unavailable');
+      const data = await response.json();
+      if (!Number.isSafeInteger(data.stargazers_count) || data.stargazers_count < 0) return update('unavailable');
+      update('ready', data.stargazers_count);
+    }).catch(() => update('unavailable'));
+  }
+
+  refresh();
+  setInterval(refresh, REFRESH_MS);
+  document.addEventListener('visibilitychange', refresh);
 })();

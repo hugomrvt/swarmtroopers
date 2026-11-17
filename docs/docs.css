@@ -173,7 +173,6 @@ svg,img{display:block}
   .docs-header-inner{flex-wrap:wrap;gap:4px 12px;padding:6px 16px 10px}
   .docs-home{display:none}
   .docs-header .swarmtroopers-github{margin-left:auto}
-  .docs-header .swarmtroopers-github>span:first-child{display:none}
   .docs-search{order:3;flex:1 0 100%}
   .search-input kbd{display:none}
   .search-panel{left:0;right:0;width:auto}

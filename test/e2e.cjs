@@ -253,7 +253,7 @@ async function branding(browser, base) {
   }
 
   for (const [name, response, expected] of [
-    ['missing', { status: 404, json: { message: 'Not Found' } }, 'unpublished'],
+    ['missing', { status: 404, json: { message: 'Not Found' } }, 'unavailable'],
     ['rate limited', { status: 403, json: { message: 'API rate limit exceeded' } }, 'unavailable'],
     ['offline', null, 'unavailable'],
     ['invalid count', { json: { stargazers_count: '1243' } }, 'unavailable'],
@@ -272,9 +272,9 @@ async function branding(browser, base) {
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(base);
     await page.waitForFunction(expected => document.querySelector('[data-github-stars]').dataset.state === expected, expected);
-    check(await page.locator('[data-github-count]').textContent() === (expected === 'unpublished' ? 'Not published' : '—'), `GitHub ${name}: no invented star count`);
-    check(await page.locator('[data-github-link]').evaluateAll(links => links.every(link => !link.hasAttribute('href') && link.getAttribute('aria-disabled') === 'true')), `GitHub ${name}: unavailable repository links are disabled`);
-    check(requests === 1 && errors.length === 0, `GitHub ${name}: no polling or uncaught error`);
+    check(await page.locator('[data-github-count]').textContent() === '—', `GitHub ${name}: no invented star count`);
+    check(await page.locator('[data-github-link]').evaluateAll(links => links.every(link => link.getAttribute('href').startsWith('https://github.com/hugomrvt/swarmtroopers'))), `GitHub ${name}: repository links still work without the API`);
+    check(requests === 1 && errors.length === 0, `GitHub ${name}: one request and no uncaught error`);
     if (name === 'missing') await page.screenshot({ path: path.join(OUT, 'brand-unpublished-390.png') });
     await context.close();
   }

@@ -33,13 +33,10 @@
 .swarmtroopers-github{display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:none;box-sizing:border-box;min-height:40px;max-width:100%;padding:0 12px;border:1px solid color-mix(in srgb,currentColor 22%,transparent);border-radius:var(--st-r);background:transparent;color:inherit;text-decoration:none;font:500 12px/1.2 var(--st-mono);letter-spacing:0;white-space:nowrap;transition:background-color 140ms var(--st-act),border-color 140ms var(--st-act)}
 .swarmtroopers-github svg{display:block;width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .swarmtroopers-github-star{color:inherit}
+.swarmtroopers-github svg.swarmtroopers-github-mark{width:16px;height:16px;fill:currentColor;stroke:none}
 .swarmtroopers-github [data-github-count]{font-variant-numeric:tabular-nums;max-width:15ch;overflow:hidden;text-overflow:ellipsis}
 .swarmtroopers-github[data-state=ready] [data-github-count]{padding-left:8px;border-left:1px solid color-mix(in srgb,currentColor 18%,transparent)}
-.swarmtroopers-github[aria-disabled=true]{cursor:default}
-.swarmtroopers-github[data-state=unpublished],.swarmtroopers-github[data-state=unavailable]{color:var(--st-ink-3)}
-.swarmtroopers-github[data-state=unpublished] [data-github-count],.swarmtroopers-github[data-state=unavailable] [data-github-count]{font-size:11px}
-[data-github-link][aria-disabled=true]{cursor:default}
-[data-github-link][aria-disabled=true]:not(.swarmtroopers-github){opacity:.65}
-@media(hover:hover) and (pointer:fine){.swarmtroopers-github[data-state=ready]:hover{background:color-mix(in srgb,currentColor 7%,transparent);border-color:color-mix(in srgb,currentColor 40%,transparent)}}
+.swarmtroopers-github[data-state=unavailable] [data-github-count]{color:var(--st-ink-3)}
+@media(hover:hover) and (pointer:fine){.swarmtroopers-github:hover{background:color-mix(in srgb,currentColor 7%,transparent);border-color:color-mix(in srgb,currentColor 40%,transparent)}}
 @media(max-width:640px){.swarmtroopers-brand,.site-footer .swarmtroopers-brand,.demo-home.swarmtroopers-brand{font-size:16px;gap:8px}.swarmtroopers-brand img{width:24px;height:24px}.swarmtroopers-github{min-height:38px;font-size:11px;padding-inline:10px;gap:6px}}
 @media(prefers-reduced-motion:reduce){.swarmtroopers-github{transition:none}}
