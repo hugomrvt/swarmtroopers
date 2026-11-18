@@ -1,8 +1,3 @@
-// The site moved to Vercel; GitHub Pages only forwards visitors.
-if (location.hostname === 'hugomrvt.github.io') {
-  location.replace('https://swarmtroopers.mrvt.app' + location.pathname.replace(/^\/swarmtroopers/, '') + location.search + location.hash);
-}
-
 (() => {
   const badges = [...document.querySelectorAll('[data-github-stars]')];
   if (!badges.length) return;

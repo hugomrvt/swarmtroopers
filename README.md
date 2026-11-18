@@ -1,6 +1,6 @@
 # Swarm Troopers
 
-[Website and playground](https://swarmtroopers.mrvt.app/) · [Try it on any URL](https://swarmtroopers.mrvt.app/try.html) · [Documentation](https://swarmtroopers.mrvt.app/docs/) · [npm](https://www.npmjs.com/package/swarmtroopers) · [Agent skill](skills/swarmtroopers-overlay/SKILL.md)
+[Website and playground](https://swarmtroopers.mrvt.app/) · [Try it on real sites](https://swarmtroopers.mrvt.app/try.html) · [Documentation](https://swarmtroopers.mrvt.app/docs/) · [npm](https://www.npmjs.com/package/swarmtroopers) · [Agent skill](skills/swarmtroopers-overlay/SKILL.md)
 
 ```sh
 npm i swarmtroopers

@@ -51,7 +51,7 @@ function enhance(body) {
 }
 
 const logo = `<a class="swarmtroopers-brand" href="../" aria-label="Swarm Troopers home"><img src="../assets/swarmtroopers-mark-sm.svg" width="24" height="24" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a>`;
-const badge = `<a class="swarmtroopers-github" data-github-stars href="https://github.com/hugomrvt/swarmtroopers" data-github-link data-state="pending" aria-label="Swarm Troopers on GitHub: star count unavailable" title="Swarm Troopers on GitHub" target="_blank" rel="noopener"><span>GitHub</span><svg class="swarmtroopers-github-star" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2.5 2.2 4.6 5.1.7-3.7 3.6.9 5.1-4.5-2.4-4.5 2.4.9-5.1L2.7 7.8l5.1-.7L10 2.5Z"/></svg><span data-github-count>—</span></a>`;
+const badge = `<a class="swarmtroopers-github" data-github-stars href="https://github.com/hugomrvt/swarmtroopers" data-github-link data-state="pending" aria-label="Swarm Troopers on GitHub: star count unavailable" title="Swarm Troopers on GitHub" target="_blank" rel="noopener"><span>GitHub</span><span data-github-count>—</span></a>`;
 
 function navigation(current) {
   return groups.map((group) => `<section class="nav-group"><h2>${escape(group)}</h2><ul>${pages.filter((page) => page.group === group).map((page) => `<li><a href="${page.slug}.html"${page.slug === current ? ' aria-current="page"' : ''}>${escape(page.title)}</a></li>`).join('')}</ul></section>`).join('');

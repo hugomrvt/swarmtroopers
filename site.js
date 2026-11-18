@@ -1,14 +1,26 @@
-const frame = document.querySelector('#live-preview');
+let frame = document.querySelector('#live-preview');
 const sceneButtons = [...document.querySelectorAll('[data-scene]')];
 const status = document.querySelector('#preview-status');
+const fileLabel = document.querySelector('#playground .file');
+const urlForm = document.querySelector('#url-run');
+const siteButtons = TRY_SITES.map((site) => {
+  const button = Object.assign(document.createElement('button'), { type: 'button', textContent: site.label });
+  button.setAttribute('aria-pressed', 'false');
+  button.addEventListener('click', () => runUrl(site.url));
+  urlForm.append(button);
+  return button;
+});
 const sceneDescriptions = {
   page: 'Your HTML, built by the agents.',
   tools: 'Typing, framing, drawing, stamping. Real Swarm Troopers gestures.',
   finale: 'A tiny build. A well-earned high five.',
+  url: 'A real site, built by the agents.',
 };
-const sceneNames = { page: 'website', tools: 'gestures', finale: 'high five' };
+const sceneNames = { page: 'website', tools: 'gestures', finale: 'high five', url: 'real sites' };
 let scene = 'page';
 let previewStarted = false;
+let urlSession = null;
+let urlValue = '';
 
 /* Plan tree: every row is driven by events the real library sends from the preview frame. */
 const rows = Object.fromEntries([...document.querySelectorAll('#plan [data-row]')].map((li) => [li.dataset.row, li]));
@@ -47,7 +59,8 @@ function resetPlan() {
   setRow('done', 'queued', 'eli · hand back', '–');
 }
 function toolLabel(tool) {
-  return `${run.count[tool]}/${Math.max(run.total[tool], run.count[tool])}`;
+  // A page from a URL has no annotations to count ahead, so its rows show a running count until done.
+  return run.total[tool] ? `${run.count[tool]}/${Math.max(run.total[tool], run.count[tool])}` : String(run.count[tool]);
 }
 function startRun(data) {
   stopTicker();
@@ -81,7 +94,7 @@ function taskDone(data) {
   if (tools.includes(tool)) {
     run.count[tool]++;
     rows[tool].hidden = false;
-    const finished = run.count[tool] >= run.total[tool];
+    const finished = run.total[tool] > 0 && run.count[tool] >= run.total[tool];
     setRow(tool, finished ? 'done' : 'running', toolLabel(tool), finished ? seconds(performance.now() - run.t0) : undefined);
   }
   if (run.done >= run.tasks) setRow('done', 'running', 'eli · hand back');
@@ -123,34 +136,77 @@ const observer = typeof IntersectionObserver !== 'undefined' ? new IntersectionO
 if (observer) observer.observe(frame);
 else startPreview();
 
-function replay(next = scene) {
+function selectScene(next) {
   scene = next;
   previewStarted = true;
   observer?.disconnect();
+  urlSession?.stop();
+  urlSession = null;
   resetPlan();
   sceneButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.scene === scene)));
+  urlForm.hidden = scene !== 'url';
+}
+
+function replay(next = scene) {
+  if (next === 'url') return runUrl(urlValue || TRY_SITES[0].url);
+  selectScene(next);
+  fileLabel.textContent = 'site-demo.html';
   frame.title = `Live Swarm Troopers demonstration: ${sceneDescriptions[scene]}`;
   frame.src = `site-demo.html?scene=${scene}&replay=${Date.now()}`;
   status.textContent = sceneDescriptions[scene];
   document.querySelector('#playground').scrollIntoView({ behavior: 'instant', block: 'nearest' });
 }
 
+// One of the example sites, through the same sandboxed proxy as try.html; its run drives the same plan tree.
+function runUrl(value) {
+  urlValue = value;
+  selectScene('url');
+  TRY_SITES.forEach((site, i) => siteButtons[i].setAttribute('aria-pressed', String(site.url === value)));
+  const host = new URL(value).hostname;
+  fileLabel.textContent = host;
+  status.textContent = `Fetching ${host}.`;
+  urlSession = tryRun(frame, urlValue, (data) => {
+    if (data.state === 'loaded') {
+      frame.parentElement.dataset.loaded = '';
+      status.textContent = `Agents getting into position on ${host}.`;
+    }
+    if (data.state === 'retry') {
+      resetPlan();
+      status.textContent = `${host} tried to leave the sandbox. Rebuilding it without its own scripts.`;
+    }
+    if (data.state === 'unavailable') {
+      frame.parentElement.dataset.loaded = '';
+      stopTicker();
+      runState.textContent = 'failed';
+      status.textContent = String(data.message || 'The page could not be built.');
+      return;
+    }
+    handle(data);
+  });
+  frame = urlSession.frame;
+  frame.title = `Swarm Troopers building ${host}`;
+}
+
 sceneButtons.forEach((button) => button.addEventListener('click', () => replay(button.dataset.scene)));
 document.querySelector('#replay').addEventListener('click', () => replay());
 window.addEventListener('message', (event) => {
   if (event.origin !== location.origin || event.source !== frame.contentWindow || event.data?.type !== 'swarmtroopers-demo' || event.data.scene !== scene) return;
-  const { state } = event.data;
+  handle(event.data);
+});
+
+function handle(data) {
+  const { state } = data;
   if (state === 'building') {
-    startRun(event.data);
+    startRun(data);
     status.textContent = `Agents at work. ${sceneDescriptions[scene]}`;
   }
-  if (state === 'task') taskDone(event.data);
+  if (state === 'task') taskDone(data);
   if (state === 'done') {
-    finishRun(event.data.stats);
+    finishRun(data.stats);
     status.textContent = 'Built. Replay it, or hover the page to inspect the details.';
   }
   if (state === 'reduced') {
-    finishRun({ tasks: event.data.tasks, duration: 0 });
+    finishRun({ tasks: data.tasks, duration: 0 });
     status.textContent = 'Reduced motion is on. The page is already built.';
   }
   if (state === 'unavailable') {
@@ -158,7 +214,7 @@ window.addEventListener('message', (event) => {
     runState.textContent = 'failed';
     status.textContent = 'The preview could not start. The original content is still here.';
   }
-});
+}
 
 const snippets = {
   script: `<!-- No build step: pinned CDN, or self-host from node_modules. -->

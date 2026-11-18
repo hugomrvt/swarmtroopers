@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Paste a URL and watch five Swarm Troopers agents build that page.">
+  <meta name="description" content="Pick a real site and watch five Swarm Troopers agents build that page.">
   <meta name="theme-color" content="#0D0E11">
   <title>Swarm Troopers — try it on any page</title>
   <link rel="icon" type="image/svg+xml" href="assets/swarmtroopers-mark-sm.svg">
@@ -13,19 +13,14 @@
   <link rel="stylesheet" href="brand.css">
   <link rel="stylesheet" href="site.css">
   <script src="brand.js" defer></script>
+  <script src="try-run.js"></script>
   <style>
     [hidden]{display:none!important}
     .try-head{padding-block:40px 20px;max-width:760px}
     .try-head h1{font:700 clamp(30px,4.4vw,52px)/1.02 var(--mono);letter-spacing:-.05em;margin:12px 0 14px}
     .try-head p{color:var(--ink-2);max-width:60ch}
-    .try-form{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-    .try-form label{flex:1 1 280px;display:flex;align-items:center;gap:8px;min-height:48px;padding:0 14px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--pane);font:500 14px var(--mono);color:var(--ink-3)}
-    .try-form label:focus-within{border-color:var(--run);outline:2px solid var(--run-soft)}
-    .try-form input{flex:1;min-width:0;border:0;background:none;color:var(--ink);font:inherit;outline:0}
-    .try-form .btn{min-height:48px}
-    .try-examples{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:12px;font:500 12px var(--mono);color:var(--ink-3)}
-    .try-examples button{min-height:32px;padding:0 10px;border:1px solid var(--line-2);border-radius:4px;background:none;color:var(--ink-2);font:inherit;cursor:pointer}
-    .try-examples button:hover{border-color:var(--ink-3)}
+    .try-examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
+    .try-examples button{min-height:40px;padding:0 14px;font-size:13px}
     .try-frame{scroll-margin-top:16px;margin-block:8px 48px;border:1px solid var(--line);border-radius:var(--r);background:var(--pane);overflow:hidden}
     .try-bar{display:flex;align-items:center;gap:10px;min-height:44px;padding:4px 8px 4px 14px;border-bottom:1px solid var(--line);font:500 12px var(--mono);color:var(--ink-3)}
     .try-bar output{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
@@ -41,27 +36,23 @@
   <header class="site-header wrap">
     <a class="swarmtroopers-brand" href="./" aria-label="Swarm Troopers home"><img src="assets/swarmtroopers-mark-sm.svg" width="28" height="28" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a>
     <nav aria-label="Main navigation"><a href="./#playground">playground</a><a href="try.html" aria-current="page">try</a><a href="docs/">docs</a><a href="./#install">install</a></nav>
-    <a class="swarmtroopers-github" data-github-stars href="https://github.com/hugomrvt/swarmtroopers" data-github-link data-state="pending" aria-label="Swarm Troopers on GitHub: star count unavailable" title="Swarm Troopers on GitHub" target="_blank" rel="noopener"><svg class="swarmtroopers-github-mark" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><svg class="swarmtroopers-github-star" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2.5 2.2 4.6 5.1.7-3.7 3.6.9 5.1-4.5-2.4-4.5 2.4.9-5.1L2.7 7.8l5.1-.7L10 2.5Z"/></svg><span data-github-count>—</span></a>
+    <a class="swarmtroopers-github" data-github-stars href="https://github.com/hugomrvt/swarmtroopers" data-github-link data-state="pending" aria-label="Swarm Troopers on GitHub: star count unavailable" title="Swarm Troopers on GitHub" target="_blank" rel="noopener"><svg class="swarmtroopers-github-mark" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span data-github-count>—</span></a>
   </header>
 
   <main id="main" class="wrap">
     <section class="try-head" aria-labelledby="try-title">
       <span class="label">try</span>
-      <h1 id="try-title">drop a url.<br><span class="dim">watch the swarm build it.</span></h1>
-      <p>Paste any public page. The agents survey it, build it section by section and the view scrolls with them. Scroll, click or press a key to take over.</p>
-      <form class="try-form" id="try-form">
-        <label><span aria-hidden="true">›</span><span class="sr-only">Page address</span><input id="try-url" name="url" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="example.com" required></label>
-        <button class="btn btn-ink" type="submit">run the swarm <span aria-hidden="true">→</span></button>
-      </form>
-      <div class="try-examples" aria-label="Examples"><span>or try</span><button type="button" data-url="https://example.com">example.com</button><button type="button" data-url="https://en.wikipedia.org/wiki/Swarm_behaviour">wikipedia</button><button type="button" data-url="https://hugo.mourlev.at">hugo.mourlev.at</button></div>
+      <h1 id="try-title">pick a site.<br><span class="dim">watch the swarm build it.</span></h1>
+      <p>Choose a real page. The agents survey it, build it section by section and the view scrolls with them. Scroll, click or press a key to take over.</p>
+      <div class="try-examples" id="try-sites" role="group" aria-label="Choose a site"></div>
     </section>
 
     <section class="try-frame" aria-label="Preview">
       <div class="try-bar"><span aria-hidden="true">run</span><output id="try-status" aria-live="polite">waiting for a url</output><a id="try-open" target="_blank" rel="noopener" hidden>full page ↗</a></div>
-      <div class="try-empty" id="try-empty">› paste a url above to start a run</div>
+      <div class="try-empty" id="try-empty">› pick a site above to start a run</div>
       <iframe id="try-view" title="Page built by Swarm Troopers" sandbox="allow-scripts" referrerpolicy="no-referrer" hidden></iframe>
     </section>
-    <p class="try-fine">Our server fetches the page once and caches it for ten minutes. Scripts run in an isolated sandbox: no forms, no logins, no storage. Sites that block bots or need JavaScript from their own domain may look incomplete.</p>
+    <p class="try-fine">Our server fetches the page once and caches it for ten minutes. Scripts run in an isolated sandbox: no forms, no logins, storage forgotten on reload. A page that tries to leave the sandbox is rebuilt without its own scripts. Want it on your own site? Install it: it runs on your HTML, no proxy.</p>
   </main>
 
   <footer class="site-footer wrap">
@@ -71,22 +62,39 @@
   </footer>
 
   <script>
-    const form = document.querySelector('#try-form');
-    const input = document.querySelector('#try-url');
-    const view = document.querySelector('#try-view');
+    const picker = document.querySelector('#try-sites');
     const empty = document.querySelector('#try-empty');
     const status = document.querySelector('#try-status');
     const open = document.querySelector('#try-open');
+    let view = document.querySelector('#try-view');
+    let session = null;
 
-    function run(raw) {
-      const value = raw.trim();
-      if (!value) return;
-      const src = '/api/try?url=' + encodeURIComponent(value);
-      status.textContent = 'fetching ' + value.replace(/^https?:\/\//, '');
-      empty.hidden = true;
+    const buttons = TRY_SITES.map((site) => {
+      const button = Object.assign(document.createElement('button'), { type: 'button', textContent: site.label });
+      button.setAttribute('aria-pressed', 'false');
+      button.addEventListener('click', () => run(site.url));
+      picker.append(button);
+      return button;
+    });
+
+    function run(value) {
+      const host = new URL(value).hostname;
+      TRY_SITES.forEach((site, i) => buttons[i].setAttribute('aria-pressed', String(site.url === value)));
+      session?.stop();
       view.hidden = false;
-      view.src = src;
-      open.href = src;
+      session = tryRun(view, value, (data) => {
+        open.href = view.src;
+        if (data.state === 'loaded') status.textContent = 'agents getting into position on ' + host;
+        if (data.state === 'retry') status.textContent = host + ' tried to leave the sandbox · rebuilding it without its own scripts';
+        if (data.state === 'building') status.textContent = `building ${host} · 0/${data.tasks} steps`;
+        if (data.state === 'task') status.textContent = `building ${host} · ${data.done}/${data.tasks} steps`;
+        if (data.state === 'done') status.textContent = `built ${host} · ${data.stats.tasks} steps · ${data.stats.agents} agents · ${data.stats.duration.toFixed(1)}s`;
+        if (data.state === 'unavailable') status.textContent = String(data.message || 'The page could not be built.');
+      });
+      view = session.frame;
+      status.textContent = 'fetching ' + host;
+      empty.hidden = true;
+      open.href = view.src;
       open.hidden = false;
       const url = new URL(location.href);
       url.searchParams.set('url', value);
@@ -94,11 +102,8 @@
       view.closest('section').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     }
 
-    view.addEventListener('load', () => { if (view.src) status.textContent = 'building ' + input.value.trim().replace(/^https?:\/\//, ''); });
-    form.addEventListener('submit', (event) => { event.preventDefault(); run(input.value); });
-    document.querySelectorAll('[data-url]').forEach((button) => button.addEventListener('click', () => { input.value = button.dataset.url; run(input.value); }));
     const initial = new URLSearchParams(location.search).get('url');
-    if (initial) { input.value = initial; run(initial); }
+    if (TRY_SITES.some((site) => site.url === initial)) run(initial);
   </script>
 </body>
 </html>
