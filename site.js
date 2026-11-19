@@ -157,30 +157,17 @@ function replay(next = scene) {
   document.querySelector('#playground').scrollIntoView({ behavior: 'instant', block: 'nearest' });
 }
 
-// One of the example sites, through the same sandboxed proxy as try.html; its run drives the same plan tree.
+// One of the example sites, the same snapshots as try.html; its run drives the same plan tree.
 function runUrl(value) {
   urlValue = value;
   selectScene('url');
   TRY_SITES.forEach((site, i) => siteButtons[i].setAttribute('aria-pressed', String(site.url === value)));
   const host = new URL(value).hostname;
   fileLabel.textContent = host;
-  status.textContent = `Fetching ${host}.`;
-  urlSession = tryRun(frame, urlValue, (data) => {
-    if (data.state === 'loaded') {
-      frame.parentElement.dataset.loaded = '';
-      status.textContent = `Agents getting into position on ${host}.`;
-    }
-    if (data.state === 'retry') {
-      resetPlan();
-      status.textContent = `${host} tried to leave the sandbox. Rebuilding it without its own scripts.`;
-    }
-    if (data.state === 'unavailable') {
-      frame.parentElement.dataset.loaded = '';
-      stopTicker();
-      runState.textContent = 'failed';
-      status.textContent = String(data.message || 'The page could not be built.');
-      return;
-    }
+  status.textContent = `Loading ${host}.`;
+  urlSession = tryRun(frame, TRY_SITES.find((site) => site.url === value), (data) => {
+    frame.parentElement.dataset.loaded = '';
+    if (data.state === 'loaded') status.textContent = `Agents getting into position on ${host}.`;
     handle(data);
   });
   frame = urlSession.frame;

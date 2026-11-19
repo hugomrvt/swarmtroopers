@@ -170,14 +170,14 @@ async function landing(browser, base) {
   const previous = await page.locator('#live-preview').getAttribute('src');
   await page.locator('#replay').click();
   check(previous !== await page.locator('#live-preview').getAttribute('src'), 'landing: replay restarts the actual scene');
-  // The static test server has no /api; a stub page stands in for the proxy.
-  await page.route('**/api/try?**', (route) => route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>stub</title><p>stub</p>' }));
   await page.locator('[data-scene="url"]').click();
-  await page.waitForFunction(() => document.querySelector('#playground iframe')?.getAttribute('src') === '/api/try?url=' + encodeURIComponent(TRY_SITES[0].url));
+  await page.waitForFunction(() => document.querySelector('#playground iframe')?.getAttribute('src') === 'sites/hn.html');
   check(await page.locator('#url-run').isVisible() && await page.locator('#url-run button[aria-pressed="true"]').textContent() === 'hacker news', 'landing: real sites tab runs the first example site');
-  await page.locator('#url-run button', { hasText: 'stripe' }).click();
-  await page.waitForFunction(() => document.querySelector('#playground iframe')?.getAttribute('src') === '/api/try?url=https%3A%2F%2Fstripe.com');
-  check(await page.locator('#playground iframe').count() === 1 && await page.locator('#playground .file').textContent() === 'stripe.com', 'landing: a site button runs that page through the try proxy in the same frame');
+  await page.waitForFunction(() => document.querySelector('#run-state').textContent === 'running' || document.querySelector('#run-state').textContent === 'built', null, { timeout: 20000 });
+  check(true, 'landing: the snapshot reports its run to the plan tree');
+  await page.locator('#url-run button', { hasText: 'react.dev' }).click();
+  await page.waitForFunction(() => document.querySelector('#playground iframe')?.getAttribute('src') === 'sites/react.html');
+  check(await page.locator('#playground iframe').count() === 1 && await page.locator('#playground .file').textContent() === 'react.dev', 'landing: a site button swaps the snapshot in the same frame');
   await page.locator('[data-scene="page"]').click();
   const back = await page.evaluate(() => ({ form: document.querySelector('#url-run').hidden, src: document.querySelector('#playground iframe').getAttribute('src'), file: document.querySelector('#playground .file').textContent }));
   check(back.form && back.src.startsWith('site-demo.html?scene=page') && back.file === 'site-demo.html', `landing: scenes come back after a url run ${JSON.stringify(back)}`);

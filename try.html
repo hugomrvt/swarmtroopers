@@ -48,11 +48,11 @@
     </section>
 
     <section class="try-frame" aria-label="Preview">
-      <div class="try-bar"><span aria-hidden="true">run</span><output id="try-status" aria-live="polite">waiting for a url</output><a id="try-open" target="_blank" rel="noopener" hidden>full page ↗</a></div>
+      <div class="try-bar"><span aria-hidden="true">run</span><output id="try-status" aria-live="polite">waiting for a site</output><a id="try-open" target="_blank" rel="noopener" hidden>full page ↗</a></div>
       <div class="try-empty" id="try-empty">› pick a site above to start a run</div>
       <iframe id="try-view" title="Page built by Swarm Troopers" sandbox="allow-scripts" referrerpolicy="no-referrer" hidden></iframe>
     </section>
-    <p class="try-fine">Our server fetches the page once and caches it for ten minutes. Scripts run in an isolated sandbox: no forms, no logins, storage forgotten on reload. A page that tries to leave the sandbox is rebuilt without its own scripts. Want it on your own site? Install it: it runs on your HTML, no proxy.</p>
+    <p class="try-fine">Each example is a snapshot of the real page, frozen without its own scripts so the run stays smooth. Links and forms do nothing here. Want it on your own site? Install it: it runs on your HTML as it is.</p>
   </main>
 
   <footer class="site-footer wrap">
@@ -82,17 +82,15 @@
       TRY_SITES.forEach((site, i) => buttons[i].setAttribute('aria-pressed', String(site.url === value)));
       session?.stop();
       view.hidden = false;
-      session = tryRun(view, value, (data) => {
+      session = tryRun(view, TRY_SITES.find((site) => site.url === value), (data) => {
         open.href = view.src;
         if (data.state === 'loaded') status.textContent = 'agents getting into position on ' + host;
-        if (data.state === 'retry') status.textContent = host + ' tried to leave the sandbox · rebuilding it without its own scripts';
         if (data.state === 'building') status.textContent = `building ${host} · 0/${data.tasks} steps`;
         if (data.state === 'task') status.textContent = `building ${host} · ${data.done}/${data.tasks} steps`;
         if (data.state === 'done') status.textContent = `built ${host} · ${data.stats.tasks} steps · ${data.stats.agents} agents · ${data.stats.duration.toFixed(1)}s`;
-        if (data.state === 'unavailable') status.textContent = String(data.message || 'The page could not be built.');
       });
       view = session.frame;
-      status.textContent = 'fetching ' + host;
+      status.textContent = 'loading ' + host;
       empty.hidden = true;
       open.href = view.src;
       open.hidden = false;

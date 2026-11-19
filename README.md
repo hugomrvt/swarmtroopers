@@ -7,7 +7,7 @@ npm i swarmtroopers
 npx swarmtroopers skill   # Claude Code integration skill
 ```
 
-To work on the library itself: `npm ci && npm run build`, then `python3 -m http.server 8765` and open [the local playground](http://localhost:8765/), [the full-page demo](http://localhost:8765/demo/index.html), [the portfolio demo](http://localhost:8765/demo/hugo.html) or [the documentation](http://localhost:8765/docs/). The try page needs the `/api/try` function: run it with `vercel dev`.
+To work on the library itself: `npm ci && npm run build`, then `python3 -m http.server 8765` and open [the local playground](http://localhost:8765/), [the full-page demo](http://localhost:8765/demo/index.html), [the portfolio demo](http://localhost:8765/demo/hugo.html) or [the documentation](http://localhost:8765/docs/). The try page runs snapshots from `sites/`; refresh them with `PLAYWRIGHT_CHANNEL=chrome node scripts/snapshot-sites.mjs`.
 
 **A swarm of cursors. Working in sync.**
 

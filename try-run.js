@@ -1,60 +1,25 @@
-// Builds any public page through /api/try in a fresh iframe that replaces `old`, and reports the run
-// with the same messages as site-demo.html. A page whose own scripts navigate it away (often a router
-// reading /api/try as its path) is rebuilt without them: that shows up as a 'left' message, a second
-// load, or silence when the new address refuses to be framed.
-// The only pages /api/try builds. Keep in sync with SITES in api/try.js.
-// Shortest builds first: the landing runs the first one.
+// Example sites, frozen by scripts/snapshot-sites.mjs: their own scripts are gone, so every run is quick
+// and smooth. The landing runs the first one.
 const TRY_SITES = [
-  { label: 'hacker news', url: 'https://news.ycombinator.com' },
-  { label: 'react.dev', url: 'https://react.dev' },
-  { label: 'hugo.mourlev.at', url: 'https://hugo.mourlev.at' },
-  { label: 'stripe', url: 'https://stripe.com' },
-  { label: 'tailwind', url: 'https://tailwindcss.com' },
-  { label: 'wikipedia', url: 'https://en.wikipedia.org/wiki/Swarm_behaviour' },
+  { label: 'hacker news', url: 'https://news.ycombinator.com', file: 'sites/hn.html' },
+  { label: 'react.dev', url: 'https://react.dev', file: 'sites/react.html' },
+  { label: 'hugo.mourlev.at', url: 'https://hugo.mourlev.at', file: 'sites/hugo.html' },
 ];
 
-function tryRun(old, value, report) {
+// Loads a snapshot in a fresh iframe that replaces `old` (so stale messages cannot leak into a new run)
+// and reports its run with the same messages as site-demo.html.
+function tryRun(old, site, report) {
   const frame = old.cloneNode(false);
-  let scripts = true;
   let heard = false;
-  let loads = 0;
-  let timer = 0;
-
-  const go = () => {
-    heard = false;
-    loads = 0;
-    clearTimeout(timer);
-    frame.src = '/api/try?url=' + encodeURIComponent(value) + (scripts ? '' : '&scripts=off');
-  };
-  const fallback = () => {
-    if (!scripts) return;
-    scripts = false;
-    go();
-    report({ state: 'retry' });
-  };
   const onMessage = (event) => {
-    const data = event.data;
-    if (event.source !== frame.contentWindow || data?.type !== 'swarmtroopers-demo' || data.scene !== 'url') return;
-    if (data.state === 'left') return fallback();
+    if (event.source !== frame.contentWindow || event.data?.type !== 'swarmtroopers-demo' || event.data.scene !== 'url') return;
     heard = true;
-    clearTimeout(timer);
-    report(data);
+    report(event.data);
   };
-
-  frame.addEventListener('load', () => {
-    if (++loads > 1) return fallback();
-    if (heard) return;
-    report({ state: 'loaded' });
-    timer = setTimeout(fallback, 6000);
-  });
+  // The load event can come after the build started (late images); it only matters before that.
+  frame.addEventListener('load', () => heard || report({ state: 'loaded' }), { once: true });
   addEventListener('message', onMessage);
-  go();
+  frame.src = site.file;
   old.replaceWith(frame);
-  return {
-    frame,
-    stop() {
-      clearTimeout(timer);
-      removeEventListener('message', onMessage);
-    },
-  };
+  return { frame, stop: () => removeEventListener('message', onMessage) };
 }
