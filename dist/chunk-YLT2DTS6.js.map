@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/high-five.ts", "../src/finale.ts"],
+  "sourcesContent": ["// Generated from the vector high five by scripts/prepare-high-five.py.\nimport leftHand from '../assets/high-five/left-hand.svg';\nimport rightHand from '../assets/high-five/right-hand.svg';\n\nexport const HIGH_FIVE_SIZE = { width: 1400, height: 1400 };\n\n/** Both bare hands share one square around the contact point; -1/1 move each hand. The right one is drawn first, the left thumb overlaps its palm. */\nexport const HIGH_FIVE_LAYERS = [\n  { src: rightHand, x: 0, y: 0, w: 1400, h: 1400, group: 1 },\n  { src: leftHand, x: 0, y: 0, w: 1400, h: 1400, group: -1 },\n];\n", "import { setFinaleArtwork } from './finale-art.js';\nimport { HIGH_FIVE_LAYERS, HIGH_FIVE_SIZE } from './high-five.js';\n\nsetFinaleArtwork({ ...HIGH_FIVE_SIZE, layers: HIGH_FIVE_LAYERS });\n"],
+  "mappings": ";;;;;;;;;;;;AAIO,IAAM,iBAAiB,EAAE,OAAO,MAAM,QAAQ,KAAK;AAGnD,IAAM,mBAAmB;AAAA,EAC9B,EAAE,KAAK,oBAAW,GAAG,GAAG,GAAG,GAAG,GAAG,MAAM,GAAG,MAAM,OAAO,EAAE;AAAA,EACzD,EAAE,KAAK,mBAAU,GAAG,GAAG,GAAG,GAAG,GAAG,MAAM,GAAG,MAAM,OAAO,GAAG;AAC3D;;;ACPA,iBAAiB,EAAE,GAAG,gBAAgB,QAAQ,iBAAiB,CAAC;",
+  "names": []
+}

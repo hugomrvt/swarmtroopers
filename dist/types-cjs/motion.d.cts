@@ -39,5 +39,8 @@ export declare function planMove(from: Point, to: Point, p: Persona, r: Rng, o?:
 export declare function pointOn(s: Segment, t: number): Point;
 /** Time budget to type a block. It grows with the length, slowly, so long paragraphs stay short. */
 export declare function typingBudget(chars: number, pace?: number): number;
-/** Cumulative timestamps, one per character, adding up to `duration`. Punctuation and spaces take longer. */
+/**
+ * Cumulative timestamps, one per character, adding up to `duration`. Typing comes in bursts: each word has
+ * its own speed, its first letter waits a little, and punctuation and spaces take longer.
+ */
 export declare function typingSchedule(text: string, duration: number, r: Rng): Float32Array;

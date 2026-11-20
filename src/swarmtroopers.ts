@@ -50,6 +50,10 @@ const PROFILES = {
 /** Parts of a page a squad is sent to. The outermost match wins, so cards inside a section stay in it. */
 const SECTION = 'section, header, footer, article, aside, nav, [data-swarmtroopers-section]';
 const ACTIVE_ROOTS = new Map<Element, SwarmTroopers>();
+/** Width of the soft edge of a frame or rule sweep, in pixels. */
+const FEATHER = 26;
+const MASK_PROPS = ['mask-image', '-webkit-mask-image', 'mask-repeat', '-webkit-mask-repeat', 'mask-composite', '-webkit-mask-composite'];
+const SOFT_MASK = typeof CSS !== 'undefined' && typeof CSS.supports === 'function' && (CSS.supports('mask-composite', 'intersect') || CSS.supports('-webkit-mask-composite', 'source-in'));
 
 interface Settings {
   selector: string;
@@ -96,6 +100,10 @@ export class SwarmTroopers {
   private built = new WeakSet<Element>();
   private agents: Agent[] = [];
   private lead: Agent | null = null;
+  /** Elements wearing our soft-edge mask, to take it off when their sweep ends or is cut short. */
+  private masked = new WeakSet<Element>();
+  /** Freshly built elements the orchestrator has not looked over yet, newest last. */
+  private review: Task[] = [];
   private anns: Annotation[] = [];
   private overlay: Overlay | null = null;
   private io: IntersectionObserver | null = null;
@@ -344,6 +352,36 @@ export class SwarmTroopers {
   private restoreClip(t: Task): void {
     if (t.prevClip) t.el.style.setProperty('clip-path', t.prevClip, t.prevClipPriority);
     else t.el.style.removeProperty('clip-path');
+    if (this.masked.delete(t.el)) for (const p of MASK_PROPS) t.el.style.removeProperty(p);
+  }
+
+  /**
+   * Reveals the top-left part of an element. A gradient mask gives it a soft edge; an element with a mask of
+   * its own, or a browser without mask compositing, gets the hard clip-path instead.
+   */
+  private sweep(t: Task, x: number, y: number): void {
+    const el = t.el;
+    const px = clamp(x, 0, 1);
+    const py = clamp(y, 0, 1);
+    if (!this.masked.has(el)) {
+      const own = el.style.getPropertyValue('mask-image') || el.style.getPropertyValue('-webkit-mask-image') || getComputedStyle(el).getPropertyValue('mask-image');
+      if (!SOFT_MASK || (own && own !== 'none')) {
+        el.style.clipPath = `inset(0 ${(100 - px * 100).toFixed(2)}% ${(100 - py * 100).toFixed(2)}% 0)`;
+        return;
+      }
+      this.masked.add(el);
+      el.style.setProperty('mask-repeat', 'no-repeat');
+      el.style.setProperty('-webkit-mask-repeat', 'no-repeat');
+      el.style.setProperty('mask-composite', 'intersect');
+      el.style.setProperty('-webkit-mask-composite', 'source-in');
+    }
+    // The soft band shrinks to nothing as the sweep ends, so the finished element is whole.
+    const edge = (p: number): string => `#000 calc(${(p * 100).toFixed(2)}% - ${(FEATHER * (1 - p)).toFixed(1)}px),transparent ${(p * 100).toFixed(2)}%`;
+    const mask = `linear-gradient(to right,${edge(px)}),linear-gradient(to bottom,${edge(py)})`;
+    el.style.setProperty('mask-image', mask);
+    el.style.setProperty('-webkit-mask-image', mask);
+    if (t.prevClip) el.style.setProperty('clip-path', t.prevClip, t.prevClipPriority);
+    else el.style.removeProperty('clip-path');
   }
 
   private restoreClasses(t: Task): void {
@@ -906,6 +944,10 @@ export class SwarmTroopers {
       if (a.lead) return;
       // A worker with nothing left in its section goes back to the orchestrator.
       // While its section still has pending work, it waits a little for the next piece to unlock.
+      // A resting hand is never still: a slow drift of a few pixels around where it stopped.
+      const drift = (t: number, k: number): number => Math.sin(t * 1.7 + a.id * k) * 1.4 + Math.sin(t * 0.6 + a.id * 2 * k) * 2.2;
+      a.x += drift(a.idle + dt, 1) - drift(a.idle, 1);
+      a.y += drift(a.idle + dt, 3) - drift(a.idle, 3);
       a.idle += dt;
       const pending = !!a.squad && a.squad.tasks.some((t) => t.state === 'pending' && t.tool !== 'instant');
       if (a.idle > (pending ? 2.5 : 0.6)) {
@@ -1040,6 +1082,11 @@ export class SwarmTroopers {
       const el = this.insp.want;
       if (el) {
         yield* this.inspectWith(a, el);
+        continue;
+      }
+      const fresh = this.building() ? this.nextReview() : null;
+      if (fresh) {
+        yield* this.check(a, fresh);
         continue;
       }
       if (this.finished && !this.agents.some((x) => !x.lead)) {
@@ -1190,6 +1237,40 @@ export class SwarmTroopers {
     yield* this.wait(0.3);
   }
 
+  /** The most recent piece of work still on screen, if any. Older ones are let go. */
+  private nextReview(): Task | null {
+    while (this.review.length) {
+      const t = this.review.pop()!;
+      if (t.inView && t.el.isConnected) {
+        this.review.length = 0;
+        return t;
+      }
+    }
+    return null;
+  }
+
+  /** Between two dispatches the orchestrator looks over what a worker just finished: over, a tap, a beat. */
+  private *check(a: Agent, t: Task): ToolGen {
+    // Dispatching comes first: the look is dropped as soon as a section waits for a squad.
+    const urgent = (): boolean => this.building() && !!this.nextSection();
+    const at = (): Point => {
+      const r = this.rect(t.el);
+      return { x: r.x + r.w - Math.min(24, r.w / 4), y: r.y + Math.min(16, r.h / 2) };
+    };
+    const go = this.travel(a, at, { width: 40 });
+    for (let step = go.next(); !step.done; ) {
+      if (urgent()) {
+        go.return(undefined);
+        return;
+      }
+      const dt: number = yield;
+      step = go.next(dt);
+    }
+    a.press = 1;
+    this.mark(a, { kind: 'select', rect: () => this.rect(t.el), ttl: 0.55 });
+    for (let e = 0, beat = this.r.range(0.45, 0.8); e < beat && !urgent(); ) e += yield;
+  }
+
   private *inspectWith(a: Agent, el: SwarmTroopersElement): ToolGen {
     const t = this.byEl.get(el);
     yield* this.travel(a, () => {
@@ -1247,10 +1328,12 @@ export class SwarmTroopers {
         clip: (value) => {
           el.style.clipPath = value;
         },
+        sweep: (x, y) => this.sweep(t, x, y),
         end: () => {
           this.restoreClip(t);
         },
         pop: () => this.pop(t),
+        settle: () => this.pop(t, 'swarmtroopers-settle', 460),
       },
     };
   }
@@ -1262,6 +1345,8 @@ export class SwarmTroopers {
     t.el.classList.remove('swarmtroopers-pending');
     this.restoreClip(t);
     this.io?.unobserve(t.el);
+    // Only work a worker did is worth a look, not what appeared on its own. The last few are enough.
+    if (this.building() && t.inView && t.tool !== 'instant' && this.agents.some((x) => x.task === t) && this.review.push(t) > 6) this.review.shift();
     this.events.emit('task', { el: t.el, tool: t.tool });
     const sec = t.section;
     if (!sec.announced && sec.tasks.every((x) => x.state === 'done')) {
@@ -1279,12 +1364,12 @@ export class SwarmTroopers {
     this.pop(t);
   }
 
-  private pop(t: Task): void {
+  private pop(t: Task, cls = 'swarmtroopers-pop', ms = 260): void {
     if (t.state === 'done') return;
     const el = t.el;
-    el.classList.add('swarmtroopers-pop');
+    el.classList.add(cls);
     this.complete(t);
-    window.setTimeout(() => el.classList.toggle('swarmtroopers-pop', t.prevPop), 260);
+    window.setTimeout(() => (cls === 'swarmtroopers-pop' ? el.classList.toggle(cls, t.prevPop) : el.classList.remove(cls)), ms);
   }
 
   private wrapUp(finale = true): void {
@@ -1293,14 +1378,16 @@ export class SwarmTroopers {
     if (this.s.once === 'session') storage.set('session', this.s.storageKey + ':seen', '1');
     const duration = this.t0 ? (performance.now() - this.t0) / 1000 : 0;
     if (finale && this.s.finale && this.q !== 'off' && this.overlay && this.spawned > 0) {
-      // The page is complete: one high five in the middle of the screen closes the show.
+      // The page is complete: a clap where the orchestrator stands closes the show.
       this.queue.length = 0;
       for (const a of this.agents) a.say = null;
       const right = this.lead ?? { name: this.s.names !== false ? this.leadName : '', color: this.ink };
       const left = this.lastWorker ?? { name: this.nameFor(), color: this.palette[0] };
+      const at = this.lead ? { x: this.lead.x - this.sx, y: this.lead.y - this.sy } : { x: innerWidth / 2, y: innerHeight / 2 };
       this.fin = {
         age: 0,
         close: 0,
+        at,
         left: { name: this.s.names !== false ? left.name : '', color: left.color },
         right: { name: right.name, color: right.color },
         title: this.doneText,

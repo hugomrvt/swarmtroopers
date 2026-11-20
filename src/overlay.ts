@@ -40,6 +40,8 @@ const MONO_STACK = 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation M
 export interface Finale {
   age: number;
   close: number;
+  /** Where the hands meet, in viewport pixels. */
+  at: { x: number; y: number };
   left: { name: string; color: string };
   right: { name: string; color: string };
   title: string;
@@ -195,131 +197,82 @@ export class Overlay {
     this.painted = true;
   }
 
-  /** A small, non-blocking completion stage keeps the finished page in view. */
+  /** The closing clap, Figma style: no panel, two emoji-sized hands slap where the orchestrator stood. */
   private finale(f: Finale): void {
     this.prepareFinale();
     const { ctx } = this;
-    const size = this.artwork ?? { width: 2048, height: 1360 };
     const out = f.close ? unit(f.close / FINALE_OUT) : unit((f.age - F.hold) / F.out);
     const life = (1 - out) * easeOut(f.age / F.veil);
     if (life <= 0) return;
-    const small = this.w < 600;
-    const w = Math.min(this.w - 24, small ? 352 : 440);
-    const h = small ? 294 : 320;
-    const stageScale = Math.min(1, Math.max(0.1, (this.h - 24) / h));
-    const cx = this.w / 2;
-    const top = (this.h - h) / 2 + (1 - easeOut(f.age / 0.3)) * 12;
-    const cy = top + h * 0.31;
-    const k = Math.min(small ? 2.5 : 2.9, w / 125, h / 100);
-    const artW = Math.min(w - 40, small ? 252 : 300);
-    const artScale = artW / size.width;
-    const artTop = top + 22;
-    const armAlpha = life * easeOut((f.age - F.enter) / 0.18);
+    const size = this.w < 600 ? 64 : 76;
+    // Room for the name tags on each side.
+    const mx = Math.min(this.w / 2, size + 64);
+    const cx = Math.min(this.w - mx, Math.max(mx, f.at.x));
+    const cy = Math.min(this.h - size - 30, Math.max(size, f.at.y));
     const pose = finalePose(f.age);
+    // The pose was authored for hands about 100 px wide.
+    const s = size / 100;
+    const pop = 1 + 0.1 * pose.impact;
+    const art = this.artwork && this.highFiveImages.length && this.highFiveImages.every((image) => image.complete && image.naturalWidth > 0) ? this.artwork : null;
     ctx.save();
-    ctx.translate(cx, this.h / 2);
-    ctx.scale(stageScale, stageScale);
-    ctx.translate(-cx, -this.h / 2);
-    ctx.globalAlpha = life;
-    ctx.shadowColor = 'rgba(16, 20, 36, 0.15)';
-    ctx.shadowBlur = 42;
-    ctx.shadowOffsetY = 14;
-    ctx.fillStyle = this.st.halo;
-    roundRect(ctx, cx - w / 2, top, w, h, 22);
-    ctx.fill();
-    ctx.shadowColor = 'transparent';
-    ctx.globalAlpha = life * 0.12;
-    ctx.strokeStyle = this.st.ink;
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    // A small registration mark connects the finale to the selection handles.
-    ctx.globalAlpha = life * 0.5;
-    ctx.fillStyle = this.st.ink;
-    for (let i = 0; i < 3; i++) ctx.fillRect(cx - 7 + i * 6, top + 17, 2, 2);
-    const raster = this.artwork && this.highFiveImages.length && this.highFiveImages.every((image) => image.complete && image.naturalWidth > 0) ? this.artwork : null;
-    if (raster) {
-      for (const [i, layer] of raster.layers.entries()) {
-        const sparkle = layer.group === 0;
-        if (sparkle && pose.impact <= 0) continue;
+    ctx.globalAlpha = life * easeOut((f.age - F.enter) / 0.18);
+    if (art) {
+      // Both hands share one square around the contact point: drawn together, they restore the authored slap.
+      for (const [i, layer] of art.layers.entries()) {
         ctx.save();
-        ctx.globalAlpha = sparkle ? life * easeOut((f.age - F.meet) / 0.1) * easeOut(pose.impact) : armAlpha;
-        ctx.translate(cx - artW / 2, artTop);
-        ctx.scale(artScale, artScale);
-        if (!sparkle) {
-          // One shared pivot per arm keeps its forearm, cuff and palm joined.
-          ctx.translate(size.width / 2, 700);
-          ctx.translate(layer.group * pose.spread / artScale, pose.lift / artScale);
-          ctx.rotate(layer.group * pose.tilt * 0.35);
-          ctx.translate(-size.width / 2, -700);
-        }
-        ctx.drawImage(this.highFiveImages[i], layer.x, layer.y, layer.w, layer.h);
+        ctx.translate(cx + layer.group * pose.spread * s, cy + pose.lift * s);
+        ctx.rotate(layer.group * pose.tilt);
+        ctx.scale(pop, pop);
+        ctx.drawImage(this.highFiveImages[i], -size / 2, -size / 2, size, size);
         ctx.restore();
       }
     } else {
-      // The core entry ships no artwork, and a decode failure still gets a complete celebration: vector hands in the troopers' colours.
-      const offset = pose.spread * Math.min(1, w / 400);
-      const drawHand = (side: number, color: string): void => {
+      // The core entry ships no artwork, and a decode failure still gets a clap: vector hands in the troopers' colours.
+      const k = size / 46;
+      for (const [side, color] of [[-1, f.left.color], [1, f.right.color]] as const) {
         ctx.save();
-        ctx.globalAlpha = armAlpha;
-        ctx.translate(cx + side * offset, cy + pose.lift);
+        ctx.translate(cx + side * pose.spread * s, cy + 6 * k + pose.lift * s);
         ctx.rotate(side * pose.tilt);
-        ctx.scale(side > 0 ? -k : k, k);
+        ctx.scale(side > 0 ? -k * pop : k * pop, k * pop);
         this.highFiveHand(color);
         ctx.restore();
-      };
-      drawHand(-1, f.left.color);
-      drawHand(1, f.right.color);
-      if (pose.impact > 0) {
-        const t = 1 - pose.impact;
-        ctx.globalAlpha = life * pose.impact;
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
-        for (let i = 0; i < 5; i++) {
-          const angle = -Math.PI / 2 + (i - 2) * 0.54;
-          const r = 18 + 15 * easeOut(t);
-          ctx.strokeStyle = i % 2 ? f.left.color : f.right.color;
-          ctx.beginPath();
-          ctx.moveTo(cx + Math.cos(angle) * r, cy - 14 * k + Math.sin(angle) * r);
-          ctx.lineTo(cx + Math.cos(angle) * (r + 10 * (1 - t)), cy - 14 * k + Math.sin(angle) * (r + 10 * (1 - t)));
-          ctx.stroke();
-        }
       }
     }
-    // Tags sit right under what this frame drew: the supplied artwork, or the smaller vector hands.
-    const tagsY = raster ?artTop + size.height * artScale + 5 : cy + 23 * k + 4;
-    const nameFont = `600 ${small ? 11 : 12}px ${this.st.sans}`;
-    const tagW = Math.max(24, (w - 62) / 2);
+    if (pose.impact > 0) {
+      const t = 1 - pose.impact;
+      ctx.globalAlpha = life * pose.impact;
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      const oy = cy - size * 0.42;
+      for (let i = 0; i < 7; i++) {
+        const angle = -Math.PI / 2 + (i - 3) * 0.42;
+        const r = size * (0.3 + 0.25 * easeOut(t));
+        const len = size * 0.16 * (1 - t);
+        ctx.strokeStyle = i % 2 ? f.left.color : f.right.color;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(angle) * r, oy + Math.sin(angle) * r);
+        ctx.lineTo(cx + Math.cos(angle) * (r + len), oy + Math.sin(angle) * (r + len));
+        ctx.stroke();
+      }
+    }
+    // Name tags right under the hands, like cursor tags.
+    const tagsY = cy + size / 2 + 8;
+    const nameFont = `600 ${size < 70 ? 11 : 12}px ${this.st.sans}`;
     for (const [i, agent] of [f.left, f.right].entries()) {
       if (!agent.name) continue;
-      const name = this.fit(agent.name, nameFont, tagW - 20);
-      const tw = this.measure(name, nameFont) + 20;
-      const x = i ? cx + 5 : cx - 5 - tw;
+      const name = this.fit(agent.name, nameFont, 120);
+      const tw = this.measure(name, nameFont) + 16;
+      const x = i ? cx + 3 : cx - 3 - tw;
       ctx.globalAlpha = life * easeOut((f.age - 0.3) / 0.2);
-      const color = agent.color;
-      ctx.fillStyle = color;
-      roundRect(ctx, x, tagsY, tw, 23, 6);
+      ctx.fillStyle = agent.color;
+      roundRect(ctx, x, tagsY, tw, 21, 5);
       ctx.fill();
       ctx.font = nameFont;
-      ctx.fillStyle = this.textOn(color);
+      ctx.fillStyle = this.textOn(agent.color);
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(name, x + tw / 2, tagsY + 12);
+      ctx.fillText(name, x + tw / 2, tagsY + 11);
     }
-    const text = easeOut((f.age - F.text) / 0.28);
-    ctx.globalAlpha = life * text;
-    ctx.fillStyle = this.st.ink;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const titleFont = `650 ${small ? 25 : 29}px ${this.st.sans}`;
-    const titleY = Math.max(top + h * 0.72, tagsY + 48);
-    ctx.font = titleFont;
-    ctx.fillText(this.fit(f.title, titleFont, w - 40), cx, titleY + (1 - text) * 5);
-    ctx.globalAlpha = life * text * 0.64;
-    const subFont = `500 ${small ? 10 : 11}px ${MONO_STACK}`;
-    const lines = this.wrap(f.sub, subFont, w - 36);
-    ctx.font = subFont;
-    lines.forEach((line, i) => ctx.fillText(line, cx, titleY + 30 + i * 15));
     ctx.restore();
   }
 

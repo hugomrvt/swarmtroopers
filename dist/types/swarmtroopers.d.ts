@@ -22,6 +22,10 @@ export declare class SwarmTroopers {
     private built;
     private agents;
     private lead;
+    /** Elements wearing our soft-edge mask, to take it off when their sweep ends or is cut short. */
+    private masked;
+    /** Freshly built elements the orchestrator has not looked over yet, newest last. */
+    private review;
     private anns;
     private overlay;
     private io;
@@ -97,6 +101,11 @@ export declare class SwarmTroopers {
     private safe;
     private fail;
     private restoreClip;
+    /**
+     * Reveals the top-left part of an element. A gradient mask gives it a soft edge; an element with a mask of
+     * its own, or a browser without mask compositing, gets the hard clip-path instead.
+     */
+    private sweep;
     private restoreClasses;
     /** `swarmtroopers-pending` is ours alone: found on an element we do not track (a DOM snapshot taken mid-build), it would hide it for good. */
     private sweepStale;
@@ -154,6 +163,10 @@ export declare class SwarmTroopers {
     /** Visible part of a section, in document coordinates. */
     private sectionRect;
     private dispatch;
+    /** The most recent piece of work still on screen, if any. Older ones are let go. */
+    private nextReview;
+    /** Between two dispatches the orchestrator looks over what a worker just finished: over, a tap, a beat. */
+    private check;
     private inspectWith;
     private context;
     private complete;

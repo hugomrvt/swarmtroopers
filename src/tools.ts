@@ -4,7 +4,7 @@ import type { Annotation, AnnotationInit } from './overlay.js';
 import type { TextGeo } from './text.js';
 import { clipAt } from './text.js';
 import { typingBudget, typingSchedule, type MoveOpts } from './motion.js';
-import { clamp, type Rng } from './util.js';
+import type { Rng } from './util.js';
 
 /** A tool is a coroutine: each `yield` waits for the next frame and receives the elapsed time. */
 export type ToolGen = Generator<void, void, number>;
@@ -33,17 +33,18 @@ export interface ToolContext {
     /** Makes the element visible, optionally behind a first clip-path. */
     begin(clip?: string): void;
     clip(value: string): void;
-    /** Removes the clip-path. */
+    /** Shows the top-left part of the element, `x` and `y` from 0 to 1, with a soft edge where the mask allows it. */
+    sweep(x: number, y: number): void;
+    /** Removes the clip-path and the soft edge. */
     end(): void;
     /** Shows the element at once with a short fade, and marks the task as done. */
     pop(): void;
+    /** Like pop, but the element drops into place with a small bounce, as if just set down. */
+    settle(): void;
   };
 }
 
 export type Tool = (c: ToolContext) => ToolGen;
-
-/** Right or bottom inset, in %, for a progress from 0 to 1. */
-const inset = (progress: number): string => (100 - clamp(progress, 0, 1) * 100).toFixed(2) + '%';
 
 /** Drags a selection from the top-left corner to the bottom-right one. The element shows inside it. */
 function* frame(c: ToolContext): ToolGen {
@@ -71,7 +72,7 @@ function* frame(c: ToolContext): ToolGen {
     width: Math.max(24, Math.min(start.w, start.h) / 2),
     onStep: () => {
       const r = c.rect();
-      c.reveal.clip(`inset(0 ${inset(r.w ? (c.agent.x - r.x) / r.w : 1)} ${inset(r.h ? (c.agent.y - r.y) / r.h : 1)} 0)`);
+      c.reveal.sweep(r.w ? (c.agent.x - r.x) / r.w : 1, r.h ? (c.agent.y - r.y) / r.h : 1);
     },
   });
   c.hold(false);
@@ -106,11 +107,8 @@ function* rule(c: ToolContext): ToolGen {
     width: 30,
     onStep: () => {
       const r = c.rect();
-      c.reveal.clip(
-        horizontal
-          ? `inset(0 ${inset(r.w ? (c.agent.x - r.x) / r.w : 1)} 0 0)`
-          : `inset(0 0 ${inset(r.h ? (c.agent.y - r.y) / r.h : 1)} 0)`,
-      );
+      if (horizontal) c.reveal.sweep(r.w ? (c.agent.x - r.x) / r.w : 1, 1);
+      else c.reveal.sweep(1, r.h ? (c.agent.y - r.y) / r.h : 1);
     },
   });
   c.hold(false);
@@ -203,7 +201,7 @@ function* stamp(c: ToolContext): ToolGen {
   c.hold(false);
   ghost.done();
   picked.done();
-  c.reveal.pop();
+  c.reveal.settle();
   const label = c.label();
   if (label) c.mark({ kind: 'select', rect: () => c.rect(), label, ttl: 0.7 });
   c.shape('arrow');

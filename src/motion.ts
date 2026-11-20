@@ -79,7 +79,9 @@ export function planMove(from: Point, to: Point, p: Persona, r: Rng, o: MoveOpts
   const ux = dx / d;
   const uy = dy / d;
   const lateral = clamp(r.normal(0, 0.02 * d), -0.05 * d, 0.05 * d);
-  const mid = { x: from.x + dx * p.reach - uy * lateral, y: from.y + dy * p.reach + ux * lateral };
+  // About one aimed movement in four overshoots a little and comes back, the rest land short.
+  const reach = r.chance(0.25) ? r.range(1.02, 1.06) : p.reach;
+  const mid = { x: from.x + dx * reach - uy * lateral, y: from.y + dy * reach + ux * lateral };
   const rest = Math.hypot(to.x - mid.x, to.y - mid.y);
   return [
     segment(from, mid, Math.max(0.1, total * 0.78), bend),
@@ -102,16 +104,23 @@ export function typingBudget(chars: number, pace = 1): number {
   return (0.35 + 0.42 * Math.log2(1 + Math.max(0, chars) / 12)) / pace;
 }
 
-/** Cumulative timestamps, one per character, adding up to `duration`. Punctuation and spaces take longer. */
+/**
+ * Cumulative timestamps, one per character, adding up to `duration`. Typing comes in bursts: each word has
+ * its own speed, its first letter waits a little, and punctuation and spaces take longer.
+ */
 export function typingSchedule(text: string, duration: number, r: Rng): Float32Array {
   const n = text.length;
   const weights = new Float32Array(n);
   let sum = 0;
+  let word = 1;
   for (let i = 0; i < n; i++) {
     const c = text[i];
-    let w = c === ' ' ? 2.2 : c === '\n' ? 6 : ',;:'.indexOf(c) >= 0 ? 4 : '.!?'.indexOf(c) >= 0 ? 6 : 1;
+    const starts = c !== ' ' && c !== '\n' && (i === 0 || text[i - 1] === ' ' || text[i - 1] === '\n');
+    if (starts) word = r.range(0.7, 1.4);
+    let w = c === ' ' ? 2.2 : c === '\n' ? 6 : ',;:'.indexOf(c) >= 0 ? 4 : '.!?'.indexOf(c) >= 0 ? 6 : word;
+    if (starts && i > 0) w += r.range(0.5, 1.8);
     if (r.chance(0.03)) w += 5;
-    w *= r.range(0.7, 1.3);
+    w *= r.range(0.8, 1.2);
     weights[i] = w;
     sum += w;
   }

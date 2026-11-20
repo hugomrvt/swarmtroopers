@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Tidewell · the calm inbox for small teams</title>
+<link rel="icon" href="data:,">
+<!-- A made-up product page, built for the Swarm Troopers demo: self-contained, no network, no scripts of its own. -->
+<style>
+:root{--ink:#14161B;--muted:#5E6573;--line:#E2E5EA;--soft:#F4F5F7;--paper:#FFFFFF;--sea:#2F6BFF;--sea-soft:#E8EEFF;--sun:#FFB547;--mint:#3CC6A0;--r:14px;color-scheme:light;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--paper)}
+*{box-sizing:border-box}body{margin:0;-webkit-font-smoothing:antialiased;line-height:1.5}h1,h2,h3,p,ul,figure,blockquote{margin:0}ul{padding:0;list-style:none}a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:24px}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px;border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.4px}
+.logo svg{width:28px;height:28px}
+.links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;font-size:14px;font-weight:600;background:var(--ink);color:#fff}
+.btn.ghost{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.btn.small{height:36px;padding:0 14px;font-size:13px}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center;padding-block:72px 64px}
+.pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px}
+.pill b{background:var(--sea-soft);color:var(--sea);border-radius:999px;padding:2px 8px;font-size:12px}
+.hero h1{font-size:clamp(38px,5.4vw,60px);line-height:1.04;letter-spacing:-2px;margin-top:20px}
+.hero h1 em{font-style:normal;color:var(--sea)}
+.lede{font-size:18px;color:var(--muted);max-width:44ch;margin-top:18px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.fine{font-size:13px;color:var(--muted);margin-top:14px}
+.app{background:var(--soft);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 24px 60px -30px rgba(20,22,27,.35)}
+.app-top{display:flex;gap:6px;margin-bottom:14px}.app-top i{width:10px;height:10px;border-radius:50%;background:#D5D9E0}
+.thread{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.thread+.thread{margin-top:8px}
+.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff}
+.thread h3{font-size:14px;font-weight:600}.thread p{font-size:13px;color:var(--muted)}
+.tag{font-size:11px;font-weight:600;border-radius:999px;padding:3px 9px}
+.logos{padding-block:8px 64px}
+.logos p{text-align:center;font-size:13px;color:var(--muted);margin-bottom:20px}
+.logos ul{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.logos li{height:56px;border:1px solid var(--line);border-radius:12px;display:grid;place-items:center;font-weight:700;color:#8A909C;letter-spacing:-.3px}
+hr{border:0;border-top:1px solid var(--line);margin:0}
+.section{padding-block:72px}
+.eyebrow{font-size:13px;font-weight:600;color:var(--sea);letter-spacing:.04em;text-transform:uppercase}
+.section h2{font-size:clamp(28px,3.6vw,40px);letter-spacing:-1.2px;line-height:1.1;margin-top:10px;max-width:22ch}
+.section .lede{font-size:17px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.features li{border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--paper)}
+.icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:18px}
+.icon svg{width:22px;height:22px}
+.features h3{font-size:17px;letter-spacing:-.3px}.features p{font-size:15px;color:var(--muted);margin-top:6px}
+.band{background:var(--ink);color:#fff;border-radius:24px;padding:48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+.band blockquote{font-size:clamp(22px,2.6vw,28px);line-height:1.3;letter-spacing:-.6px}
+.band figcaption{display:flex;align-items:center;gap:12px;margin-top:24px;font-size:14px;color:#B6BCC8}
+.band figcaption b{color:#fff;display:block}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stats li{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:20px}
+.stats strong{display:block;font-size:34px;letter-spacing:-1px}.stats span{font-size:13px;color:#B6BCC8}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.plans li{border:1px solid var(--line);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:14px}
+.plans li.pick{border:2px solid var(--sea);background:var(--sea-soft)}
+.plans h3{font-size:16px}.plans .price{font-size:40px;font-weight:700;letter-spacing:-1.5px}.price small{font-size:14px;font-weight:500;color:var(--muted);letter-spacing:0}
+.plans p{font-size:14px;color:var(--muted)}
+.plans .btn{justify-content:center;margin-top:auto}
+.cta{text-align:center;padding-block:80px}
+.cta h2{font-size:clamp(28px,3.6vw,40px);letter-spacing:-1.2px;line-height:1.1;margin-inline:auto;max-width:22ch}.cta .ctas{justify-content:center}
+.footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-block:28px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+@media(max-width:860px){.hero,.band{grid-template-columns:1fr}.features,.plans{grid-template-columns:1fr}.logos ul{grid-template-columns:repeat(3,1fr)}.logos li:nth-child(n+4){display:none}.links{display:none}.band{padding:32px 24px}.hero{padding-block:48px}.section{padding-block:56px}}
+html.st-wait [data-swarmtroopers]{opacity:0}
+</style>
+<script>
+// Nothing shows before the agents start; 3 s fallback if the library never loads. Reduced motion shows the page as is.
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('st-wait');setTimeout(()=>document.documentElement.classList.remove('st-wait'),3000)}
+addEventListener('swarmtroopers-ready',()=>document.documentElement.classList.remove('st-wait'),{once:true});
+</script>
+</head>
+<body>
+<header class="wrap nav">
+  <a class="logo" href="#" data-swarmtroopers="frame"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="#14161B"/><path d="M6 17c3-4 5-4 8 0s5 4 8 0" stroke="#2F6BFF" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M6 11c3-4 5-4 8 0s5 4 8 0" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>Tidewell</a>
+  <nav class="links" aria-label="Main"><a href="#features" data-swarmtroopers="type">Product</a><a href="#pricing" data-swarmtroopers="type">Pricing</a><a href="#" data-swarmtroopers="type">Customers</a><a href="#" data-swarmtroopers="type">Changelog</a></nav>
+  <a class="btn small" href="#" data-swarmtroopers="frame">Start free</a>
+</header>
+<main>
+  <section class="wrap hero" aria-label="Introduction">
+    <div>
+      <span class="pill" data-swarmtroopers="frame"><b>New</b>Shared drafts are here</span>
+      <h1 data-swarmtroopers="type">The calm inbox for <em>small teams.</em></h1>
+      <p class="lede" data-swarmtroopers="type">Tidewell turns every shared address into one quiet list. Assign a thread, draft together, and close the loop without a single “who’s on this?”</p>
+      <div class="ctas"><a class="btn" href="#" data-swarmtroopers="frame">Start free <span aria-hidden="true">→</span></a><a class="btn ghost" href="#" data-swarmtroopers="frame">Book a demo</a></div>
+      <p class="fine" data-swarmtroopers="type">Free for teams up to 5. No card needed.</p>
+    </div>
+    <div class="app" data-swarmtroopers="frame" role="img" aria-label="The Tidewell inbox with three assigned threads">
+      <div class="app-top"><i></i><i></i><i></i></div>
+      <div class="threads" data-swarmtroopers="repeat">
+      <div class="thread"><span class="avatar" style="background:#2F6BFF">MA</span><div><h3>Refund for order 4182</h3><p>Maya is drafting a reply</p></div><span class="tag" style="background:#E8EEFF;color:#2F6BFF">Drafting</span></div>
+      <div class="thread"><span class="avatar" style="background:#3CC6A0">JO</span><div><h3>Wholesale price list</h3><p>Jonas · due today</p></div><span class="tag" style="background:#E3F7F1;color:#1E8F70">Assigned</span></div>
+      <div class="thread"><span class="avatar" style="background:#FFB547">LI</span><div><h3>Studio visit on Friday</h3><p>Lin closed it 2 min ago</p></div><span class="tag" style="background:#FFF2DD;color:#A86400">Done</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="wrap logos" aria-label="Customers">
+    <p data-swarmtroopers="type">Trusted by 2,400 teams who answer email for a living</p>
+    <ul data-swarmtroopers="repeat"><li>Northfold</li><li>Kiln&nbsp;&amp;&nbsp;Co</li><li>Marlow</li><li>Brightpath</li><li>Oakhouse</li></ul>
+  </section>
+  <hr class="wrap" data-swarmtroopers="rule">
+  <section class="wrap section" id="features" aria-label="Features">
+    <p class="eyebrow" data-swarmtroopers="type">Why Tidewell</p>
+    <h2 data-swarmtroopers="type">Everything a shared inbox needs. Nothing it doesn’t.</h2>
+    <ul class="features">
+      <li data-swarmtroopers="frame"><span class="icon" data-swarmtroopers="frame" style="background:#E8EEFF"><svg viewBox="0 0 24 24" fill="none" stroke="#2F6BFF" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span><h3 data-swarmtroopers="type">Clear owners</h3><p data-swarmtroopers="type">Every thread has one name on it. Nobody replies twice, nobody forgets.</p></li>
+      <li data-swarmtroopers="frame"><span class="icon" data-swarmtroopers="frame" style="background:#E3F7F1"><svg viewBox="0 0 24 24" fill="none" stroke="#1E8F70" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/></svg></span><h3 data-swarmtroopers="type">Shared drafts</h3><p data-swarmtroopers="type">Write a reply together, leave a note in the margin, send when it reads right.</p></li>
+      <li data-swarmtroopers="frame"><span class="icon" data-swarmtroopers="frame" style="background:#FFF2DD"><svg viewBox="0 0 24 24" fill="none" stroke="#A86400" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><h3 data-swarmtroopers="type">Quiet hours</h3><p data-swarmtroopers="type">Pause the inbox after six. The morning shift finds it sorted and waiting.</p></li>
+    </ul>
+  </section>
+  <section class="wrap" aria-label="What customers say">
+    <figure class="band" data-swarmtroopers="frame">
+      <div>
+        <blockquote data-swarmtroopers="type">“We used to lose a customer a week in the cracks of a shared Gmail. Since Tidewell, every message has a home and an owner.”</blockquote>
+        <figcaption><span class="avatar" style="background:#3CC6A0" data-swarmtroopers="frame">RS</span><span data-swarmtroopers="type"><b>Rosa Sato</b>Head of support, Northfold</span></figcaption>
+      </div>
+      <ul class="stats" data-swarmtroopers="repeat">
+        <li><strong>3.2×</strong><span>faster first reply</span></li>
+        <li><strong>0</strong><span>threads answered twice</span></li>
+        <li><strong>94%</strong><span>inbox zero by 6 pm</span></li>
+        <li><strong>11 min</strong><span>to set up</span></li>
+      </ul>
+    </figure>
+  </section>
+  <section class="wrap section" id="pricing" aria-label="Pricing">
+    <p class="eyebrow" data-swarmtroopers="type">Pricing</p>
+    <h2 data-swarmtroopers="type">Simple plans that grow with the team.</h2>
+    <ul class="plans">
+      <li data-swarmtroopers="frame"><h3 data-swarmtroopers="type">Starter</h3><p class="price" data-swarmtroopers="type">$0 <small>/ month</small></p><p data-swarmtroopers="type">Up to 5 people and 2 shared addresses.</p><a class="btn ghost" href="#" data-swarmtroopers="frame">Start free</a></li>
+      <li class="pick" data-swarmtroopers="frame"><h3 data-swarmtroopers="type">Team</h3><p class="price" data-swarmtroopers="type">$8 <small>/ person / month</small></p><p data-swarmtroopers="type">Unlimited addresses, shared drafts and quiet hours.</p><a class="btn" href="#" data-swarmtroopers="frame">Try Team free</a></li>
+      <li data-swarmtroopers="frame"><h3 data-swarmtroopers="type">Business</h3><p class="price" data-swarmtroopers="type">$16 <small>/ person / month</small></p><p data-swarmtroopers="type">SSO, audit log and a named contact on our side.</p><a class="btn ghost" href="#" data-swarmtroopers="frame">Talk to us</a></li>
+    </ul>
+  </section>
+  <section class="wrap cta" aria-label="Get started">
+    <h2 data-swarmtroopers="type">Give your inbox a quiet morning.</h2>
+    <p class="lede" style="margin-inline:auto" data-swarmtroopers="type">Set up in minutes. Bring your team when you’re ready.</p>
+    <div class="ctas"><a class="btn" href="#" data-swarmtroopers="frame">Start free <span aria-hidden="true">→</span></a></div>
+  </section>
+</main>
+<footer class="wrap footer"><span data-swarmtroopers="type">© 2026 Tidewell. A made-up company for the Swarm Troopers demo.</span><span data-swarmtroopers="type">Privacy · Terms · Status</span></footer>
+<script>(()=>{const post=(state,extra)=>parent!==window&&parent.postMessage({type:'swarmtroopers-demo',scene:'url',state,...extra},'*');for(const k of['click','submit'])addEventListener(k,e=>{if(k==='submit'||e.target.closest?.('a[href]'))e.preventDefault()},true);addEventListener('swarmtroopers-ready',e=>{const s=e.detail;let begun=false;const begin=()=>{if(begun)return;begun=true;post('building',{tools:{},tasks:s.stats.tasks})};s.on('start',begin);if(s.stats.tasks)begin();s.on('task',({tool})=>{begin();post('task',{tool,done:s.stats.done,tasks:s.stats.tasks})});s.on('done',stats=>{begin();post('done',{stats})})},{once:true})})();</script>
+<script src="../dist/swarmtroopers.iife.js" data-swarmtroopers-init='{"controls":true,"inspect":true,"patience":60,"speed":1.35}'></script>
+<script>(()=>{let on=true,last=0,y=scrollY,v=0;const stop=()=>{on=false};for(const k of ['wheel','touchstart','keydown','pointerdown'])addEventListener(k,stop,{once:true,passive:true});
+// Follows the build: glides to a stop while what the visitor can see is still pending, then picks up speed again.
+// Visibility comes from an IntersectionObserver with the library's own margin, so a frame cut off by its parent page never blocks the scroll.
+const seen=new Set();const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?seen.add(e.target):seen.delete(e.target)),{rootMargin:'0px 0px -6% 0px'});document.querySelectorAll('[data-swarmtroopers]').forEach(el=>io.observe(el));
+const step=t=>{if(!on)return;const dt=last?Math.min(t-last,64):16;last=t;const end=document.documentElement.scrollHeight-innerHeight;if(y>=end-0.5)return;const waiting=[...seen].some(el=>el.classList.contains('swarmtroopers-pending')&&el.getBoundingClientRect().top<innerHeight*0.85);v+=((waiting?0:0.09)-v)*Math.min(1,dt/450);y=Math.max(y,scrollY);y=Math.min(end,y+v*dt);scrollTo({top:y,behavior:'instant'});requestAnimationFrame(step)};
+addEventListener('swarmtroopers-ready',()=>setTimeout(()=>requestAnimationFrame(step),1400),{once:true})})();</script>
+</body>
+</html>

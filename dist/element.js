@@ -2,7 +2,7 @@
 import {
   SwarmTroopers,
   controls
-} from "./chunk-DOJRPIRW.js";
+} from "./chunk-3DDE2SKH.js";
 import "./chunk-QTJTB2CH.js";
 
 // src/element.ts

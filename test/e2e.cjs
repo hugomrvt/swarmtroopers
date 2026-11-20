@@ -48,7 +48,7 @@ async function openPage(browser, url, options = {}) {
     window.swarmtroopersLayerDraws = 0;
     const draw = CanvasRenderingContext2D.prototype.drawImage;
     CanvasRenderingContext2D.prototype.drawImage = function (source, ...args) {
-      if (source instanceof HTMLImageElement && source.src.startsWith('data:image/webp')) window.swarmtroopersLayerDraws++;
+      if (source instanceof HTMLImageElement && /^data:image\/(webp|svg)/.test(source.src)) window.swarmtroopersLayerDraws++;
       return Reflect.apply(draw, this, [source, ...args]);
     };
   });
@@ -171,16 +171,13 @@ async function landing(browser, base) {
   await page.locator('#replay').click();
   check(previous !== await page.locator('#live-preview').getAttribute('src'), 'landing: replay restarts the actual scene');
   await page.locator('[data-scene="url"]').click();
-  await page.waitForFunction(() => document.querySelector('#playground iframe')?.getAttribute('src') === 'sites/hn.html');
-  check(await page.locator('#url-run').isVisible() && await page.locator('#url-run button[aria-pressed="true"]').textContent() === 'hacker news', 'landing: real sites tab runs the first example site');
-  await page.waitForFunction(() => document.querySelector('#run-state').textContent === 'running' || document.querySelector('#run-state').textContent === 'built', null, { timeout: 20000 });
-  check(true, 'landing: the snapshot reports its run to the plan tree');
-  await page.locator('#url-run button', { hasText: 'react.dev' }).click();
-  await page.waitForFunction(() => document.querySelector('#playground iframe')?.getAttribute('src') === 'sites/react.html');
-  check(await page.locator('#playground iframe').count() === 1 && await page.locator('#playground .file').textContent() === 'react.dev', 'landing: a site button swaps the snapshot in the same frame');
+  await page.waitForFunction(() => document.querySelector('#playground iframe')?.getAttribute('src') === 'sites/demo.html');
+  check(await page.locator('#playground .file').textContent() === 'sites/demo.html', 'landing: full page tab runs the demo page');
+  await page.waitForFunction(() => /running|built/.test(document.querySelector('#run-state').textContent), null, { timeout: 20000 });
+  check(true, 'landing: the demo page reports its run to the plan tree');
   await page.locator('[data-scene="page"]').click();
-  const back = await page.evaluate(() => ({ form: document.querySelector('#url-run').hidden, src: document.querySelector('#playground iframe').getAttribute('src'), file: document.querySelector('#playground .file').textContent }));
-  check(back.form && back.src.startsWith('site-demo.html?scene=page') && back.file === 'site-demo.html', `landing: scenes come back after a url run ${JSON.stringify(back)}`);
+  const back = await page.evaluate(() => ({ src: document.querySelector('#playground iframe').getAttribute('src'), file: document.querySelector('#playground .file').textContent }));
+  check(back.src.startsWith('site-demo.html?scene=page') && back.file === 'site-demo.html', `landing: scenes come back after a url run ${JSON.stringify(back)}`);
   await page.locator('[data-install="module"]').click();
   check((await page.locator('#install-code').textContent()).includes('import { create, controls }'), 'landing: module installation example is selectable');
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);

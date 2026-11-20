@@ -29,6 +29,11 @@ export interface Annotation {
 export interface Finale {
     age: number;
     close: number;
+    /** Where the hands meet, in viewport pixels. */
+    at: {
+        x: number;
+        y: number;
+    };
     left: {
         name: string;
         color: string;
@@ -86,7 +91,7 @@ export declare class Overlay {
     resize(): void;
     destroy(): void;
     render(anns: readonly Annotation[], agents: readonly Agent[], sx: number, sy: number, style: OverlayStyle, fin?: Finale | null): void;
-    /** A small, non-blocking completion stage keeps the finished page in view. */
+    /** The closing clap, Figma style: no panel, two emoji-sized hands slap where the orchestrator stood. */
     private finale;
     private measure;
     /** Dark or light text, whichever reads better on the agent colour. */

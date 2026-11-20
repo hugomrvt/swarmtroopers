@@ -1,13 +1,13 @@
 # Swarm Troopers
 
-[Website and playground](https://swarmtroopers.mrvt.app/) · [Try it on real sites](https://swarmtroopers.mrvt.app/try.html) · [Documentation](https://swarmtroopers.mrvt.app/docs/) · [npm](https://www.npmjs.com/package/swarmtroopers) · [Agent skill](skills/swarmtroopers-overlay/SKILL.md)
+[Website and playground](https://swarmtroopers.mrvt.app/) · [Watch a full page build](https://swarmtroopers.mrvt.app/try.html) · [Documentation](https://swarmtroopers.mrvt.app/docs/) · [npm](https://www.npmjs.com/package/swarmtroopers) · [Agent skill](skills/swarmtroopers-overlay/SKILL.md)
 
 ```sh
 npm i swarmtroopers
 npx swarmtroopers skill   # Claude Code integration skill
 ```
 
-To work on the library itself: `npm ci && npm run build`, then `python3 -m http.server 8765` and open [the local playground](http://localhost:8765/), [the full-page demo](http://localhost:8765/demo/index.html), [the portfolio demo](http://localhost:8765/demo/hugo.html) or [the documentation](http://localhost:8765/docs/). The try page runs snapshots from `sites/`; refresh them with `PLAYWRIGHT_CHANNEL=chrome node scripts/snapshot-sites.mjs`.
+To work on the library itself: `npm ci && npm run build`, then `python3 -m http.server 8765` and open [the local playground](http://localhost:8765/), [the full-page demo](http://localhost:8765/demo/index.html), [the portfolio demo](http://localhost:8765/demo/hugo.html) or [the documentation](http://localhost:8765/docs/). The try page and the playground's full page tab run `sites/demo.html`, a made-up product page written for the demo.
 
 **A swarm of cursors. Working in sync.**
 

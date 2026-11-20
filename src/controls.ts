@@ -20,6 +20,7 @@ export function controls(swarmtroopers: SwarmTroopers, options: ControlsOptions 
   box.style.color = ink;
   box.style.background = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
   box.style.setProperty('--st-on', box.style.background);
+  box.style.setProperty('--st-fg', ink);
 
   const title = document.createElement('span');
   title.className = 'swarmtroopers-controls-title';

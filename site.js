@@ -2,25 +2,16 @@ let frame = document.querySelector('#live-preview');
 const sceneButtons = [...document.querySelectorAll('[data-scene]')];
 const status = document.querySelector('#preview-status');
 const fileLabel = document.querySelector('#playground .file');
-const urlForm = document.querySelector('#url-run');
-const siteButtons = TRY_SITES.map((site) => {
-  const button = Object.assign(document.createElement('button'), { type: 'button', textContent: site.label });
-  button.setAttribute('aria-pressed', 'false');
-  button.addEventListener('click', () => runUrl(site.url));
-  urlForm.append(button);
-  return button;
-});
 const sceneDescriptions = {
   page: 'Your HTML, built by the agents.',
   tools: 'Typing, framing, drawing, stamping. Real Swarm Troopers gestures.',
   finale: 'A tiny build. A well-earned high five.',
-  url: 'A real site, built by the agents.',
+  url: 'A whole product page, built by the agents.',
 };
-const sceneNames = { page: 'website', tools: 'gestures', finale: 'high five', url: 'real sites' };
+const sceneNames = { page: 'website', tools: 'gestures', finale: 'high five', url: 'full page' };
 let scene = 'page';
 let previewStarted = false;
 let urlSession = null;
-let urlValue = '';
 
 /* Plan tree: every row is driven by events the real library sends from the preview frame. */
 const rows = Object.fromEntries([...document.querySelectorAll('#plan [data-row]')].map((li) => [li.dataset.row, li]));
@@ -54,9 +45,9 @@ function resetPlan() {
   runState.textContent = 'queued';
   runSteps.textContent = '0/0';
   runTime.textContent = '0.0s';
-  setRow('plan', 'queued', 'eli · survey sections', '–');
+  setRow('plan', 'queued', 'orchestrator · survey sections', '–');
   tools.forEach((tool) => { rows[tool].hidden = false; setRow(tool, 'queued', '–', '–'); });
-  setRow('done', 'queued', 'eli · hand back', '–');
+  setRow('done', 'queued', 'orchestrator · hand back', '–');
 }
 function toolLabel(tool) {
   // A page from a URL has no annotations to count ahead, so its rows show a running count until done.
@@ -67,7 +58,7 @@ function startRun(data) {
   run = { t0: performance.now(), total: { type: 0, frame: 0, rule: 0, stamp: 0, ...data.tools }, count: { type: 0, frame: 0, rule: 0, stamp: 0 }, tasks: data.tasks, done: 0, frame: 0 };
   runState.textContent = 'running';
   runSteps.textContent = `0/${run.tasks}`;
-  setRow('plan', 'done', `eli · ${run.tasks} steps`, '0.0s');
+  setRow('plan', 'done', `orchestrator · ${run.tasks} steps`, '0.0s');
   tools.forEach((tool) => {
     rows[tool].hidden = run.total[tool] === 0;
     setRow(tool, 'queued', toolLabel(tool), '–');
@@ -97,7 +88,7 @@ function taskDone(data) {
     const finished = run.total[tool] > 0 && run.count[tool] >= run.total[tool];
     setRow(tool, finished ? 'done' : 'running', toolLabel(tool), finished ? seconds(performance.now() - run.t0) : undefined);
   }
-  if (run.done >= run.tasks) setRow('done', 'running', 'eli · hand back');
+  if (run.done >= run.tasks) setRow('done', 'running', 'orchestrator · hand back');
 }
 function finishRun(stats = {}) {
   stopTicker();
@@ -108,8 +99,8 @@ function finishRun(stats = {}) {
     if (rows[tool].dataset.s !== 'done') setRow(tool, 'done', run ? toolLabel(tool) : 'built', rows[tool].querySelector('.t').textContent === '–' ? '0.0s' : undefined);
     if (run && run.count[tool] === 0) rows[tool].hidden = true;
   });
-  if (rows.plan.dataset.s !== 'done') setRow('plan', 'done', `eli · ${tasks} steps`, '0.0s');
-  setRow('done', 'done', 'eli · hand back', `${duration.toFixed(1)}s`);
+  if (rows.plan.dataset.s !== 'done') setRow('plan', 'done', `orchestrator · ${tasks} steps`, '0.0s');
+  setRow('done', 'done', 'orchestrator · hand back', `${duration.toFixed(1)}s`);
   runState.textContent = 'built';
   runSteps.textContent = `${tasks}/${tasks}`;
   runTime.textContent = `${duration.toFixed(1)}s`;
@@ -144,11 +135,10 @@ function selectScene(next) {
   urlSession = null;
   resetPlan();
   sceneButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.scene === scene)));
-  urlForm.hidden = scene !== 'url';
 }
 
 function replay(next = scene) {
-  if (next === 'url') return runUrl(urlValue || TRY_SITES[0].url);
+  if (next === 'url') return runUrl();
   selectScene(next);
   fileLabel.textContent = 'site-demo.html';
   frame.title = `Live Swarm Troopers demonstration: ${sceneDescriptions[scene]}`;
@@ -157,21 +147,19 @@ function replay(next = scene) {
   document.querySelector('#playground').scrollIntoView({ behavior: 'instant', block: 'nearest' });
 }
 
-// One of the example sites, the same snapshots as try.html; its run drives the same plan tree.
-function runUrl(value) {
-  urlValue = value;
+// The full-page example, the same one as try.html; its run drives the same plan tree.
+function runUrl() {
   selectScene('url');
-  TRY_SITES.forEach((site, i) => siteButtons[i].setAttribute('aria-pressed', String(site.url === value)));
-  const host = new URL(value).hostname;
-  fileLabel.textContent = host;
-  status.textContent = `Loading ${host}.`;
-  urlSession = tryRun(frame, TRY_SITES.find((site) => site.url === value), (data) => {
+  fileLabel.textContent = TRY_DEMO.file;
+  status.textContent = 'Loading the page.';
+  urlSession = tryRun(frame, (data) => {
     frame.parentElement.dataset.loaded = '';
-    if (data.state === 'loaded') status.textContent = `Agents getting into position on ${host}.`;
+    if (data.state === 'loaded') status.textContent = 'Agents getting into position.';
     handle(data);
   });
   frame = urlSession.frame;
-  frame.title = `Swarm Troopers building ${host}`;
+  frame.title = 'Swarm Troopers building a full product page';
+  document.querySelector('#playground').scrollIntoView({ behavior: 'instant', block: 'nearest' });
 }
 
 sceneButtons.forEach((button) => button.addEventListener('click', () => replay(button.dataset.scene)));
@@ -202,6 +190,18 @@ function handle(data) {
     status.textContent = 'The preview could not start. The original content is still here.';
   }
 }
+
+// This page runs the library on itself: the kicker reports the live run, then its receipt.
+const selfRun = document.querySelector('#self-run');
+const selfText = document.querySelector('#self-run-text');
+addEventListener('swarmtroopers-ready', ({ detail: s }) => {
+  const done = (text) => { selfRun.dataset.s = 'done'; selfText.textContent = text; };
+  if (s.quality === 'off' || reduce.matches) return done('this page · built');
+  const progress = () => { selfText.textContent = `this page · ${s.stats.done}/${s.stats.tasks} built live`; };
+  s.on('task', progress);
+  s.on('quality', ({ quality }) => quality === 'off' && done('this page · built'));
+  s.on('done', ({ tasks, duration }) => done(`this page · ${tasks} steps built live in ${duration.toFixed(1)}s`));
+}, { once: true });
 
 const snippets = {
   script: `<!-- No build step: pinned CDN, or self-host from node_modules. -->

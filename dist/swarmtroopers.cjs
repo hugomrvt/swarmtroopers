@@ -145,7 +145,8 @@ function planMove(from, to, p, r, o = {}) {
   const ux = dx / d;
   const uy = dy / d;
   const lateral = clamp(r.normal(0, 0.02 * d), -0.05 * d, 0.05 * d);
-  const mid = { x: from.x + dx * p.reach - uy * lateral, y: from.y + dy * p.reach + ux * lateral };
+  const reach = r.chance(0.25) ? r.range(1.02, 1.06) : p.reach;
+  const mid = { x: from.x + dx * reach - uy * lateral, y: from.y + dy * reach + ux * lateral };
   const rest = Math.hypot(to.x - mid.x, to.y - mid.y);
   return [
     segment(from, mid, Math.max(0.1, total * 0.78), bend),
@@ -167,11 +168,15 @@ function typingSchedule(text, duration, r) {
   const n = text.length;
   const weights = new Float32Array(n);
   let sum = 0;
+  let word = 1;
   for (let i = 0; i < n; i++) {
     const c = text[i];
-    let w = c === " " ? 2.2 : c === "\n" ? 6 : ",;:".indexOf(c) >= 0 ? 4 : ".!?".indexOf(c) >= 0 ? 6 : 1;
+    const starts = c !== " " && c !== "\n" && (i === 0 || text[i - 1] === " " || text[i - 1] === "\n");
+    if (starts) word = r.range(0.7, 1.4);
+    let w = c === " " ? 2.2 : c === "\n" ? 6 : ",;:".indexOf(c) >= 0 ? 4 : ".!?".indexOf(c) >= 0 ? 6 : word;
+    if (starts && i > 0) w += r.range(0.5, 1.8);
     if (r.chance(0.03)) w += 5;
-    w *= r.range(0.7, 1.3);
+    w *= r.range(0.8, 1.2);
     weights[i] = w;
     sum += w;
   }
@@ -555,126 +560,77 @@ var Overlay = class {
     ctx.globalAlpha = 1;
     this.painted = true;
   }
-  /** A small, non-blocking completion stage keeps the finished page in view. */
+  /** The closing clap, Figma style: no panel, two emoji-sized hands slap where the orchestrator stood. */
   finale(f) {
     this.prepareFinale();
     const { ctx } = this;
-    const size = this.artwork ?? { width: 2048, height: 1360 };
     const out = f.close ? unit(f.close / FINALE_OUT) : unit((f.age - F.hold) / F.out);
     const life = (1 - out) * easeOut(f.age / F.veil);
     if (life <= 0) return;
-    const small = this.w < 600;
-    const w = Math.min(this.w - 24, small ? 352 : 440);
-    const h = small ? 294 : 320;
-    const stageScale = Math.min(1, Math.max(0.1, (this.h - 24) / h));
-    const cx = this.w / 2;
-    const top = (this.h - h) / 2 + (1 - easeOut(f.age / 0.3)) * 12;
-    const cy = top + h * 0.31;
-    const k = Math.min(small ? 2.5 : 2.9, w / 125, h / 100);
-    const artW = Math.min(w - 40, small ? 252 : 300);
-    const artScale = artW / size.width;
-    const artTop = top + 22;
-    const armAlpha = life * easeOut((f.age - F.enter) / 0.18);
+    const size = this.w < 600 ? 64 : 76;
+    const mx = Math.min(this.w / 2, size + 64);
+    const cx = Math.min(this.w - mx, Math.max(mx, f.at.x));
+    const cy = Math.min(this.h - size - 30, Math.max(size, f.at.y));
     const pose = finalePose(f.age);
+    const s = size / 100;
+    const pop = 1 + 0.1 * pose.impact;
+    const art = this.artwork && this.highFiveImages.length && this.highFiveImages.every((image) => image.complete && image.naturalWidth > 0) ? this.artwork : null;
     ctx.save();
-    ctx.translate(cx, this.h / 2);
-    ctx.scale(stageScale, stageScale);
-    ctx.translate(-cx, -this.h / 2);
-    ctx.globalAlpha = life;
-    ctx.shadowColor = "rgba(16, 20, 36, 0.15)";
-    ctx.shadowBlur = 42;
-    ctx.shadowOffsetY = 14;
-    ctx.fillStyle = this.st.halo;
-    roundRect(ctx, cx - w / 2, top, w, h, 22);
-    ctx.fill();
-    ctx.shadowColor = "transparent";
-    ctx.globalAlpha = life * 0.12;
-    ctx.strokeStyle = this.st.ink;
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    ctx.globalAlpha = life * 0.5;
-    ctx.fillStyle = this.st.ink;
-    for (let i = 0; i < 3; i++) ctx.fillRect(cx - 7 + i * 6, top + 17, 2, 2);
-    const raster = this.artwork && this.highFiveImages.length && this.highFiveImages.every((image) => image.complete && image.naturalWidth > 0) ? this.artwork : null;
-    if (raster) {
-      for (const [i, layer] of raster.layers.entries()) {
-        const sparkle = layer.group === 0;
-        if (sparkle && pose.impact <= 0) continue;
+    ctx.globalAlpha = life * easeOut((f.age - F.enter) / 0.18);
+    if (art) {
+      for (const [i, layer] of art.layers.entries()) {
         ctx.save();
-        ctx.globalAlpha = sparkle ? life * easeOut((f.age - F.meet) / 0.1) * easeOut(pose.impact) : armAlpha;
-        ctx.translate(cx - artW / 2, artTop);
-        ctx.scale(artScale, artScale);
-        if (!sparkle) {
-          ctx.translate(size.width / 2, 700);
-          ctx.translate(layer.group * pose.spread / artScale, pose.lift / artScale);
-          ctx.rotate(layer.group * pose.tilt * 0.35);
-          ctx.translate(-size.width / 2, -700);
-        }
-        ctx.drawImage(this.highFiveImages[i], layer.x, layer.y, layer.w, layer.h);
+        ctx.translate(cx + layer.group * pose.spread * s, cy + pose.lift * s);
+        ctx.rotate(layer.group * pose.tilt);
+        ctx.scale(pop, pop);
+        ctx.drawImage(this.highFiveImages[i], -size / 2, -size / 2, size, size);
         ctx.restore();
       }
     } else {
-      const offset = pose.spread * Math.min(1, w / 400);
-      const drawHand = (side, color) => {
+      const k = size / 46;
+      for (const [side, color] of [[-1, f.left.color], [1, f.right.color]]) {
         ctx.save();
-        ctx.globalAlpha = armAlpha;
-        ctx.translate(cx + side * offset, cy + pose.lift);
+        ctx.translate(cx + side * pose.spread * s, cy + 6 * k + pose.lift * s);
         ctx.rotate(side * pose.tilt);
-        ctx.scale(side > 0 ? -k : k, k);
+        ctx.scale(side > 0 ? -k * pop : k * pop, k * pop);
         this.highFiveHand(color);
         ctx.restore();
-      };
-      drawHand(-1, f.left.color);
-      drawHand(1, f.right.color);
-      if (pose.impact > 0) {
-        const t = 1 - pose.impact;
-        ctx.globalAlpha = life * pose.impact;
-        ctx.lineWidth = 2;
-        ctx.lineCap = "round";
-        for (let i = 0; i < 5; i++) {
-          const angle = -Math.PI / 2 + (i - 2) * 0.54;
-          const r = 18 + 15 * easeOut(t);
-          ctx.strokeStyle = i % 2 ? f.left.color : f.right.color;
-          ctx.beginPath();
-          ctx.moveTo(cx + Math.cos(angle) * r, cy - 14 * k + Math.sin(angle) * r);
-          ctx.lineTo(cx + Math.cos(angle) * (r + 10 * (1 - t)), cy - 14 * k + Math.sin(angle) * (r + 10 * (1 - t)));
-          ctx.stroke();
-        }
       }
     }
-    const tagsY = raster ? artTop + size.height * artScale + 5 : cy + 23 * k + 4;
-    const nameFont = `600 ${small ? 11 : 12}px ${this.st.sans}`;
-    const tagW = Math.max(24, (w - 62) / 2);
+    if (pose.impact > 0) {
+      const t = 1 - pose.impact;
+      ctx.globalAlpha = life * pose.impact;
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = "round";
+      const oy = cy - size * 0.42;
+      for (let i = 0; i < 7; i++) {
+        const angle = -Math.PI / 2 + (i - 3) * 0.42;
+        const r = size * (0.3 + 0.25 * easeOut(t));
+        const len = size * 0.16 * (1 - t);
+        ctx.strokeStyle = i % 2 ? f.left.color : f.right.color;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(angle) * r, oy + Math.sin(angle) * r);
+        ctx.lineTo(cx + Math.cos(angle) * (r + len), oy + Math.sin(angle) * (r + len));
+        ctx.stroke();
+      }
+    }
+    const tagsY = cy + size / 2 + 8;
+    const nameFont = `600 ${size < 70 ? 11 : 12}px ${this.st.sans}`;
     for (const [i, agent] of [f.left, f.right].entries()) {
       if (!agent.name) continue;
-      const name = this.fit(agent.name, nameFont, tagW - 20);
-      const tw = this.measure(name, nameFont) + 20;
-      const x = i ? cx + 5 : cx - 5 - tw;
+      const name = this.fit(agent.name, nameFont, 120);
+      const tw = this.measure(name, nameFont) + 16;
+      const x = i ? cx + 3 : cx - 3 - tw;
       ctx.globalAlpha = life * easeOut((f.age - 0.3) / 0.2);
-      const color = agent.color;
-      ctx.fillStyle = color;
-      roundRect(ctx, x, tagsY, tw, 23, 6);
+      ctx.fillStyle = agent.color;
+      roundRect(ctx, x, tagsY, tw, 21, 5);
       ctx.fill();
       ctx.font = nameFont;
-      ctx.fillStyle = this.textOn(color);
+      ctx.fillStyle = this.textOn(agent.color);
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(name, x + tw / 2, tagsY + 12);
+      ctx.fillText(name, x + tw / 2, tagsY + 11);
     }
-    const text = easeOut((f.age - F.text) / 0.28);
-    ctx.globalAlpha = life * text;
-    ctx.fillStyle = this.st.ink;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    const titleFont = `650 ${small ? 25 : 29}px ${this.st.sans}`;
-    const titleY = Math.max(top + h * 0.72, tagsY + 48);
-    ctx.font = titleFont;
-    ctx.fillText(this.fit(f.title, titleFont, w - 40), cx, titleY + (1 - text) * 5);
-    ctx.globalAlpha = life * text * 0.64;
-    const subFont = `500 ${small ? 10 : 11}px ${MONO_STACK}`;
-    const lines = this.wrap(f.sub, subFont, w - 36);
-    ctx.font = subFont;
-    lines.forEach((line, i) => ctx.fillText(line, cx, titleY + 30 + i * 15));
     ctx.restore();
   }
   measure(text, font) {
@@ -1226,7 +1182,6 @@ function measureText(el, skip) {
 }
 
 // src/tools.ts
-var inset = (progress) => (100 - clamp(progress, 0, 1) * 100).toFixed(2) + "%";
 function* frame(c) {
   c.shape("cross");
   yield* c.move(() => {
@@ -1252,7 +1207,7 @@ function* frame(c) {
     width: Math.max(24, Math.min(start.w, start.h) / 2),
     onStep: () => {
       const r = c.rect();
-      c.reveal.clip(`inset(0 ${inset(r.w ? (c.agent.x - r.x) / r.w : 1)} ${inset(r.h ? (c.agent.y - r.y) / r.h : 1)} 0)`);
+      c.reveal.sweep(r.w ? (c.agent.x - r.x) / r.w : 1, r.h ? (c.agent.y - r.y) / r.h : 1);
     }
   });
   c.hold(false);
@@ -1285,9 +1240,8 @@ function* rule(c) {
     width: 30,
     onStep: () => {
       const r = c.rect();
-      c.reveal.clip(
-        horizontal ? `inset(0 ${inset(r.w ? (c.agent.x - r.x) / r.w : 1)} 0 0)` : `inset(0 0 ${inset(r.h ? (c.agent.y - r.y) / r.h : 1)} 0)`
-      );
+      if (horizontal) c.reveal.sweep(r.w ? (c.agent.x - r.x) / r.w : 1, 1);
+      else c.reveal.sweep(1, r.h ? (c.agent.y - r.y) / r.h : 1);
     }
   });
   c.hold(false);
@@ -1376,7 +1330,7 @@ function* stamp(c) {
   c.hold(false);
   ghost.done();
   picked.done();
-  c.reveal.pop();
+  c.reveal.settle();
   const label = c.label();
   if (label) c.mark({ kind: "select", rect: () => c.rect(), label, ttl: 0.7 });
   c.shape("arrow");
@@ -1393,6 +1347,8 @@ var TOOLS = /* @__PURE__ */ new Map([
 var CSS2 = `
 .swarmtroopers-pending{opacity:0!important;pointer-events:none!important}
 .swarmtroopers-pop{transition:opacity .22s ease-out!important}
+.swarmtroopers-settle{animation:swarmtroopers-settle .44s cubic-bezier(.3,1.5,.6,1) both}
+@keyframes swarmtroopers-settle{from{opacity:.35;translate:0 -7px;scale:1.03}to{opacity:1;translate:none;scale:none}}
 .swarmtroopers-controls{position:fixed;z-index:2147483001;box-sizing:border-box;display:flex;align-items:center;gap:3px;max-width:calc(100vw - 28px);padding:5px;border:1px solid color-mix(in srgb,currentColor 15%,transparent);border-radius:6px;font:500 12px/1.2 'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;isolation:isolate}
 .swarmtroopers-controls[data-pos^=bottom]{bottom:max(14px,env(safe-area-inset-bottom,0px))}
 .swarmtroopers-controls[data-pos^=top]{top:max(14px,env(safe-area-inset-top,0px))}
@@ -1401,13 +1357,13 @@ var CSS2 = `
 .swarmtroopers-controls .swarmtroopers-controls-title{display:flex;align-items:center;gap:7px;min-width:0;padding:0 12px 0 9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .swarmtroopers-controls .swarmtroopers-controls-title img{display:block;flex:none;width:20px;height:20px;object-fit:contain}
 .swarmtroopers-controls button{appearance:none;box-sizing:border-box;min-height:40px;min-width:44px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:transparent;border:0;border-radius:6px;margin:0;padding:0 13px;font:inherit;color:inherit;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 120ms ease,box-shadow 160ms ease;-webkit-tap-highlight-color:transparent}
-.swarmtroopers-controls button[aria-pressed=true]{background:currentColor;color:var(--st-on,#fff)}
+.swarmtroopers-controls button[aria-pressed=true]{background:var(--st-fg,currentColor);color:var(--st-on,#fff)}
 .swarmtroopers-controls button:active{transform:scale(.96)}
 .swarmtroopers-controls button:focus-visible{outline:2px solid currentColor;outline-offset:3px}
 @media (hover:hover) and (pointer:fine){.swarmtroopers-controls button:not([aria-pressed=true]):hover{background:color-mix(in srgb,currentColor 8%,transparent)}}
 @media (max-width:380px){.swarmtroopers-controls .swarmtroopers-controls-title{padding-right:6px;font-size:11px}.swarmtroopers-controls button{padding-inline:10px}}
 @media print{.swarmtroopers-pending{opacity:1!important;pointer-events:auto!important}.swarmtroopers-overlay,.swarmtroopers-controls{display:none!important}}
-@media (prefers-reduced-motion:reduce){.swarmtroopers-pop,.swarmtroopers-controls button{transition:none!important}.swarmtroopers-controls button:active{transform:none}}
+@media (prefers-reduced-motion:reduce){.swarmtroopers-settle{animation:none}.swarmtroopers-pop,.swarmtroopers-controls button{transition:none!important}.swarmtroopers-controls button:active{transform:none}}
 `;
 var refs = 0;
 var sheet = null;
@@ -1800,6 +1756,9 @@ var PROFILES = {
 };
 var SECTION = "section, header, footer, article, aside, nav, [data-swarmtroopers-section]";
 var ACTIVE_ROOTS = /* @__PURE__ */ new Map();
+var FEATHER = 26;
+var MASK_PROPS = ["mask-image", "-webkit-mask-image", "mask-repeat", "-webkit-mask-repeat", "mask-composite", "-webkit-mask-composite"];
+var SOFT_MASK = typeof CSS !== "undefined" && typeof CSS.supports === "function" && (CSS.supports("mask-composite", "intersect") || CSS.supports("-webkit-mask-composite", "source-in"));
 var SwarmTroopers = class {
   constructor(options = {}) {
     /** Speed multiplier applied to every gesture, recomputed each frame from the backlog. */
@@ -1819,6 +1778,10 @@ var SwarmTroopers = class {
     this.built = /* @__PURE__ */ new WeakSet();
     this.agents = [];
     this.lead = null;
+    /** Elements wearing our soft-edge mask, to take it off when their sweep ends or is cut short. */
+    this.masked = /* @__PURE__ */ new WeakSet();
+    /** Freshly built elements the orchestrator has not looked over yet, newest last. */
+    this.review = [];
     this.anns = [];
     this.overlay = null;
     this.io = null;
@@ -2076,6 +2039,34 @@ var SwarmTroopers = class {
   restoreClip(t) {
     if (t.prevClip) t.el.style.setProperty("clip-path", t.prevClip, t.prevClipPriority);
     else t.el.style.removeProperty("clip-path");
+    if (this.masked.delete(t.el)) for (const p of MASK_PROPS) t.el.style.removeProperty(p);
+  }
+  /**
+   * Reveals the top-left part of an element. A gradient mask gives it a soft edge; an element with a mask of
+   * its own, or a browser without mask compositing, gets the hard clip-path instead.
+   */
+  sweep(t, x, y) {
+    const el = t.el;
+    const px = clamp(x, 0, 1);
+    const py = clamp(y, 0, 1);
+    if (!this.masked.has(el)) {
+      const own = el.style.getPropertyValue("mask-image") || el.style.getPropertyValue("-webkit-mask-image") || getComputedStyle(el).getPropertyValue("mask-image");
+      if (!SOFT_MASK || own && own !== "none") {
+        el.style.clipPath = `inset(0 ${(100 - px * 100).toFixed(2)}% ${(100 - py * 100).toFixed(2)}% 0)`;
+        return;
+      }
+      this.masked.add(el);
+      el.style.setProperty("mask-repeat", "no-repeat");
+      el.style.setProperty("-webkit-mask-repeat", "no-repeat");
+      el.style.setProperty("mask-composite", "intersect");
+      el.style.setProperty("-webkit-mask-composite", "source-in");
+    }
+    const edge = (p) => `#000 calc(${(p * 100).toFixed(2)}% - ${(FEATHER * (1 - p)).toFixed(1)}px),transparent ${(p * 100).toFixed(2)}%`;
+    const mask = `linear-gradient(to right,${edge(px)}),linear-gradient(to bottom,${edge(py)})`;
+    el.style.setProperty("mask-image", mask);
+    el.style.setProperty("-webkit-mask-image", mask);
+    if (t.prevClip) el.style.setProperty("clip-path", t.prevClip, t.prevClipPriority);
+    else el.style.removeProperty("clip-path");
   }
   restoreClasses(t) {
     t.el.classList.remove("swarmtroopers-pending");
@@ -2566,6 +2557,9 @@ var SwarmTroopers = class {
     if (a.doing && (a.doing.age += dt) > 2.8) a.doing = null;
     if (!a.job) {
       if (a.lead) return;
+      const drift = (t, k) => Math.sin(t * 1.7 + a.id * k) * 1.4 + Math.sin(t * 0.6 + a.id * 2 * k) * 2.2;
+      a.x += drift(a.idle + dt, 1) - drift(a.idle, 1);
+      a.y += drift(a.idle + dt, 3) - drift(a.idle, 3);
       a.idle += dt;
       const pending = !!a.squad && a.squad.tasks.some((t) => t.state === "pending" && t.tool !== "instant");
       if (a.idle > (pending ? 2.5 : 0.6)) {
@@ -2692,6 +2686,11 @@ var SwarmTroopers = class {
       const el = this.insp.want;
       if (el) {
         yield* this.inspectWith(a, el);
+        continue;
+      }
+      const fresh = this.building() ? this.nextReview() : null;
+      if (fresh) {
+        yield* this.check(a, fresh);
         continue;
       }
       if (this.finished && !this.agents.some((x) => !x.lead)) {
@@ -2829,6 +2828,37 @@ var SwarmTroopers = class {
     while (said && a.say === said && said.age < said.ttl * 0.7 && e < 1.4) e += yield;
     yield* this.wait(0.3);
   }
+  /** The most recent piece of work still on screen, if any. Older ones are let go. */
+  nextReview() {
+    while (this.review.length) {
+      const t = this.review.pop();
+      if (t.inView && t.el.isConnected) {
+        this.review.length = 0;
+        return t;
+      }
+    }
+    return null;
+  }
+  /** Between two dispatches the orchestrator looks over what a worker just finished: over, a tap, a beat. */
+  *check(a, t) {
+    const urgent = () => this.building() && !!this.nextSection();
+    const at = () => {
+      const r = this.rect(t.el);
+      return { x: r.x + r.w - Math.min(24, r.w / 4), y: r.y + Math.min(16, r.h / 2) };
+    };
+    const go = this.travel(a, at, { width: 40 });
+    for (let step = go.next(); !step.done; ) {
+      if (urgent()) {
+        go.return(void 0);
+        return;
+      }
+      const dt = yield;
+      step = go.next(dt);
+    }
+    a.press = 1;
+    this.mark(a, { kind: "select", rect: () => this.rect(t.el), ttl: 0.55 });
+    for (let e = 0, beat = this.r.range(0.45, 0.8); e < beat && !urgent(); ) e += yield;
+  }
   *inspectWith(a, el) {
     const t = this.byEl.get(el);
     yield* this.travel(a, () => {
@@ -2884,10 +2914,12 @@ var SwarmTroopers = class {
         clip: (value) => {
           el.style.clipPath = value;
         },
+        sweep: (x, y) => this.sweep(t, x, y),
         end: () => {
           this.restoreClip(t);
         },
-        pop: () => this.pop(t)
+        pop: () => this.pop(t),
+        settle: () => this.pop(t, "swarmtroopers-settle", 460)
       }
     };
   }
@@ -2898,6 +2930,7 @@ var SwarmTroopers = class {
     t.el.classList.remove("swarmtroopers-pending");
     this.restoreClip(t);
     this.io?.unobserve(t.el);
+    if (this.building() && t.inView && t.tool !== "instant" && this.agents.some((x) => x.task === t) && this.review.push(t) > 6) this.review.shift();
     this.events.emit("task", { el: t.el, tool: t.tool });
     const sec = t.section;
     if (!sec.announced && sec.tasks.every((x) => x.state === "done")) {
@@ -2912,12 +2945,12 @@ var SwarmTroopers = class {
     for (const d of t.deps) this.popChain(d);
     this.pop(t);
   }
-  pop(t) {
+  pop(t, cls = "swarmtroopers-pop", ms = 260) {
     if (t.state === "done") return;
     const el = t.el;
-    el.classList.add("swarmtroopers-pop");
+    el.classList.add(cls);
     this.complete(t);
-    window.setTimeout(() => el.classList.toggle("swarmtroopers-pop", t.prevPop), 260);
+    window.setTimeout(() => cls === "swarmtroopers-pop" ? el.classList.toggle(cls, t.prevPop) : el.classList.remove(cls), ms);
   }
   wrapUp(finale = true) {
     if (this.finished) return;
@@ -2929,9 +2962,11 @@ var SwarmTroopers = class {
       for (const a of this.agents) a.say = null;
       const right = this.lead ?? { name: this.s.names !== false ? this.leadName : "", color: this.ink };
       const left = this.lastWorker ?? { name: this.nameFor(), color: this.palette[0] };
+      const at = this.lead ? { x: this.lead.x - this.sx, y: this.lead.y - this.sy } : { x: innerWidth / 2, y: innerHeight / 2 };
       this.fin = {
         age: 0,
         close: 0,
+        at,
         left: { name: this.s.names !== false ? left.name : "", color: left.color },
         right: { name: right.name, color: right.color },
         title: this.doneText,
@@ -3133,6 +3168,7 @@ function controls(swarmtroopers, options = {}) {
   box.style.color = ink;
   box.style.background = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
   box.style.setProperty("--st-on", box.style.background);
+  box.style.setProperty("--st-fg", ink);
   const title = document.createElement("span");
   title.className = "swarmtroopers-controls-title";
   const mark = document.createElement("img");

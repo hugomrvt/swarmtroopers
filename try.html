@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Pick a real site and watch five Swarm Troopers agents build that page.">
+  <meta name="description" content="Watch Swarm Troopers agents build a whole product page, section by section.">
   <meta name="theme-color" content="#0D0E11">
-  <title>Swarm Troopers — try it on any page</title>
+  <title>Swarm Troopers — watch a full page build</title>
   <link rel="icon" type="image/svg+xml" href="assets/swarmtroopers-mark-sm.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +27,6 @@
     .try-bar a{display:inline-flex;align-items:center;min-height:32px;padding:0 10px;border:1px solid var(--line-2);border-radius:4px;color:var(--ink-2);text-decoration:none}
     .try-bar a[hidden]{display:none}
     .try-frame iframe{display:block;width:100%;height:min(calc(100vh - 80px),900px);border:0;background:#fff}
-    .try-empty{display:grid;place-items:center;height:min(50vh,420px);padding:24px;text-align:center;font:500 13px/1.6 var(--mono);color:var(--ink-3)}
     .try-fine{margin-top:14px;font:500 11.5px/1.6 var(--mono);color:var(--ink-3)}
   </style>
 </head>
@@ -42,17 +41,16 @@
   <main id="main" class="wrap">
     <section class="try-head" aria-labelledby="try-title">
       <span class="label">try</span>
-      <h1 id="try-title">pick a site.<br><span class="dim">watch the swarm build it.</span></h1>
-      <p>Choose a real page. The agents survey it, build it section by section and the view scrolls with them. Scroll, click or press a key to take over.</p>
-      <div class="try-examples" id="try-sites" role="group" aria-label="Choose a site"></div>
+      <h1 id="try-title">one page.<br><span class="dim">built by the swarm.</span></h1>
+      <p>A whole product page, from an empty screen. The orchestrator surveys each section, sends a squad, and looks over their work while the view scrolls with them. Scroll, click or press a key to take over.</p>
+      <div class="try-examples"><button type="button" id="try-again">run it again</button></div>
     </section>
 
     <section class="try-frame" aria-label="Preview">
-      <div class="try-bar"><span aria-hidden="true">run</span><output id="try-status" aria-live="polite">waiting for a site</output><a id="try-open" target="_blank" rel="noopener" hidden>full page ↗</a></div>
-      <div class="try-empty" id="try-empty">› pick a site above to start a run</div>
-      <iframe id="try-view" title="Page built by Swarm Troopers" sandbox="allow-scripts" referrerpolicy="no-referrer" hidden></iframe>
+      <div class="try-bar"><span aria-hidden="true">run</span><output id="try-status" aria-live="polite">loading</output><a id="try-open" target="_blank" rel="noopener" hidden>full page ↗</a></div>
+      <iframe id="try-view" title="Page built by Swarm Troopers" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe>
     </section>
-    <p class="try-fine">Each example is a snapshot of the real page, frozen without its own scripts so the run stays smooth. Links and forms do nothing here. Want it on your own site? Install it: it runs on your HTML as it is.</p>
+    <p class="try-fine">Tidewell is a made-up company: the page was written for this demo. Links do nothing here. Want it on your own site? Install it: it runs on your HTML as it is.</p>
   </main>
 
   <footer class="site-footer wrap">
@@ -62,46 +60,36 @@
   </footer>
 
   <script>
-    const picker = document.querySelector('#try-sites');
-    const empty = document.querySelector('#try-empty');
     const status = document.querySelector('#try-status');
     const open = document.querySelector('#try-open');
     let view = document.querySelector('#try-view');
     let session = null;
 
-    const buttons = TRY_SITES.map((site) => {
-      const button = Object.assign(document.createElement('button'), { type: 'button', textContent: site.label });
-      button.setAttribute('aria-pressed', 'false');
-      button.addEventListener('click', () => run(site.url));
-      picker.append(button);
-      return button;
-    });
-
-    function run(value) {
-      const host = new URL(value).hostname;
-      TRY_SITES.forEach((site, i) => buttons[i].setAttribute('aria-pressed', String(site.url === value)));
+    function run() {
       session?.stop();
-      view.hidden = false;
-      session = tryRun(view, TRY_SITES.find((site) => site.url === value), (data) => {
-        open.href = view.src;
-        if (data.state === 'loaded') status.textContent = 'agents getting into position on ' + host;
-        if (data.state === 'building') status.textContent = `building ${host} · 0/${data.tasks} steps`;
-        if (data.state === 'task') status.textContent = `building ${host} · ${data.done}/${data.tasks} steps`;
-        if (data.state === 'done') status.textContent = `built ${host} · ${data.stats.tasks} steps · ${data.stats.agents} agents · ${data.stats.duration.toFixed(1)}s`;
+      status.textContent = 'loading';
+      session = tryRun(view, (data) => {
+        if (data.state === 'loaded') status.textContent = 'agents getting into position';
+        if (data.state === 'building') status.textContent = `building · 0/${data.tasks} steps`;
+        if (data.state === 'task') status.textContent = `building · ${data.done}/${data.tasks} steps`;
+        if (data.state === 'done') status.textContent = `built · ${data.stats.tasks} steps · ${data.stats.agents} agents · ${data.stats.duration.toFixed(1)}s`;
       });
       view = session.frame;
-      status.textContent = 'loading ' + host;
-      empty.hidden = true;
       open.href = view.src;
       open.hidden = false;
-      const url = new URL(location.href);
-      url.searchParams.set('url', value);
-      history.replaceState(null, '', url);
-      view.closest('section').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     }
 
-    const initial = new URLSearchParams(location.search).get('url');
-    if (TRY_SITES.some((site) => site.url === initial)) run(initial);
+    document.querySelector('#try-again').addEventListener('click', () => {
+      run();
+      view.closest('section').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    });
+    // The page in the frame only finds what to build once the frame is on screen, so the first run waits for it.
+    const firstRun = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      firstRun.disconnect();
+      run();
+    }, { threshold: 0.4 });
+    firstRun.observe(view);
   </script>
 </body>
 </html>
