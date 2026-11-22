@@ -1,15 +1,15 @@
-/*! Swarm Troopers v0.4.1 | swarmtroopers | MIT */
+/*! Swarm Troopers v0.5.0 | swarmtroopers | MIT */
 import {
   create,
   defineTool,
   version
-} from "./chunk-QO6GLEZM.js";
+} from "./chunk-BSBFW2VA.js";
 import {
   SwarmTroopers,
   controls,
   tokens
-} from "./chunk-K7YSAKZY.js";
-import "./chunk-4VFVLJOR.js";
+} from "./chunk-EQXGE2WT.js";
+import "./chunk-2UYDPHDG.js";
 export {
   SwarmTroopers,
   controls,

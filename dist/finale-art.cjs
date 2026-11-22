@@ -1,4 +1,4 @@
-/*! Swarm Troopers v0.4.1 | swarmtroopers | MIT */
+/*! Swarm Troopers v0.5.0 | swarmtroopers | MIT */
 "use strict";
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;

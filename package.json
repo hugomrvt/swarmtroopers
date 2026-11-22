@@ -1,6 +1,6 @@
 {
   "name": "swarmtroopers",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Swarm Troopers coordinates a swarm of named cursor agents that reveal your existing page. Framework-agnostic overlay, zero runtime dependencies.",
   "keywords": [
     "animation",

@@ -28,7 +28,7 @@ controls(swarmtroopers);
 Or with one script tag from a pinned CDN, no build step:
 
 ```html
-<script src="https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js"
+<script src="https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtroopers.core.iife.js"
         data-swarmtroopers-init='{"auto": true, "controls": true}'></script>
 ```
 

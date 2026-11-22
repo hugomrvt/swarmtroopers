@@ -1,7 +1,7 @@
-/*! Swarm Troopers v0.4.1 | swarmtroopers | MIT */
+/*! Swarm Troopers v0.5.0 | swarmtroopers | MIT */
 import {
   getFinaleArtwork
-} from "./chunk-4VFVLJOR.js";
+} from "./chunk-2UYDPHDG.js";
 
 // src/util.ts
 var clamp = (v, lo, hi) => v < lo ? lo : v > hi ? hi : v;
@@ -3165,4 +3165,4 @@ export {
   SwarmTroopers,
   controls
 };
-//# sourceMappingURL=chunk-K7YSAKZY.js.map
+//# sourceMappingURL=chunk-EQXGE2WT.js.map

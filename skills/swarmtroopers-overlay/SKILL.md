@@ -2,7 +2,7 @@
 name: swarmtroopers-overlay
 description: Integrate Swarm Troopers' coordinated cursor animations into an existing website, preserving its content, styles and lifecycle. Use when adding Swarm Troopers or replacing a reveal effect with named cursor agents.
 metadata:
-  version: "0.4.1"
+  version: "0.5.0"
   author: Hugo Mourlevat
 ---
 
@@ -20,7 +20,7 @@ Install the tested engine; do not copy or regenerate its internals for each site
 
 ## Install and integrate
 
-Install with the site's package manager (`npm i swarmtroopers`), or use the no-build script tag from a pinned CDN, `https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js`, or self-host by copying `dist/swarmtroopers.core.iife.js` from `node_modules/swarmtroopers`. The skill itself installs with `npx swarmtroopers skill`. Do not invent other packages, CDNs, domains, or deployments.
+Install with the site's package manager (`npm i swarmtroopers`), or use the no-build script tag from a pinned CDN, `https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtroopers.core.iife.js`, or self-host by copying `dist/swarmtroopers.core.iife.js` from `node_modules/swarmtroopers`. The skill itself installs with `npx swarmtroopers skill`. Do not invent other packages, CDNs, domains, or deployments.
 
 Choose the build deliberately:
 

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.0 (2026-11-22)
 
 ### Changed
 - The finale is now a small clap where the orchestrator stands: two emoji-sized hands, a short burst and both name tags. The completion panel, its title and its summary line are gone, and the page stays fully visible.
