@@ -17,15 +17,12 @@ export interface ChatOptions {
     kinds?: Partial<Record<Kind, string>>;
     /** Show the bubbles. Defaults to true when options are given, so `{ bubbles: false, tasks }` only rewrites the tasks. */
     bubbles?: boolean;
-    /** Line under the final high five. "{t}" elements, "{a}" agents, "{d}" seconds. */
-    summary?: string;
 }
 interface Pack {
     lines: ChatLines;
     subjects: Subjects;
     tasks: TaskVerbs;
     kinds: Record<Kind, string>;
-    summary: string;
     lead: string;
 }
 /** Short first names that read the same in most languages. */

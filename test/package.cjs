@@ -19,7 +19,7 @@ try {
   execFileSync(process.execPath, ['-e', 'const core=require("swarmtroopers"),full=require("swarmtroopers/full");if(core.SwarmTroopers!==full.SwarmTroopers)throw Error("shared engine")'], { cwd: temp });
   const core = fs.readFileSync(path.join(target, 'dist/swarmtroopers.core.iife.js'));
   const full = fs.readFileSync(path.join(target, 'dist/swarmtroopers.iife.js'));
-  assert(!core.includes('data:image/webp')); assert(full.includes('data:image/webp'));
+  const skin = encodeURIComponent('rgb(249,192,134)'); assert(!core.includes('249,192,134') && !core.includes(skin)); assert(full.includes('249,192,134') || full.includes(skin));
   assert(gzipSync(core).length < 35 * 1024, 'lightweight script gzip budget');
   const source = fs.readFileSync(path.join(target, 'skills/swarmtroopers-overlay/SKILL.md'), 'utf8');
   assert(source.startsWith('---\nname: swarmtroopers-overlay\n')); assert(!/^version:|^author:/m.test(source));

@@ -11,4 +11,4 @@ export {
   getFinaleArtwork,
   setFinaleArtwork
 };
-//# sourceMappingURL=chunk-QTJTB2CH.js.map
+//# sourceMappingURL=chunk-4VFVLJOR.js.map

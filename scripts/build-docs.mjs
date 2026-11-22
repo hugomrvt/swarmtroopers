@@ -69,6 +69,15 @@ function template(page, index) {
   <meta name="description" content="${escape(page.description)}">
   <meta name="theme-color" content="#0D0E11">
   <title>${escape(page.title)} — Swarm Troopers documentation</title>
+  <link rel="canonical" href="https://swarmtroopers.mrvt.app/docs/${page.slug === 'index' ? '' : page.slug + '.html'}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://swarmtroopers.mrvt.app/docs/${page.slug === 'index' ? '' : page.slug + '.html'}">
+  <meta property="og:title" content="${escape(page.title)} — Swarm Troopers documentation">
+  <meta property="og:description" content="${escape(page.description)}">
+  <meta property="og:image" content="https://swarmtroopers.mrvt.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="../assets/swarmtroopers-mark-sm.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -80,11 +89,11 @@ function template(page, index) {
 </head>
 <body>
   <a class="skip-link" href="#docs-content">Skip to documentation</a>
-  <header class="docs-header"><div class="docs-header-inner"><div class="header-brand">${logo}<span class="header-divider" aria-hidden="true"></span><a class="docs-home" href="index.html">docs</a></div><div class="docs-search" role="search"><label class="visually-hidden" for="docs-search">Search documentation</label><div class="search-input"><span class="search-prompt" aria-hidden="true">›</span><input id="docs-search" type="search" placeholder="search the docs" autocomplete="off" aria-controls="docs-search-results" aria-keyshortcuts="Meta+K Control+K"><kbd aria-hidden="true">⌘K</kbd></div><div class="search-panel"><p id="docs-search-status" role="status" aria-live="polite"></p><ol id="docs-search-results" hidden aria-label="Search results"></ol></div></div><span class="docs-version">v${escape(version)}</span><nav aria-label="Site navigation"><a href="../">overview</a><a href="../demo/index.html">playground <span aria-hidden="true">↗</span></a><a href="../try.html">try <span aria-hidden="true">↗</span></a></nav>${badge}</div></header>
+  <header class="docs-header"><div class="docs-header-inner"><div class="header-brand">${logo}<span class="header-divider" aria-hidden="true"></span><a class="docs-home" href="index.html">docs</a></div><div class="docs-search" role="search"><label class="visually-hidden" for="docs-search">Search documentation</label><div class="search-input"><span class="search-prompt" aria-hidden="true">›</span><input id="docs-search" type="search" placeholder="search the docs" autocomplete="off" aria-controls="docs-search-results" aria-keyshortcuts="Meta+K Control+K"><kbd aria-hidden="true">⌘K</kbd></div><div class="search-panel"><p id="docs-search-status" role="status" aria-live="polite"></p><ol id="docs-search-results" hidden aria-label="Search results"></ol></div></div><span class="docs-version">v${escape(version)}</span><nav aria-label="Site navigation"><a href="../">overview</a><a href="../#playground">playground</a><a href="../try.html">full page build</a></nav>${badge}</div></header>
   <div class="docs-layout">
     <aside class="docs-sidebar" aria-label="Documentation navigation">
       <details id="docs-menu" open><summary>browse documentation <span aria-hidden="true">▸</span></summary><nav class="docs-nav" aria-label="Documentation pages">${navigation(page.slug)}</nav></details>
-      <a class="sidebar-playground" href="../demo/index.html"><img src="../assets/swarmtroopers-mark-sm.svg" alt="" width="20" height="20"><span>Less reading. More playing.<small>Open the full-page demo ↗</small></span></a>
+      <a class="sidebar-playground" href="../try.html"><img src="../assets/swarmtroopers-mark-sm.svg" alt="" width="20" height="20"><span>Less reading. More playing.<small>Watch a full page build ↗</small></span></a>
     </aside>
     <main class="docs-main"><article id="docs-content" tabindex="-1"><header class="article-header"><p class="article-eyebrow">docs <span>/</span> ${escape(page.group.toLowerCase())} <span>/</span> ${escape(page.slug)}</p><h1>${escape(page.title)}</h1><p class="article-description">${escape(page.description)}</p></header><div class="doc-content">${enhance(page.body)}</div></article><nav class="docs-pager" aria-label="Documentation pagination">${previous ? `<a class="pager-previous" href="${previous.slug}.html"><span>← previous</span><strong>${escape(previous.title)}</strong></a>` : '<span></span>'}${next ? `<a class="pager-next" href="${next.slug}.html"><span>next →</span><strong>${escape(next.title)}</strong></a>` : '<span></span>'}</nav><footer class="docs-footer"><span>Small team. Thoughtful details.</span><a href="../">back to swarmtroopers <span aria-hidden="true">↗</span></a></footer></main>
     <aside class="docs-toc"><nav aria-label="On this page"><p>on this page</p><ul>${sectionHeadings.map((heading) => `<li class="toc-level-${heading.level}"><a href="#${escape(heading.id)}">${escape(heading.title)}</a></li>`).join('')}</ul></nav><div class="toc-note"><span class="toc-state"><span aria-hidden="true">✓</span>html first</span><p>Your HTML stays the source of truth.</p></div></aside>

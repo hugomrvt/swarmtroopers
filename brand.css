@@ -3,7 +3,7 @@
   --st-shell:#0D0E11;--st-pane:#14161B;--st-pane-2:#1A1D23;--st-line:#262931;--st-line-2:#363A44;
   --st-ink:#ECEEF2;--st-ink-2:#A6ABB6;--st-ink-3:#7D8390;--st-on-ink:#0D0E11;
   --st-run:#4F7BFF;--st-run-soft:rgba(79,123,255,.16);--st-done:#3DD68C;--st-wait:#F5C542;--st-fail:#FF5C7A;
-  --st-eli:#ECEEF2;--st-ada:#7DB4FF;--st-mia:#B98CFF;--st-noe:#5FE3D0;--st-iris:#FF7EB6;
+  --st-lead:#ECEEF2;--st-ada:#7DB4FF;--st-mia:#B98CFF;--st-noe:#5FE3D0;--st-iris:#FF7EB6;
   --st-mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   --st-sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
   --st-dispatch:cubic-bezier(.16,1,.3,1);--st-act:cubic-bezier(.3,0,.2,1);--st-confirm:cubic-bezier(.34,1.56,.64,1);
@@ -14,13 +14,13 @@
   --st-shell:#F1F2F4;--st-pane:#FFFFFF;--st-pane-2:#F7F8FA;--st-line:#DCDFE5;--st-line-2:#C4C8D1;
   --st-ink:#0D0E11;--st-ink-2:#454B57;--st-ink-3:#5F6674;--st-on-ink:#FFFFFF;
   --st-run:#2457F5;--st-run-soft:rgba(36,87,245,.1);--st-done:#0B8F57;--st-wait:#9A6F00;--st-fail:#D21F45;
-  --st-eli:#0D0E11;color-scheme:light;
+  --st-lead:#0D0E11;color-scheme:light;
 }}
 :root[data-theme=light]{
   --st-shell:#F1F2F4;--st-pane:#FFFFFF;--st-pane-2:#F7F8FA;--st-line:#DCDFE5;--st-line-2:#C4C8D1;
   --st-ink:#0D0E11;--st-ink-2:#454B57;--st-ink-3:#5F6674;--st-on-ink:#FFFFFF;
   --st-run:#2457F5;--st-run-soft:rgba(36,87,245,.1);--st-done:#0B8F57;--st-wait:#9A6F00;--st-fail:#D21F45;
-  --st-eli:#0D0E11;color-scheme:light;
+  --st-lead:#0D0E11;color-scheme:light;
 }
 
 /* Lockup: formation mark, then the lowercase mono wordmark. */

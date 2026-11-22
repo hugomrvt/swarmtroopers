@@ -11,7 +11,7 @@ const common = {
   target: 'es2020',
   legalComments: 'none',
   logLevel: 'info',
-  loader: { '.webp': 'dataurl', '.svg': 'dataurl' },
+  loader: { '.svg': 'dataurl' },
   define: { __VERSION__: JSON.stringify(version) },
   banner: { js: `/*! Swarm Troopers v${version} | swarmtroopers | MIT */` },
 };

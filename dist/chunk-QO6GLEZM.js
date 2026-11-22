@@ -2,7 +2,7 @@
 import {
   SwarmTroopers,
   TOOLS
-} from "./chunk-3DDE2SKH.js";
+} from "./chunk-K7YSAKZY.js";
 
 // src/index.ts
 var version = true ? "0.4.1" : "dev";
@@ -18,4 +18,4 @@ export {
   create,
   defineTool
 };
-//# sourceMappingURL=chunk-WDJCOQRJ.js.map
+//# sourceMappingURL=chunk-QO6GLEZM.js.map

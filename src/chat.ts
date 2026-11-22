@@ -18,8 +18,6 @@ export interface ChatOptions {
   kinds?: Partial<Record<Kind, string>>;
   /** Show the bubbles. Defaults to true when options are given, so `{ bubbles: false, tasks }` only rewrites the tasks. */
   bubbles?: boolean;
-  /** Line under the final high five. "{t}" elements, "{a}" agents, "{d}" seconds. */
-  summary?: string;
 }
 
 interface Pack {
@@ -27,7 +25,6 @@ interface Pack {
   subjects: Subjects;
   tasks: TaskVerbs;
   kinds: Record<Kind, string>;
-  summary: string;
   lead: string;
 }
 
@@ -57,7 +54,6 @@ const EN: Pack = {
     list: 'the list',
     block: 'a block',
   },
-  summary: '{t} elements · {a} agents · {d} s',
   lead: 'Orchestrator',
 };
 
@@ -84,7 +80,6 @@ const FR: Pack = {
     list: 'la liste',
     block: 'un bloc',
   },
-  summary: '{t} éléments · {a} agents · {d} s',
   lead: 'Orchestrateur',
 };
 
@@ -98,7 +93,6 @@ export function chatPack(o: ChatOptions = {}): Pack {
     subjects: { ...base.subjects, ...o.subjects },
     tasks: { ...base.tasks, ...o.tasks },
     kinds: { ...base.kinds, ...o.kinds },
-    summary: o.summary ?? base.summary,
     lead: base.lead,
   };
 }

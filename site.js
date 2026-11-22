@@ -191,16 +191,16 @@ function handle(data) {
   }
 }
 
-// This page runs the library on itself: the kicker reports the live run, then its receipt.
+// The hero runs the library on itself: the kicker reports the live run, then its receipt.
 const selfRun = document.querySelector('#self-run');
 const selfText = document.querySelector('#self-run-text');
 addEventListener('swarmtroopers-ready', ({ detail: s }) => {
   const done = (text) => { selfRun.dataset.s = 'done'; selfText.textContent = text; };
-  if (s.quality === 'off' || reduce.matches) return done('this page · built');
-  const progress = () => { selfText.textContent = `this page · ${s.stats.done}/${s.stats.tasks} built live`; };
+  if (s.quality === 'off' || reduce.matches) return done('this hero · built');
+  const progress = () => { selfText.textContent = `this hero · ${s.stats.done}/${s.stats.tasks} built live`; };
   s.on('task', progress);
-  s.on('quality', ({ quality }) => quality === 'off' && done('this page · built'));
-  s.on('done', ({ tasks, duration }) => done(`this page · ${tasks} steps built live in ${duration.toFixed(1)}s`));
+  s.on('quality', ({ quality }) => quality === 'off' && done('this hero · built'));
+  s.on('done', ({ tasks, duration }) => done(`this hero · ${tasks} steps built live in ${duration.toFixed(1)}s`));
 }, { once: true });
 
 const snippets = {

@@ -68,8 +68,6 @@ export declare class SwarmTroopers {
     private lastWorker;
     /** The closing high five, drawn over the page once everything is built. */
     private fin;
-    private doneText;
-    private summary;
     private queue;
     constructor(options?: SwarmTroopersOptions);
     /** Current rendering budget. */
@@ -173,7 +171,7 @@ export declare class SwarmTroopers {
     private popChain;
     private pop;
     private wrapUp;
-    /** Runs the closing high five, and sends the troopers away under its veil. */
+    /** Runs the closing clap while the troopers fade out. */
     private finale;
     /** Any deliberate input closes the finale at once. Momentum scrolling does not count. */
     private dismiss;

@@ -3,7 +3,7 @@
   --shell:var(--st-shell);--pane:var(--st-pane);--pane-2:var(--st-pane-2);--line:var(--st-line);--line-2:var(--st-line-2);
   --ink:var(--st-ink);--ink-2:var(--st-ink-2);--ink-3:var(--st-ink-3);--on-ink:var(--st-on-ink);
   --run:var(--st-run);--run-soft:var(--st-run-soft);--done:var(--st-done);--wait:var(--st-wait);--fail:var(--st-fail);
-  --eli:var(--st-eli);--ada:var(--st-ada);--mia:var(--st-mia);--noe:var(--st-noe);--iris:var(--st-iris);
+  --lead:var(--st-lead);--ada:var(--st-ada);--mia:var(--st-mia);--noe:var(--st-noe);--iris:var(--st-iris);
   --mono:var(--st-mono);--sans:var(--st-sans);
   --dispatch:var(--st-dispatch);--act:var(--st-act);--r:var(--st-r);
   /* The preview stands for the visitor's own page: it keeps one light paper in both themes. */
@@ -227,7 +227,7 @@ html.st-wait [data-swarmtroopers]{opacity:0}
 }
 @media(max-width:1080px){.guards,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stats li:nth-child(4){border-left:0}.stats li:nth-child(n+4){border-top:1px solid var(--line)}.board-body{grid-template-columns:1fr}.board-side{border-left:0;border-top:1px solid var(--line)}.uses{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:980px){.hero-foot,.install{grid-template-columns:1fr}.hero{padding-top:40px}}
-@media(max-width:860px){.lsec-head{grid-template-columns:1fr}.site-header nav{display:none}.site-header .swarmtroopers-github{margin-left:auto}.closing{grid-template-columns:1fr;padding:28px}.lsec{padding-block:56px}}
+@media(max-width:860px){.lsec-head{grid-template-columns:1fr}.site-header{flex-wrap:wrap;row-gap:0}.site-header nav{order:3;flex:0 0 100%;margin-left:0;overflow-x:auto;border-top:1px solid var(--line)}.site-header nav a{white-space:nowrap}.site-header nav a:first-child{padding-left:0}.site-header .swarmtroopers-github{margin-left:auto}.closing{grid-template-columns:1fr;padding:28px}.lsec{padding-block:56px}}
 @media(max-width:560px){
   .wrap{padding-inline:16px}
   .hero .copy{font-size:16px}

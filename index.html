@@ -3,10 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Swarm Troopers sends five named cursor agents onto your existing HTML. They type, frame, rule and stamp your page into view, live, then hand it back. One script tag, 28 kB, zero dependencies.">
+  <meta name="description" content="Swarm Troopers sends an orchestrator and a squad of named cursor agents onto your existing HTML. They type, frame, rule and stamp your page into view, live, then hand it back. Scripted, no model. One script tag, 28 kB, zero dependencies.">
   <meta name="theme-color" content="#0D0E11">
+  <link rel="canonical" href="https://swarmtroopers.mrvt.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://swarmtroopers.mrvt.app/">
   <meta property="og:title" content="Swarm Troopers — don't ship a page. Ship the build.">
   <meta property="og:description" content="Named cursor agents build your existing page in front of your visitors, then hand it back. Your markup stays the source of truth. 28 kB, zero dependencies.">
+  <meta property="og:image" content="https://swarmtroopers.mrvt.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="swarmtroopers: don't ship a page, ship the build. Named cursors typing a headline.">
+  <meta name="twitter:card" content="summary_large_image">
   <title>Swarm Troopers — don't ship a page. Ship the build.</title>
   <link rel="icon" type="image/svg+xml" href="assets/swarmtroopers-mark-sm.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +23,7 @@
   <link rel="stylesheet" href="brand.css">
   <link rel="stylesheet" href="site.css">
   <script>
-  // This page is built by the library it sells. Nothing annotated shows before the agents start; 3 s fallback if it never loads.
+  // The hero is built by the library it sells. Nothing annotated shows before the agents start; 3 s fallback if it never loads.
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('st-wait');setTimeout(()=>document.documentElement.classList.remove('st-wait'),3000)}
   addEventListener('swarmtroopers-ready',()=>document.documentElement.classList.remove('st-wait'),{once:true});
   </script>
@@ -28,16 +36,16 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
     <a class="swarmtroopers-brand" href="./" aria-label="Swarm Troopers home"><img src="assets/swarmtroopers-mark-sm.svg" width="28" height="28" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a>
-    <nav aria-label="Main navigation"><a href="#playground">playground</a><a href="#how">how it works</a><a href="#faq">faq</a><a href="docs/">docs</a><a href="try.html">full build ↗</a></nav>
+    <nav aria-label="Main navigation"><a href="#playground">playground</a><a href="#how">how it works</a><a href="#install">install</a><a href="#faq">faq</a><a href="docs/">docs</a><a href="try.html">full page build</a></nav>
     <a class="swarmtroopers-github" data-github-stars href="https://github.com/hugomrvt/swarmtroopers" data-github-link data-state="pending" aria-label="Swarm Troopers on GitHub: star count unavailable" title="Swarm Troopers on GitHub" target="_blank" rel="noopener"><svg class="swarmtroopers-github-mark" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span data-github-count>—</span></a>
   </header>
 
   <main id="main">
     <section class="hero wrap" aria-labelledby="hero-title">
-      <div class="row kicker"><span class="st live" id="self-run" data-s="running"><span class="g" aria-hidden="true">●</span><span id="self-run-text">this page is being built right now</span></span><span class="st">v0.4.1</span><span class="st">MIT</span><span class="st">0 dependencies</span></div>
+      <div class="row kicker"><span class="st live" id="self-run" data-s="running"><span class="g" aria-hidden="true">●</span><span id="self-run-text">this hero is being built right now</span></span><span class="st">v0.4.1</span><span class="st">MIT</span><span class="st">0 dependencies</span><span class="st">scripted · no model</span></div>
       <h1 id="hero-title"><span data-swarmtroopers="type">don't ship a page.</span><br><span class="dim" data-swarmtroopers="type">ship the build.</span></h1>
       <div class="hero-foot">
-        <p class="copy" data-swarmtroopers="type"><b>Swarm Troopers sends an orchestrator and four named cursor agents onto your existing HTML.</b> They type the headlines, frame the cards, draw the rules and stamp the lists, live, in front of your visitor. Then they hand the page back. They just built this headline.</p>
+        <p class="copy" data-swarmtroopers="type"><b>Swarm Troopers sends an orchestrator and a squad of named cursor agents onto your existing HTML.</b> They type the headlines, frame the cards, draw the rules and stamp the lists, live, in front of your visitor. Then they hand the page back. They just built this headline.</p>
         <div>
           <div class="actions"><button class="btn btn-ink cmd" type="button" id="copy-npm" aria-label="Copy npm i swarmtroopers"><span aria-hidden="true">$</span> npm i swarmtroopers <span class="cmd-state">copy</span></button><a class="btn btn-line" href="try.html">watch a full page build <span aria-hidden="true">→</span></a></div>
           <p class="fine label">html · react · vue · svelte · astro · any stack</p>
@@ -79,20 +87,20 @@
       <section class="manifesto" aria-labelledby="manifesto-title">
         <span class="label">01 / why</span>
         <h2 id="manifesto-title"><span>Static pages get skimmed.</span> <span>Videos get muted.</span> <em>A page that builds itself gets watched.</em></h2>
-        <p>Hand-made motion means a week of keyframes, redone every time the copy changes. Swarm Troopers reads the markup you already have and choreographs it for you, on every visit.</p>
+        <p>Hand-made motion means keyframes for every element, redone every time the copy changes. Swarm Troopers reads the markup you already have and choreographs it for you, on every visit.</p>
       </section>
 
       <ul class="stats" aria-label="In numbers">
         <li><strong>28 kB</strong><span>gzipped core</span></li>
         <li><strong>0</strong><span>runtime dependencies</span></li>
-        <li><strong>5</strong><span>agents, one orchestrator</span></li>
+        <li><strong>6</strong><span>agents at once, one orchestrator</span></li>
         <li><strong>4</strong><span>tools, picked from your markup</span></li>
         <li><strong>1</strong><span>canvas, idle once built</span></li>
-        <li><strong>100%</strong><span>of your content in the HTML</span></li>
+        <li><strong>3</strong><span>modes for readers: full, light, off</span></li>
       </ul>
 
       <section class="lsec" id="how" aria-labelledby="how-title">
-        <div class="lsec-head"><div><span class="label">02 / how it works</span><h2 id="how-title">one script tag. four beats.</h2></div><p>No timeline to author. The agents read your page the way a reader does, top to bottom, section by section.</p></div>
+        <div class="lsec-head"><div><span class="label">02 / how it works</span><h2 id="how-title">one script tag. four beats.</h2></div><p>No timeline to author. The agents work through your page in reading order, top to bottom, section by section.</p></div>
         <ol class="steps">
           <li class="pane"><span class="n">01</span><h3>Drop it in</h3><p>Add the script tag or <code>npm i swarmtroopers</code>. Point it at your main element.</p><span class="log">create({ root: 'main' })</span></li>
           <li class="pane"><span class="n">02</span><h3>The orchestrator surveys</h3><p>It splits the page into sections and sends a squad to each one as it scrolls into view.</p><span class="log">orchestrator · 7 sections</span></li>
@@ -102,11 +110,11 @@
       </section>
 
       <section class="lsec" aria-labelledby="agents-title">
-        <div class="lsec-head"><div><span class="label">03 / the squad</span><h2 id="agents-title">meet the crew.</h2></div><p>Up to five on a page: one lead and four agents, sent as the page needs them. Pass <code>names</code> to rename them, or <code>false</code> to hide the tags.</p></div>
+        <div class="lsec-head"><div><span class="label">03 / the squad</span><h2 id="agents-title">meet the squad.</h2></div><p>One orchestrator and up to six agents on screen at once, sent as the page needs them. These four work on this site. Pass <code>names</code> to rename them, or <code>false</code> to hide the tags.</p></div>
         <div class="pane roster-wrap"><table class="roster">
           <thead><tr><th scope="col">id</th><th scope="col">role</th><th scope="col">tools</th><th scope="col">colour</th></tr></thead>
           <tbody>
-            <tr style="--c:var(--eli)"><td class="id">orchestrator</td><td>lead · surveys sections, checks the work, hands back</td><td>plan, done</td><td>ink</td></tr>
+            <tr style="--c:var(--lead)"><td class="id">orchestrator</td><td>lead · surveys sections, sends the squads, hands back</td><td>plan, done</td><td>ink</td></tr>
             <tr style="--c:var(--ada)"><td class="id">ada</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#7DB4FF</td></tr>
             <tr style="--c:var(--mia)"><td class="id">mia</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#B98CFF</td></tr>
             <tr style="--c:var(--noe)"><td class="id">noé</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#5FE3D0</td></tr>
@@ -131,14 +139,14 @@
           <li class="pane"><span class="label">launch pages</span><p>You get one first impression on launch day. Make it a show, not a scroll.</p></li>
           <li class="pane"><span class="label">portfolios</span><p>Let people watch your work come together, piece by piece.</p></li>
           <li class="pane"><span class="label">product tours</span><p>Walk through an interface block by block, without exporting a single video.</p></li>
-          <li class="pane"><span class="label">docs &amp; changelogs</span><p>New sections arrive with a little ceremony. Readers notice what changed.</p></li>
+          <li class="pane"><span class="label">announcements</span><p>A new feature, a redesign, a funding round. Give the news an entrance.</p></li>
           <li class="pane"><span class="label">talks &amp; demo days</span><p>Put the page on the big screen and let the swarm run while you talk.</p></li>
           <li class="pane"><span class="label">templates &amp; themes</span><p>Give buyers a preview that assembles itself in front of them.</p></li>
         </ul>
       </section>
 
       <section class="lsec" aria-labelledby="vs-title">
-        <div class="lsec-head"><div><span class="label">06 / versus</span><h2 id="vs-title">the usual ways to look alive.</h2></div><p>A screen recording is a video of a page. Hand-made scroll effects take a week. Agents work on the real thing.</p></div>
+        <div class="lsec-head"><div><span class="label">06 / versus</span><h2 id="vs-title">the usual ways to look alive.</h2></div><p>A screen recording is a video of a page. Hand-made scroll effects are tuned element by element. Agents work on the real thing.</p></div>
         <div class="pane vs-wrap"><table class="vs">
           <thead><tr><th scope="col"><span class="sr-only">criterion</span></th><th scope="col">screen recording</th><th scope="col">hand-made scroll effects</th><th scope="col" class="us">swarmtroopers</th></tr></thead>
           <tbody>
@@ -153,7 +161,7 @@
       </section>
 
       <section class="lsec" aria-labelledby="guards-title">
-        <div class="lsec-head"><div><span class="label">07 / guardrails</span><h2 id="guards-title">guests on your page.</h2></div><p>Four checks pass on every run.</p></div>
+        <div class="lsec-head"><div><span class="label">07 / guardrails</span><h2 id="guards-title">guests on your page.</h2></div><p>Four promises the library keeps on every page.</p></div>
         <div class="guards">
           <div class="pane"><span class="st" data-s="done"><span class="g" aria-hidden="true">✓</span>content</span><h3>Your HTML is the source of truth</h3><p>Real content from the first byte. Search engines and screen readers get the whole page.</p></div>
           <div class="pane"><span class="st" data-s="done"><span class="g" aria-hidden="true">✓</span>weight</span><h3>One canvas, no dependencies</h3><p>The overlay draws on a single canvas and goes idle when the run ends.</p></div>
@@ -194,10 +202,11 @@ controls(swarmtroopers);</code></pre>
         <div class="lsec-head"><div><span class="label">09 / faq</span><h2 id="faq-title">fair questions.</h2></div></div>
         <div class="faq-list">
           <details><summary>Is there a model behind the agents?</summary><p>No. No model, no server, no network request. The agents are choreography code running in the visitor's browser: movement shaped like a real hand, typing with human rhythm, all on your own content.</p></details>
-          <details><summary>Does it hurt SEO or accessibility?</summary><p>Your HTML is complete from the first byte. Search engines and screen readers read the whole page; the agents only change what is painted, never what is there.</p></details>
-          <details><summary>Can I choose what gets built, and how?</summary><p>Turn on <code>auto</code> and the agents pick a tool for each element. Or annotate: <code>data-swarmtroopers="type"</code>, <code>frame</code>, <code>rule</code>, <code>stamp</code>, <code>repeat</code>, <code>skip</code>. The hero of this page is annotated by hand.</p></details>
+          <details><summary>Does it hurt SEO or accessibility?</summary><p>Your HTML is complete from the first byte. Search engines and screen readers read the whole page; the agents only change what is painted, never what is there. One thing to know: content hidden at load counts later for Largest Contentful Paint. If that metric matters, keep your hero out with <code>data-swarmtroopers-skip</code>.</p></details>
+          <details><summary>Can I choose what gets built, and how?</summary><p>Turn on <code>auto</code> and the agents pick a tool for each element. Or annotate: <code>data-swarmtroopers="type"</code>, <code>frame</code>, <code>rule</code>, <code>stamp</code>, <code>repeat</code> for a list stamped item by item, <code>skip</code> to leave something alone. The hero of this page is annotated by hand.</p></details>
           <details><summary>Won't visitors get impatient?</summary><p>Sections are built as they come into view, never all at once. Anything left waiting too long simply appears, and anything scrolled past is shown straight away. Readers can also pick light or off, and the choice is remembered.</p></details>
           <details><summary>Does it work with my framework?</summary><p>It works on any HTML. With React, Vue, Svelte or Astro, call <code>create()</code> when the view mounts and <code>destroy()</code> when it unmounts.</p></details>
+          <details><summary>Which browsers does it run in?</summary><p>The test suites pass in Chrome, Firefox and WebKit. It needs Canvas 2D and <code>clip-path</code>. Where the overlay cannot run, it steps aside and the page shows up built.</p></details>
           <details><summary>What does it cost?</summary><p>Nothing. MIT licensed, free to use, open to fork.</p></details>
         </div>
       </section>
@@ -207,7 +216,7 @@ controls(swarmtroopers);</code></pre>
           <img class="clap" src="assets/high-five-clap.svg" alt="Two hands from two different people meeting in a high five" width="132" height="132" loading="lazy">
           <pre aria-hidden="true"><span class="ok">✓</span> <span id="closing-run">html served · content complete from the first byte</span>
 <span class="ok">✓</span> agents handed back</pre>
-          <h2 id="closing-title">your next launch deserves a crew.</h2>
+          <h2 id="closing-title">your next launch deserves a squad.</h2>
           <p>Free to use, open to fork. MIT licensed.</p>
         </div>
         <div class="actions"><a class="btn btn-ink" href="https://github.com/hugomrvt/swarmtroopers" data-github-link title="Swarm Troopers on GitHub" target="_blank" rel="noopener">get it on github <span aria-hidden="true">↗</span></a><a class="btn btn-line" href="https://www.npmjs.com/package/swarmtroopers" target="_blank" rel="noopener">npm <span aria-hidden="true">↗</span></a></div>
@@ -218,7 +227,7 @@ controls(swarmtroopers);</code></pre>
   <footer class="site-footer wrap">
     <a class="swarmtroopers-brand" href="./" aria-label="Swarm Troopers home"><img src="assets/swarmtroopers-mark-sm.svg" width="28" height="28" alt=""><span class="swarmtroopers-brand-word">swarmtroopers</span></a>
     <span>a side project by <a href="https://hugo.mourlev.at" target="_blank" rel="noopener">Hugo Mourlevat</a></span>
-    <nav aria-label="Footer"><a href="docs/">docs</a><a href="https://www.npmjs.com/package/swarmtroopers" target="_blank" rel="noopener">npm ↗</a><a href="https://github.com/hugomrvt/swarmtroopers" data-github-link title="Swarm Troopers on GitHub" target="_blank" rel="noopener">source ↗</a><span>© 2026</span></nav>
+    <nav aria-label="Footer"><a href="docs/">docs</a><a href="https://github.com/hugomrvt/swarmtroopers/blob/main/CHANGELOG.md" target="_blank" rel="noopener">changelog ↗</a><a href="https://github.com/hugomrvt/swarmtroopers/issues" target="_blank" rel="noopener">issues ↗</a><a href="https://www.npmjs.com/package/swarmtroopers" target="_blank" rel="noopener">npm ↗</a><a href="https://github.com/hugomrvt/swarmtroopers" data-github-link title="Swarm Troopers on GitHub" target="_blank" rel="noopener">source ↗</a><span>© 2026</span></nav>
   </footer>
   <script src="dist/swarmtroopers.iife.js" data-swarmtroopers-init='{"root":".hero","names":["ada","mia","noé","iris"],"palette":["#7DB4FF","#B98CFF","#5FE3D0","#FF7EB6"],"controls":{"position":"bottom-right","labels":{"title":"agents"}},"speed":1.1}'></script>
 </body>

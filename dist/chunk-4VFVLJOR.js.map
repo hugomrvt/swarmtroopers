@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/finale-art.ts"],
+  "sourcesContent": ["/** Shared by the core renderer and the optional artwork entry. No image imports here. */\nexport interface FinaleArtwork {\n  /** One square image per hand, both framed around the contact point. `group` is the side it moves from: -1 left, 1 right. */\n  layers: ReadonlyArray<{ src: string; group: number }>;\n}\nlet artwork: FinaleArtwork | null = null;\nexport const getFinaleArtwork = (): FinaleArtwork | null => artwork;\nexport function setFinaleArtwork(value: FinaleArtwork): void { artwork = value; }\n"],
+  "mappings": ";;;AAKA,IAAI,UAAgC;AAC7B,IAAM,mBAAmB,MAA4B;AACrD,SAAS,iBAAiB,OAA4B;AAAE,YAAU;AAAO;",
+  "names": []
+}

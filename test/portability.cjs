@@ -193,7 +193,7 @@ async function run(browser, base, name, test, options = {}) {
     await run(browser, base, 'the full script draws the supplied layered finale', async page => {
       await page.evaluate(() => {
         window.layerDraws = 0; const draw = CanvasRenderingContext2D.prototype.drawImage;
-        CanvasRenderingContext2D.prototype.drawImage = function (source, ...args) { if (source.src?.startsWith('data:image/webp')) window.layerDraws++; return Reflect.apply(draw, this, [source, ...args]); };
+        CanvasRenderingContext2D.prototype.drawImage = function (source, ...args) { if (source.src?.startsWith('data:image/svg')) window.layerDraws++; return Reflect.apply(draw, this, [source, ...args]); };
         window.swarmtroopers = SwarmTroopers.create({ root: 'main', speed: 3 });
       });
       await page.waitForFunction(() => layerDraws > 0, null, { timeout: 15000 });

@@ -146,8 +146,6 @@ export class SwarmTroopers {
   private lastWorker: { name: string; color: string } | null = null;
   /** The closing high five, drawn over the page once everything is built. */
   private fin: Finale | null = null;
-  private doneText = '';
-  private summary = '';
   private queue: Array<{ a: Agent; text: string; at: number; until: number; overlap: boolean }> = [];
 
   constructor(options: SwarmTroopersOptions = {}) {
@@ -484,8 +482,6 @@ export class SwarmTroopers {
     this.subjects = pack.subjects;
     this.leadName = this.s.leadName ?? pack.lead;
     this.words = { tasks: pack.tasks, kinds: pack.kinds };
-    this.doneText = pack.lines.done[0] ?? '';
-    this.summary = pack.summary;
     if (chat === true || (typeof chat === 'object' && chat.bubbles !== false)) this.chat = { lines: pack.lines, subjects: pack.subjects };
     const sans = getComputedStyle(this.root).fontFamily || 'system-ui, sans-serif';
     this.look = { halo: this.halo, ink: this.ink, sans, scale: this.s.scale ?? (this.narrow() ? 1.05 : 1.2) };
@@ -1390,11 +1386,6 @@ export class SwarmTroopers {
         at,
         left: { name: this.s.names !== false ? left.name : '', color: left.color },
         right: { name: right.name, color: right.color },
-        title: this.doneText,
-        sub: this.summary
-          .replace('{t}', String(this.tasks.length))
-          .replace('{a}', String(this.spawned))
-          .replace('{d}', String(Math.max(1, Math.round(duration)))),
       };
     } else if (this.lead && this.q !== 'off') {
       this.queue.length = 0;
@@ -1403,7 +1394,7 @@ export class SwarmTroopers {
     this.events.emit('done', { tasks: this.tasks.length, agents: this.spawned, duration });
   }
 
-  /** Runs the closing high five, and sends the troopers away under its veil. */
+  /** Runs the closing clap while the troopers fade out. */
   private finale(dt: number): void {
     const f = this.fin;
     if (!f) return;

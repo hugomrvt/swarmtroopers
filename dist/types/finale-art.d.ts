@@ -1,13 +1,8 @@
-/** Shared by the core renderer and the optional artwork entry. No raster imports here. */
+/** Shared by the core renderer and the optional artwork entry. No image imports here. */
 export interface FinaleArtwork {
-    width: number;
-    height: number;
+    /** One square image per hand, both framed around the contact point. `group` is the side it moves from: -1 left, 1 right. */
     layers: ReadonlyArray<{
         src: string;
-        x: number;
-        y: number;
-        w: number;
-        h: number;
         group: number;
     }>;
 }

@@ -1,23 +1,14 @@
 # Swarm Troopers
 
-[Website and playground](https://swarmtroopers.mrvt.app/) · [Watch a full page build](https://swarmtroopers.mrvt.app/try.html) · [Documentation](https://swarmtroopers.mrvt.app/docs/) · [npm](https://www.npmjs.com/package/swarmtroopers) · [Agent skill](skills/swarmtroopers-overlay/SKILL.md)
-
-```sh
-npm i swarmtroopers
-npx swarmtroopers skill   # Claude Code integration skill
-```
-
-To work on the library itself: `npm ci && npm run build`, then `python3 -m http.server 8765` and open [the local playground](http://localhost:8765/), [the full-page demo](http://localhost:8765/demo/index.html), [the portfolio demo](http://localhost:8765/demo/hugo.html) or [the documentation](http://localhost:8765/docs/). The try page and the playground's full page tab run `sites/demo.html`, a made-up product page written for the demo.
-
 **A swarm of cursors. Working in sync.**
 
-Swarm Troopers coordinates named cursor agents that reveal your existing page in front of the reader. They type the text, frame the boxes, draw the rules and stamp the list items as the page scrolls into view, then step aside.
+[Website and playground](https://swarmtroopers.mrvt.app/) · [Watch a full page build](https://swarmtroopers.mrvt.app/try.html) · [Documentation](https://swarmtroopers.mrvt.app/docs/) · [npm](https://www.npmjs.com/package/swarmtroopers) · [Agent skill](skills/swarmtroopers-overlay/SKILL.md)
 
-One orchestrator runs the show. It walks to each part of the page, sends a small squad there and checks the part once it is done. Each named agent keeps its own colour across sections, and the task at hand shows next to its pointer for a moment. The troopers follow the reader: wherever the page is scrolled or reloaded, agents come back on screen and work on what is in view. When the last element of the page is built, the orchestrator and the last worker high-five in the middle of the screen.
+Swarm Troopers is an overlay for a page you already have. A swarm of named cursor agents builds that page in front of the reader with four tools: they type the text, frame the boxes, draw the rules and stamp the list items as the page scrolls into view, then hand the page back. It is free, MIT licensed, and has no runtime dependencies.
 
-Swarm Troopers is an overlay. Your HTML stays complete and stays the source of truth. The library only hides what it is about to build, then reveals it with a clip-path, so the layout never moves. Without JavaScript, with reduced motion or with the Off switch, the page is simply the page.
+One orchestrator runs the show. It walks to each part of the page, sends a small squad there and checks the part once it is done. Each named agent keeps its own colour across sections, and the task at hand shows next to its pointer for a moment. The troopers follow the reader: wherever the page is scrolled or reloaded, agents come back on screen and work on what is in view. When the last element of the page is built, the last worker and the orchestrator close with a small high five where the orchestrator stands. The [live playground](https://swarmtroopers.mrvt.app/#playground) runs the actual library in four tabs: website, gestures, high five and full page.
 
-It has no runtime dependencies, supports client integrations across frameworks and can inspect supported design tokens. Its supported baseline is ordinary light DOM with viewport coordinates; unsupported roots fall back to readable content. The live playground runs the actual library: switch between a website, the four tools, and the closing high five, or replay any scene.
+Your HTML stays complete and stays the source of truth. The library only hides what it is about to build, then reveals it with a clip-path, so the layout never moves. Without JavaScript, with reduced motion or with the Off switch, the page is simply the page. The agents are scripted cursors: there is no model behind them, and the library makes no network request.
 
 ## Install
 
@@ -27,23 +18,6 @@ With a package manager:
 npm i swarmtroopers
 ```
 
-Or with one script tag from a pinned CDN, no build step:
-
-```html
-<script src="https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js"
-        data-swarmtroopers-init='{"auto": true, "controls": true}'></script>
-```
-
-To self-host instead, copy `dist/swarmtroopers.core.iife.js` from `node_modules/swarmtroopers` and serve it from your own site. The lightweight bundle includes the Swarm Troopers mark and a vector completion fallback. Choose the self-contained `dist/swarmtroopers.iife.js` profile for the supplied layered high-five artwork; do not load both scripts on the same page.
-
-For Claude Code, install the integration skill into your project (or add `--global` for all projects):
-
-```sh
-npx swarmtroopers skill
-```
-
-The module examples in this guide use the npm package:
-
 ```js
 import { create, controls } from 'swarmtroopers';
 
@@ -51,9 +25,18 @@ const swarmtroopers = create({ auto: true });
 controls(swarmtroopers);
 ```
 
-For layered completion artwork with ESM, add `import 'swarmtroopers/finale'` before creating instances. For CommonJS, use `require('swarmtroopers/full')` instead of the core entry. The core contains no raster finale images; even the full profile prepares them only for enabled build work, not inspection-only instances. Keep adjacent CommonJS registry files if copying artifacts manually.
+Or with one script tag from a pinned CDN, no build step:
 
-Alternatively, copy the entire `dist/` directory to your static files and import `create` and `controls` from its `swarmtroopers.js` entry. Keep the generated chunk files alongside it.
+```html
+<script src="https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js"
+        data-swarmtroopers-init='{"auto": true, "controls": true}'></script>
+```
+
+For Claude Code, install the integration skill into your project (or add `--global` for all projects):
+
+```sh
+npx swarmtroopers skill
+```
 
 As an HTML element, in any template language:
 
@@ -62,9 +45,17 @@ As an HTML element, in any template language:
 <swarmtroopers-overlay auto controls inspect tokens root="main"></swarmtroopers-overlay>
 ```
 
-## Optional preload
+To self-host the script, copy `dist/swarmtroopers.core.iife.js` from `node_modules/swarmtroopers` and serve it from your own site. To use native ES modules without a bundler, copy the entire `dist/` directory to your static files and import `create` and `controls` from its `swarmtroopers.js` entry. Keep the generated chunk files alongside it, and keep adjacent CommonJS registry files if copying artifacts manually.
 
-Omit preload by default. If a noncritical region needs anti-flash behavior, use [`snippet/preload.html`](snippet/preload.html) and explicit `data-swarmtroopers-preload` markers. Never hide all of main or a critical hero. Marked controls and containers with controls or skipped content stay visible. The snippet respects Off/reduced motion and expires after 2.5 seconds if Swarm Troopers never starts.
+### Finale artwork
+
+The lightweight core bundle includes the Swarm Troopers mark and draws the high-five hands as vectors in the two agents' colours. The full profile adds the illustrated hands: two SVG hands in two skin tones, embedded in the JavaScript as `data:` URLs, so there are no image files to host.
+
+- Script tag: use the self-contained `dist/swarmtroopers.iife.js` instead of the core file. Do not load both scripts on the same page.
+- ESM: add `import 'swarmtroopers/finale'` before creating instances.
+- CommonJS: use `require('swarmtroopers/full')` instead of the core entry.
+
+Even the full profile prepares the artwork only for enabled build work, not for inspection-only instances.
 
 ## Orchestrator and squads
 
@@ -75,13 +66,13 @@ The page is split into sections: the outermost `section`, `header`, `footer`, `a
 3. Workers only take elements of their own section. Each new task shows next to the name ("Writing the title", "Framing the card") for a few seconds.
 4. When nothing is left in their section, workers come back to the orchestrator and disappear.
 5. Once every element of the section is built, the outline fades.
-6. Once the whole page is built, a compact completion panel appears over it. The supplied blue and orange hands, cuffs, and forearms move as two connected groups, make palm contact, and recoil once. The supplied sparkles appear at contact. Their names, a completion line, and the number of elements, agents and seconds complete the moment. The finished page stays visible around the panel. It clears after 3.54 seconds, never catches the pointer, and a wheel, touch, click or key dismisses it after the first half-second.
+6. Once the whole page is built, a small clap plays where the orchestrator stands (the centre of the viewport is only a fallback). Two emoji-sized hands swing in, slap and rebound once. A short burst of strokes in the two agents' colours marks the contact, and each hand carries its agent's name tag: the last worker on the left, the orchestrator on the right. There is no panel and no veil, so the finished page stays fully visible. The clap clears after 3.54 seconds, never catches the pointer, and a wheel, touch, click or key dismisses it after the first half-second.
 
 Gestures are paced to be followed, and a backlog only speeds them up by half at most. When the reader scrolls away, a task whose element left the screen is settled at once (shown if the reader went past it, put back for later if the reader went up), and its worker joins the squad working in view. An agent left far behind re-enters from the nearest edge. After a reload in the middle of the page, the orchestrator appears where the reader is and the troopers start there; what is above is built if the reader scrolls back up. Nothing in view waits forever. An element that stays on screen longer than `patience` without an agent simply appears, and anything scrolled past is shown at once. The name of a section comes from `data-swarmtroopers-section`, `aria-label`, its `id` or its first heading.
 
 ## Two ways to choose what gets built
 
-**Auto mode** (`auto: true`) reads eligible elements within the discovery budget under `root`. Text runs are typed, boxes with a background, border or shadow are framed, thin lines are drawn as rules, media are framed, and items of a list are stamped from the previous one. Fixed and sticky elements, invisible elements and anything wider than the page are left alone.
+**Auto mode** (`auto: true`) reads eligible elements within the discovery budget under `root`. Text runs are typed, boxes with a background, border or shadow are framed, thin lines are drawn as rules, media are framed, and items of a list are stamped from the previous one. Fixed and sticky elements, invisible elements and elements entirely outside the page horizontally (off-canvas menus, marquee copies) are left alone.
 
 **Annotated mode** (the default) only builds elements matching `selector`, by default `[data-swarmtroopers]`. The value picks the tool.
 
@@ -102,7 +93,7 @@ Both modes can be mixed; auto mode still leaves interactive controls and their e
 | `root` | `document.body` | Element or selector whose content gets built |
 | `selector` | `"[data-swarmtroopers]"` | Annotated elements |
 | `auto` | `false` | Classify everything under `root` |
-| `trigger` | `"immediate"` | `"immediate"`, `"scroll"` (first scroll or key press) or `"manual"` (call `start()`) |
+| `trigger` | `"immediate"` | `"immediate"`, `"scroll"` (first scroll, wheel, touch move, pointer down or key press) or `"manual"` (call `start()`) |
 | `quality` | `"auto"` | `"full"`, `"light"`, `"off"`. Saved choice takes priority, then reduced motion. Auto selects light for data saving or limited CPU/memory |
 | `agents.max` | `6` | Workers on screen at once, besides the orchestrator (3 in light) |
 | `speed` | `1` | Global speed multiplier |
@@ -113,8 +104,8 @@ Both modes can be mixed; auto mode still leaves interactive controls and their e
 | `finale` | `true` | The closing high five once the whole page is built |
 | `leadName` | `"Orchestrator"` | Name of the orchestrator, translated with the page language |
 | `patience` | `2.4` | Seconds a visible element waits for an agent before it simply appears (1.4 on phones or in light mode) |
-| `locale` | page `lang` | Language of tasks and of the finale (English and French built in) |
-| `chat` | `false` | Speech bubbles for the orchestrator, off by default. `{ locale, lines, subjects, tasks, kinds }` to adapt them. Lines and tasks follow the `lang` of the page (English and French built in) |
+| `locale` | page `lang` | Language of tasks, section names and the orchestrator's default name (English and French built in) |
+| `chat` | `false` | Speech bubbles for the orchestrator, off by default. `{ locale, lines, subjects, tasks, kinds, bubbles }` to adapt them. Lines and tasks follow the `lang` of the page (English and French built in) |
 | `scale` | `1.2` | Size of pointers, name tags and bubbles (1.05 on phones) |
 | `once` | `false` | `"session"` builds once per browser session |
 | `maxTasks` | `400` | Maximum enrolled tasks (integer 0–10000); overflow remains visible. Each scan reads the style of at most max(100, maxTasks × 8) candidates that are not enrolled yet; annotated mode walks unannotated elements without reading them |
@@ -122,7 +113,7 @@ Both modes can be mixed; auto mode still leaves interactive controls and their e
 | `storageKey` | `"swarmtroopers"` | Prefix of the keys kept in localStorage and sessionStorage |
 | `plugins` | `[]` | Plugins, or `"tokens"` |
 
-The default palette is ink (`#0d0e11` on light pages, `#eceef2` on dark ones), then `#7db4ff`, `#b98cff`, `#5fe3d0` and `#ff7eb6`. Named agents keep a stable colour based on their position in the name pool, even when they move to another section. Section survey outlines use a separate colour from the same palette. Name tabs choose dark or light text for contrast, and task captions stack on narrow screens. A custom `palette` replaces these colours; an object generates an OKLCH palette as before.
+The default palette is ink (`#0d0e11` on light pages, `#eceef2` on dark ones), then `#7db4ff`, `#b98cff`, `#5fe3d0` and `#ff7eb6`. Named agents keep a stable colour based on their position in the name pool, even when they move to another section. Section survey outlines use a separate colour from the same palette. Name tabs choose dark or light text for contrast, and task captions stack on narrow screens. A custom `palette` replaces these colours; an object generates an OKLCH palette.
 
 ## API
 
@@ -148,18 +139,13 @@ swarmtroopers.on('quality', ({ quality }) => {});
 
 `controls(swarmtroopers, { position, labels, container })` adds a small Full, Light, Off switch. Every label is configurable, so it can follow the language of the site.
 
-## Shared identity and GitHub stars
+## Localisation and chat
 
-The landing page, demo headers, favicon, playground toolbar, and quality dock use the same Swarm Troopers mark. The page headers read the public repository’s `stargazers_count` from the GitHub API once per page. A valid zero is displayed as zero; a missing repository displays “Not published” (only before the repository exists), and network or rate-limit failures display an unavailable state. No count is invented. The repository is never created by the page.
+Task captions, section names and the orchestrator's name follow the `lang` of the page, or the `locale` option. English and French are built in. The finale shows the two agents' names and no other text.
 
-The closing high five uses nine transparent layers from the supplied `positioned-layers.zip`. Forearms, cuffs, and hands stay joined as they move. The opaque background and residual composite layers are excluded. The optimized artwork is embedded in the JavaScript bundles, so integrations do not need to host image files separately.
+Speech bubbles are off by default; `chat: true` turns them on. Their lines can be rewritten for any language or tone, for example `chat: { locale: 'en', lines: { done: ['Delivered'] } }`. The keys are `plan`, `rush`, `ready`, `reply` and `done`, where `{s}` is the section name and `{n}` the number of agents sent. The `done` line is the orchestrator's closing bubble when bubbles are on and the finale does not play, for example with `finale: false`.
 
-To regenerate these assets, install Pillow in your asset preparation environment and run:
-
-```sh
-python3 scripts/prepare-high-five.py /path/to/positioned-layers.zip
-npm run build
-```
+Tasks combine a verb per tool (`tasks: { type: 'Writing {k}' }`) with a word per kind of element (`kinds: { title: 'the title' }`), the kinds being title, text, label, item, button, link, image, card, line, list and block. Passing these options turns the bubbles on; add `bubbles: false` to rewrite the tasks and keep the bubbles off.
 
 ## Design tokens
 
@@ -192,9 +178,7 @@ defineTool('pop', function* (c) {
 <div data-swarmtroopers="pop">…</div>
 ```
 
-Speech lines can be rewritten for any language or tone, for example `chat: { locale: 'en', lines: { done: ['Delivered'] } }`. The keys are `plan`, `rush`, `ready`, `reply` and `done`, where `{s}` is the section name and `{n}` the number of agents sent. Tasks combine a verb per tool (`tasks: { type: 'Writing {k}' }`) with a word per kind of element (`kinds: { title: 'the title' }`), the kinds being title, text, label, item, button, link, image, card, line, list and block. The line under the finale is `summary`, with `{t}` elements, `{a}` agents and `{d}` seconds. Passing these options turns the bubbles on; add `bubbles: false` to rewrite tasks or the finale and keep them off.
-
-The context also gives `shape()`, `hold()`, `dim()`, `mark()` for annotations, `label()`, `text()` for the measured lines of a text, and `reveal.begin()`, `reveal.clip()`, `reveal.end()`.
+The context also gives `shape()`, `hold()`, `dim()`, `mark()` for annotations, `label()`, and `text()` for the measured lines of a text. For the reveal itself there are `reveal.begin()`, `reveal.clip()` and `reveal.end()` to drive a clip-path by hand, `reveal.sweep(x, y)` to show the top-left part of the element with a soft edge (`x` and `y` from 0 to 1), and `reveal.settle()`, which shows the element at once like `reveal.pop()` but drops it into place with a small bounce.
 
 ## Frameworks
 
@@ -258,6 +242,10 @@ Astro, with or without view transitions:
 
 Server-rendered imports are safe: nothing touches `window` until `create()` runs.
 
+## Optional preload
+
+Omit preload by default. If a noncritical region needs anti-flash behavior, use [`snippet/preload.html`](snippet/preload.html) and explicit `data-swarmtroopers-preload` markers. Never hide all of main or a critical hero. Marked controls and containers with controls or skipped content stay visible. The snippet respects Off/reduced motion and expires after 2.5 seconds if Swarm Troopers never starts.
+
 ## Accessibility and performance
 
 The text is in the DOM from the start, so search engines and screen readers retain access. Reduced motion turns the build off unless the reader saved an explicit preference. Later system changes are followed the same way, without saving them. Focus reveals annotated controls immediately; print settles pending work and hides the overlay. The reader’s switch choice is remembered.
@@ -274,11 +262,17 @@ Existing reveal animations (GSAP, AOS, Motion…) keep working: auto mode skips 
 
 ## Browser support
 
-Portability and real React Strict Mode/navigation fixtures pass in Chrome, Firefox and Playwright WebKit. The full landing/demo suite runs in Chrome. Validate actual Safari, physical devices, assistive technologies and your own framework lifecycle on the target site. The engine relies on Canvas 2D, clip-path, Path2D and modern observer APIs; without IntersectionObserver, everything counts as visible. Unavailable renderers, shadow-tree roots and documents that move the fixed overlay use visible passthrough. Explicitly missing roots and overlapping instances are rejected before they can hide unrelated content.
+The supported baseline is ordinary light DOM with viewport coordinates. The engine relies on Canvas 2D, clip-path, Path2D and modern observer APIs; without IntersectionObserver, everything counts as visible. Unavailable renderers, shadow-tree roots and documents that move the fixed overlay use visible passthrough, so the content stays readable.
+
+The portability suite and the React Strict Mode and navigation fixtures run in Chrome, Firefox and Playwright WebKit. The landing page and demo suite runs in Chrome. Validate actual Safari, physical devices, assistive technologies and your own framework lifecycle on the target site.
+
+## Robustness
+
+Invalid configuration is rejected before host mutation. Explicitly missing roots and overlapping instances are rejected before they can hide unrelated content. The JSON bootstrap logs a diagnostic rather than throwing into the host page. Tool failures settle their element; fatal renderer failures restore the host. `destroy()` isolates cleanup errors, and `refresh()` reconciles removed nodes. Original clip-path values and priorities are restored. Plugin setup may return a teardown callback.
 
 ## Development
 
-Use Node.js 20.19+, 22.12+, or 24 and later. Development tools are pinned; the runtime still has no dependencies.
+Use Node.js 20.19+, 22.12+, or 24 and later to work on the library. Development tools are pinned; the runtime still has no dependencies.
 
 ```sh
 npm ci
@@ -299,7 +293,7 @@ npm run size
 python3 -m http.server 8765
 ```
 
-Open [localhost:8765](http://localhost:8765/) for the landing page and its live playground. The complete documentation is at `/docs/`; the full-page examples are at `/demo/index.html` and `/demo/hugo.html`. Run `npm run docs:build` to regenerate the documentation after editing `docs/content.mjs`. To run browser checks with an installed Chrome instead of Playwright's Chromium, use `PLAYWRIGHT_CHANNEL=chrome npm run test:e2e`.
+Open [localhost:8765](http://localhost:8765/) for the landing page and its live playground. The complete documentation is at `/docs/`, the everyday-website demo at `/demo/index.html`, the portfolio demo at `/demo/hugo.html` and the full product-page build at `/try.html`. The try page and the playground's full page tab run `sites/demo.html`, a made-up product page written for the demo. Run `npm run docs:build` to regenerate the documentation after editing `docs/content.mjs`. To run browser checks with an installed Chrome instead of Playwright's Chromium, use `PLAYWRIGHT_CHANNEL=chrome npm run test:e2e`. To regenerate the finale hands from a traced SVG, run `python3 scripts/prepare-high-five.py path/to/raw.svg`, then `npm run build`.
 
 An agent skill that installs Swarm Troopers on a site lives in [`skills/swarmtroopers-overlay/SKILL.md`](skills/swarmtroopers-overlay/SKILL.md).
 
@@ -310,5 +304,3 @@ The idea of a page assembled live by cursors comes from Joel Califa's Swarm demo
 ## Licence
 
 MIT, © 2026 Hugo Mourlevat.
-
-Invalid configuration is rejected before host mutation. The JSON bootstrap logs a diagnostic rather than throwing into the host page. Tool failures settle their element; fatal renderer failures restore the host. `destroy()` isolates cleanup errors, and `refresh()` reconciles removed nodes. Original clip-path values and priorities are restored. Plugin setup may return a teardown callback.

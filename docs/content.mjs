@@ -24,7 +24,7 @@ ${code('html', `<main>
   data-swarmtroopers-init='{"root":"main","auto":true,"controls":true}'></script>`)}
 <p>The script creates <code>window.swarmtroopers</code>, exposes helpers through <code>window.SwarmTroopers</code>, and adds Full, Light, and Off controls. Keep the controls outside the animated content; the built-in helper handles this for you.</p>
 <h2 id="how-it-works">What happens on the page</h2>
-<ol><li>The scanner converts eligible elements into tasks and groups them by section.</li><li>The orchestrator sends named cursor agents to visible work first. Each named agent keeps its own color as it shares tasks and moves between sections.</li><li>Each tool reveals its element in place. A patience limit prevents untouched visible content from staying hidden indefinitely.</li><li>After every task is done, the troopers leave. Optional pointer inspection can still identify finished elements.</li></ol>
+<ol><li>The scanner converts eligible elements into tasks and groups them by section.</li><li>The orchestrator sends named cursor agents to visible work first. Each named agent keeps its own color as it shares tasks and moves between sections.</li><li>Each tool reveals its element in place. A patience limit prevents untouched visible content from staying hidden indefinitely.</li><li>After every task is done, a small clap where the orchestrator stands closes the build and the troopers leave. Optional pointer inspection can still identify finished elements.</li></ol>
 <p>The animated root is scanned through its descendants, so place the elements to build inside <code>root</code>. Scope Swarm Troopers to <code>main</code> or a specific showcase rather than including persistent navigation.</p>
 <h2 id="choose-a-path">Choose your integration</h2>
 <ul><li><a href="installation.html">Install Swarm Troopers</a> for the npm package, a CDN script tag, or a self-hosted script.</li><li><a href="markup.html">Choose auto or annotated mode</a> to control what gets built.</li><li><a href="frameworks.html">Follow a framework recipe</a> for mount, navigation, and cleanup.</li><li><a href="examples.html">Try the working examples</a> before changing your site.</li></ul>
@@ -40,9 +40,9 @@ ${code('html', `<main>
 ${code('sh', `npm ci
 npm run build
 python3 -m http.server 8765`)}
-<p>Open <code>http://localhost:8765/</code> for the landing page, or <code>/demo/index.html</code> for the full-page example. Serve files over HTTP; opening an ES module directly from a <code>file:</code> URL is not an equivalent test.</p>
+<p>Open <code>http://localhost:8765/</code> for the landing page, or <code>/demo/index.html</code> for the everyday-website demo. Serve files over HTTP; opening an ES module directly from a <code>file:</code> URL is not an equivalent test.</p>
 <h2 id="script-tag">One script tag</h2>
-<p>Load the pinned file from the CDN, or self-host it by copying <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your public directory. This lightweight script embeds the mark and uses a vector finale. Choose <code>dist/swarmtroopers.iife.js</code> instead for the self-contained bundle with layered high-five artwork. Do not load both script profiles on one page.</p>
+<p>Load the pinned file from the CDN, or self-host it by copying <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your public directory. This lightweight script embeds the mark and draws the finale hands as vectors in the two agents’ colors. Choose <code>dist/swarmtroopers.iife.js</code> instead for the self-contained bundle with the illustrated hands. Do not load both script profiles on one page.</p>
 ${code('html', `<script src="https://unpkg.com/swarmtroopers@0.4.1/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{
     "root": "main",
@@ -69,12 +69,12 @@ controls(swarmtroopers);`)}
 <p>To let Claude Code integrate Swarm Troopers for you, copy the packaged skill into your project. Add <code>--global</code> to install it for every project, or <code>--dir &lt;path&gt;</code> to choose the folder.</p>
 ${code('sh', `npx swarmtroopers skill`)}
 <p>Then ask Claude Code to add Swarm Troopers to a section of your site. Read the skill before installing it: <a href="https://github.com/hugomrvt/swarmtroopers/tree/main/skills/swarmtroopers-overlay">skills/swarmtroopers-overlay on GitHub</a>. The package itself is <a href="https://www.npmjs.com/package/swarmtroopers">swarmtroopers on npm</a>.</p>
-<h2 id="optional-artwork">Optional layered finale</h2>
-<p>The main ESM and CommonJS entries contain no raster completion images. Enable the supplied artwork in ESM with a side-effect import before creating instances:</p>
+<h2 id="optional-artwork">Optional finale artwork</h2>
+<p>The main ESM and CommonJS entries ship no finale artwork; the closing clap draws vector hands in the two agents’ colors. The supplied hand artwork is two SVG hands in two skin tones, embedded as <code>data:</code> URLs. Enable it in ESM with a side-effect import before creating instances:</p>
 ${code('js', `import { create } from 'swarmtroopers';
 import 'swarmtroopers/finale';
 const swarmtroopers = create({ root: 'main', auto: true });`)}
-<p>For CommonJS, use <code>require('swarmtroopers/full')</code>. The self-contained <code>dist/swarmtroopers.iife.js</code> script includes the same artwork for classic-script integrations. Even in that full build, completion images are prepared only when enabled build work starts; disabled finales and inspection-only instances do not decode them.</p>
+<p>For CommonJS, use <code>require('swarmtroopers/full')</code>. The self-contained <code>dist/swarmtroopers.iife.js</code> script includes the same artwork for classic-script integrations. Even in that full build, the hand images are prepared only when enabled build work starts; disabled finales and inspection-only instances do not decode them.</p>
 <h2 id="browser-modules">Native ES modules and CommonJS</h2>
 <p>For browser-native modules, copy the entire <code>dist/</code> directory, including generated <code>chunk-*.js</code> files. Its small <code>swarmtroopers.js</code> entry imports a shared chunk; copying that entry alone will fail.</p>
 ${code('html', `<script type="module">
@@ -84,7 +84,7 @@ ${code('html', `<script type="module">
 <p>Keep adjacent CommonJS registry files when copying artifacts manually; installing the complete package handles this. Node toolchains can resolve the CommonJS entry with <code>require('swarmtroopers')</code>. Importing the package is safe during server rendering, but calling <code>create()</code> requires a mounted browser document.</p>
 ${table(['Entry', 'Purpose'], [
 ['<code>dist/swarmtroopers.core.iife.js</code>', 'Lightweight self-contained classic script; exposes <code>window.SwarmTroopers</code>.'],
-['<code>dist/swarmtroopers.iife.js</code>', 'Full single-file profile with layered completion artwork.'],
+['<code>dist/swarmtroopers.iife.js</code>', 'Full single-file profile with the illustrated finale hands.'],
 ['<code>dist/finale.js</code>', 'Optional ESM artwork registration; retain its shared chunks.'],
 ['<code>dist/swarmtroopers.js</code>', 'ES module entry with adjacent shared chunks.'],
 ['<code>dist/swarmtroopers.cjs</code>', 'CommonJS entry for compatible toolchains.'],
@@ -177,13 +177,13 @@ ${table(['Option', 'Type', 'Default', 'Behavior'], [
 ['<code>labels</code>', '<code>boolean</code>', '<code>false</code>', 'Show labels during construction. They remain suppressed on narrow screens; inspection can still label.'],
 ['<code>names</code>', '<code>boolean | string[]</code>', '<code>true</code>', 'Built-in first names, a custom pool, or no name tags. A custom array must contain at least one non-empty name.'],
 ['<code>leadName</code>', '<code>string</code>', 'Localized “Orchestrator”', 'Override the orchestrator’s name.'],
-['<code>locale</code>', '<code>string</code>', 'Document <code>lang</code>, then <code>en</code>', 'Language for tasks, section-role names, and completion text. English and French are built in.'],
+['<code>locale</code>', '<code>string</code>', 'Document <code>lang</code>, then <code>en</code>', 'Language for task captions, section-role names, the orchestrator’s default name, and bubbles. English and French are built in.'],
 ['<code>chat</code>', '<code>boolean | ChatOptions</code>', '<code>false</code>', 'Speech bubbles and optional localized text overrides. An options object enables bubbles unless <code>bubbles: false</code>.'],
-['<code>finale</code>', '<code>boolean</code>', '<code>true</code>', 'Play the completion celebration after a natural build. <code>finish()</code> does not play it.'],
+['<code>finale</code>', '<code>boolean</code>', '<code>true</code>', 'Play the closing clap where the orchestrator stands after a natural build. <code>finish()</code> does not play it.'],
 ['<code>plugins</code>', '<code>Array&lt;SwarmTroopersPlugin | "tokens"&gt;</code>', '<code>[]</code>', 'Plugin instances or the built-in <code>"tokens"</code> shorthand.'],
 ])}
 <h2 id="palette-spec">PaletteSpec</h2>
-<p>The default agent colors are the lead in page ink (<code>#0d0e11</code> on light pages, <code>#eceef2</code> on dark ones), then blue <code>#7db4ff</code>, violet <code>#b98cff</code>, teal <code>#5fe3d0</code>, and pink <code>#ff7eb6</code>. Named agents keep a stable color based on their position in the name pool, even across sections. Section survey outlines use a separate color from the same palette. A custom list replaces these colors. The supplied completion artwork keeps its own blue and orange colors.</p>
+<p>The default agent colors are the lead in page ink (<code>#0d0e11</code> on light pages, <code>#eceef2</code> on dark ones), then blue <code>#7db4ff</code>, violet <code>#b98cff</code>, teal <code>#5fe3d0</code>, and pink <code>#ff7eb6</code>. Named agents keep a stable color based on their position in the name pool, even across sections. Section survey outlines use a separate color from the same palette. A custom list replaces these colors. The supplied hand artwork keeps its own two skin tones; without it, the finale hands take the two agents’ colors.</p>
 ${code('js', `create({
   root: 'main', auto: true,
   palette: { hue: 210, count: 6, lightness: 0.68, chroma: 0.16 },
@@ -275,7 +275,7 @@ ${table(['Attribute', 'Value / default', 'Effect'], [
 ['<code>names</code>', 'Built-in pool', '<code>false</code> hides names; a comma-separated list of at least two names replaces the pool.'],
 ['<code>lang</code>', 'Document language', 'Override Swarm Troopers’ text locale for this element.'],
 ['<code>chat</code>', 'Absent = false', 'Enable orchestrator bubbles.'],
-['<code>finale</code>', 'Absent = true', '<code>false</code> disables the completion celebration.'],
+['<code>finale</code>', 'Absent = true', '<code>false</code> disables the closing clap.'],
 ['<code>once</code>', 'Absent = false', '<code>session</code> enables session completion storage.'],
 ])}
 ${code('html', `<swarmtroopers-overlay
@@ -416,7 +416,7 @@ const panel = controls(swarmtroopers, {
 <p>The helper returns an <code>HTMLElement</code> with three pressed-state buttons. It reads the host theme, synchronizes when quality changes, and registers the panel with <code>swarmtroopers.own()</code>, so <code>destroy()</code> removes it.</p>
 ${table(['ControlsOptions field', 'Default', 'Meaning'], [
 ['<code>position</code>', '<code>bottom-left</code>', '<code>bottom-left</code>, <code>bottom-right</code>, <code>top-left</code>, or <code>top-right</code>.'],
-['<code>labels</code>', 'Build / Full / Light / Off', 'Partial overrides of <code>title</code>, <code>full</code>, <code>light</code>, and <code>off</code>. Labels are not automatically translated.'],
+['<code>labels</code>', 'swarmtroopers / Full / Light / Off', 'Partial overrides of <code>title</code>, <code>full</code>, <code>light</code>, and <code>off</code>. Labels are not automatically translated.'],
 ['<code>container</code>', '<code>document.body</code>', 'DOM parent for the panel. Its built-in positioning remains fixed.'],
 ])}
 <p>The canvas <code>zIndex</code> option does not change the controls’ CSS stacking level, which is <code>2147483001</code>. Adapt host CSS if your application requires a different control placement.</p>
@@ -503,7 +503,7 @@ const plugin = tokens({ css: false, source });`)}
   },
   {
     slug: 'localization', title: 'Names and localization', group: 'Guides',
-    description: 'Customize task captions, section names, bubbles, and completion text.',
+    description: 'Customize agent names, task captions, section names, and bubbles.',
     body: `
 <h2 id="locale">Choose a language</h2>
 <p>English and French are built in. Swarm Troopers resolves the locale from <code>chat.locale</code> when provided, then the top-level <code>locale</code>, then the document’s <code>lang</code>, and finally English. It lowercases and uses the first two characters, so <code>fr-CA</code> selects French. Unsupported languages fall back to English.</p>
@@ -514,7 +514,7 @@ ${code('js', `create({
   leadName: 'Swarm Troopers',
   chat: false,
 });`)}
-<p>Names, task captions, and completion text work without bubbles. <code>names: false</code> hides pointer name tags and their attached task captions; it does not change your page content. Worker names come from a supplied pool, not automatic translation. <code>leadName</code> overrides the localized orchestrator name.</p>
+<p>Names and task captions work without bubbles. The finale shows the two agents’ name tags and no other text. <code>names: false</code> hides pointer name tags and their attached task captions; it does not change your page content. Worker names come from a supplied pool, not automatic translation. <code>leadName</code> overrides the localized orchestrator name.</p>
 <h2 id="chat-options">ChatOptions reference</h2>
 ${table(['Field', 'Meaning'], [
 ['<code>locale</code>', 'Locale override for the text pack.'],
@@ -523,21 +523,18 @@ ${table(['Field', 'Meaning'], [
 ['<code>tasks</code>', 'Partial verb templates for <code>type</code>, <code>frame</code>, <code>rule</code>, <code>stamp</code>, and fallback <code>other</code>.'],
 ['<code>kinds</code>', 'Partial words for <code>title</code>, <code>text</code>, <code>label</code>, <code>item</code>, <code>button</code>, <code>link</code>, <code>image</code>, <code>card</code>, <code>line</code>, <code>list</code>, and <code>block</code>.'],
 ['<code>bubbles</code>', 'Defaults to true for an options object; false keeps overrides while suppressing speech.'],
-['<code>summary</code>', 'Template for the line below the completion title.'],
 ])}
 <h2 id="templates">Text templates</h2>
-<p>Speech templates use <code>{s}</code> for the section name and <code>{n}</code> for worker count. Task templates use <code>{k}</code> for the element kind. The summary uses <code>{t}</code> for tasks, <code>{a}</code> for spawned agents, and <code>{d}</code> for rounded elapsed seconds. Use each placeholder once per template; replacement is simple rather than a general templating engine.</p>
+<p>Speech templates use <code>{s}</code> for the section name and <code>{n}</code> for worker count. Task templates use <code>{k}</code> for the element kind. Use each placeholder once per template; replacement is simple rather than a general templating engine.</p>
 ${code('js', `create({
   root: 'main', auto: true,
   chat: {
-    bubbles: false,
     lines: { done: ['All set.'] },
     tasks: { type: 'Writing {k}', frame: 'Placing {k}' },
     kinds: { title: 'the headline' },
-    summary: '{t} details · {a} teammates · {d} s',
   },
 });`)}
-<p>The first <code>done</code> line also supplies the finale’s title, even when bubbles are off. Other arrays are choices for speech. An empty speech array suppresses that key. Custom section labels and actual page headings remain exactly the text you authored.</p>
+<p>Each array is a set of choices for speech; one is picked at random. The <code>done</code> line is the orchestrator’s closing bubble when bubbles are on and the finale does not play, for example with <code>finale: false</code>. Add <code>bubbles: false</code> to keep the task overrides while suppressing speech. An empty speech array suppresses that key. Custom section labels and actual page headings remain exactly the text you authored.</p>
 <h2 id="readability">Keep it readable</h2>
 <p>Orchestrator bubbles are off by default. Enable them with <code>chat: true</code> or an options object when they help explain a demonstration. Keep captions short: long labels are fitted to the viewport, and narrow screens limit concurrent captions to avoid a cluster of text.</p>`
   },
@@ -580,8 +577,10 @@ ${table(['Member', 'Purpose'], [
 ['<code>text()</code>', 'Measured TextGeo or null: text sequence, pieces, lines, bands, dimensions, and padding.'],
 ['<code>reveal.begin(clip?)</code>', 'Remove the pending class, optionally setting an initial CSS clip-path.'],
 ['<code>reveal.clip(value)</code>', 'Update the element’s clip-path.'],
-['<code>reveal.end()</code>', 'Restore the original inline clip-path.'],
+['<code>reveal.sweep(x, y)</code>', 'Show the top-left part of the element, <code>x</code> and <code>y</code> from 0 to 1, with a soft edge where the mask allows it.'],
+['<code>reveal.end()</code>', 'Restore the original inline clip-path and remove the soft edge.'],
 ['<code>reveal.pop()</code>', 'Reveal immediately with the short completion fade and mark the task done.'],
+['<code>reveal.settle()</code>', 'Like <code>pop()</code>, but the element drops into place with a small bounce.'],
 ])}
 <p><code>ToolGen</code> is <code>Generator&lt;void, void, number&gt;</code>. A <code>Point</code> has <code>x</code> and <code>y</code>; a <code>Rect</code> additionally has <code>w</code> and <code>h</code>. Do not replace a generator with an async function or use timers to mutate an element after the task has finished.</p>
 <h2 id="annotations">AnnotationInit</h2>
@@ -595,7 +594,7 @@ ${table(['Kind', 'Geometry callbacks'], [
 <h2 id="plugins">SwarmTroopersPlugin</h2>
 ${code('ts', `interface SwarmTroopersPlugin {
   name: string;
-  setup?(swarmtroopers: SwarmTroopers): void;
+  setup?(swarmtroopers: SwarmTroopers): void | (() => void);
   label?(el: SwarmTroopersElement, tool: string): string | null | undefined;
   invalidate?(): void;
 }`)}
@@ -621,13 +620,13 @@ create({
 <p>Do not treat DOM presence as a complete accessibility audit. Swarm Troopers temporarily makes pending elements transparent and non-pointer-interactive. Keep essential navigation, form controls, critical calls to action, and content needed for an immediate task outside the effect. Auto mode leaves controls and their enclosing boxes visible. A focusin handler immediately settles an explicitly annotated focused task and its dependencies. Printing settles reveals and hides decorative UI. The native document must remain useful with JavaScript disabled.</p>
 <h2 id="motion-preferences">Reader preferences</h2>
 <p>Without a saved quality choice, reduced motion selects Off at construction. A saved explicit reader choice takes precedence. Always offer the controls when motion is decorative. Test Off and reduced motion separately: both should leave content visible without an overlay, and the choice should survive a reload when storage is allowed.</p>
-<p>In auto quality with no saved manual choice, a running instance follows later system motion changes without persisting them. Explicit reader choices take precedence. Turning motion back on does not replay completed content.</p>
+<p>With no saved manual choice, a running instance follows later system motion changes without persisting them, whatever the <code>quality</code> option. Explicit reader choices take precedence. Turning motion back on does not replay completed content.</p>
 <h2 id="largest-contentful-paint">Loading and Largest Contentful Paint</h2>
 <p>Hiding a hero until Swarm Troopers reveals it can postpone Largest Contentful Paint. Exclude that hero with <code>data-swarmtroopers-skip</code>, or limit Swarm Troopers to a dedicated demonstration below it. Avoid scroll-triggered hiding for content that must be visible on first paint.</p>
 <p>The preload snippet avoids flashing content before the animation starts, but that tradeoff is deliberate. It is opt-in, belongs in head, uses explicit <code>data-swarmtroopers-preload</code> markers, and needs its safety timer. It must not hide excluded or critical content. Never replace it with a permanent CSS rule that hides the page when the script fails.</p>
 <h2 id="rendering-budget">Rendering budget</h2>
 <p>Swarm Troopers uses one fixed canvas. Full mode caps device pixel ratio at 1.5; Light caps it at 1. The loop sleeps when nothing moves and pauses updates in background tabs. Layout rectangles and token lookups are cached and invalidated when necessary.</p>
-<p>Use a focused root, a modest worker count, and the task limit on large pages. The core has no raster completion assets; the optional full profile includes them. Decode is skipped for disabled finales and inspection-only instances; measure your actual built output with <code>npm run size</code> rather than assuming a historical size. Profile the real page on target devices; desktop emulation cannot establish performance on a physical phone.</p>
+<p>Use a focused root, a modest worker count, and the task limit on large pages. The core has no finale artwork; the optional full profile embeds two SVG hands. Decode is skipped for disabled finales and inspection-only instances; measure your actual built output with <code>npm run size</code> rather than assuming a historical size. Profile the real page on target devices; desktop emulation cannot establish performance on a physical phone.</p>
 <h2 id="content-security-policy">Content Security Policy</h2>
 <p>Serve the library from a domain allowed by <code>script-src</code>. Give inline initialization and the preload script/style valid nonces or hashes, or use external initialization and omit the preload. The self-hosted script path is under your control.</p>
 <p>Styles normally use constructable stylesheets. When those are unavailable, Swarm Troopers falls back to a style element, which a strict <code>style-src</code> policy can block. If neither stylesheet path is available, Swarm Troopers uses visible quality Off instead of enrolling hidden tasks. The preload style also needs to satisfy that policy.</p>
@@ -668,16 +667,15 @@ const replacement = create({ root: 'main', auto: true });`)}
 <h2 id="csp-and-assets">Images, script, or styles are blocked</h2>
 <p>Inspect the browser’s CSP messages. Allow your chosen script origin and required nonces or hashes. Embedded artwork needs <code>img-src data:</code>; if blocked it falls back, rather than downloading another image. ES modules also need their adjacent shared chunks. See <a href="accessibility.html#content-security-policy">the CSP guide</a>.</p>
 <h2 id="unexpected-text">The text or language is unexpected</h2>
-<p>Check the document’s <code>lang</code>, <code>locale</code>, and <code>chat.locale</code> override. Bubble options can also change task and completion text. Quality-control labels are independently configurable; they do not use the chat locale. The custom element needs two or more comma-separated names to replace its pool.</p>
-<h2 id="github-status">GitHub stars show an unavailable state</h2>
-<p>The site’s header badge is separate from the Swarm Troopers library. Before the public repository exists, the badge displays “Not published”; network errors, API limits, or malformed counts produce an unavailable state. That is not zero stars. The badge only reads metadata and never creates a repository or publishes the project.</p>`
+<p>Check the document’s <code>lang</code>, <code>locale</code>, and <code>chat.locale</code> override. Chat options can also change task captions. Quality-control labels are independently configurable; they do not use the chat locale. The custom element needs two or more comma-separated names to replace its pool.</p>
+`
   },
   {
     slug: 'examples', title: 'Working examples', group: 'Getting started',
     description: 'Compare real integrations and copy a focused starting point.',
     body: `
 <h2 id="full-page-examples">Explore complete pages</h2>
-<ul><li><a href="../demo/index.html" target="_blank" rel="noopener">The live playground</a> combines automatic scanning, annotations, four tools, tokens, controls, and replay.</li><li><a href="../demo/hugo.html" target="_blank" rel="noopener">The portfolio example</a> demonstrates a darker host design with the same overlay and shared Swarm Troopers header.</li></ul>
+<ul><li><a href="../index.html#playground" target="_blank" rel="noopener">The live playground</a> on the landing page runs the library in four tabs: website, gestures, high five, and full page.</li><li><a href="../try.html" target="_blank" rel="noopener">The full product-page build</a> runs a complete page from top to bottom.</li><li><a href="../demo/index.html" target="_blank" rel="noopener">The everyday-website demo</a> combines automatic scanning, annotations, four tools, tokens, controls, and replay.</li><li><a href="../demo/hugo.html" target="_blank" rel="noopener">The portfolio example</a> demonstrates a darker host design with the same overlay and shared Swarm Troopers header.</li></ul>
 <p>Use Replay to create a fresh instance. Try Off, reload the page to check the saved preference, and inspect a heading after completion. The host page remains its own design; Swarm Troopers does not require a component library.</p>
 <h2 id="focused-tools">Watch the four tools</h2>
 <p>This compact example uses the actual built library, not a recording. It can complete inside its frame; if reduced motion is enabled, the finished content appears without the animation.</p>
@@ -709,7 +707,8 @@ document.querySelector('#start-demo').addEventListener('click', () => {
   swarmtroopers.start();
 }, { once: true });`)}
 <h2 id="completion-example">Completion behavior</h2>
-<p>The completion celebration plays after a natural build with at least one spawned agent. <code>finale: false</code> disables it; <code>finish()</code> reveals content without playing it. A deliberate wheel, touch, click, or key dismisses it after its initial half-second. It clears automatically in under four seconds.</p>
+<p>The closing clap plays after a natural build with at least one spawned agent, where the orchestrator stands; the center of the viewport is only a fallback. Two emoji-sized hands (76px, 64px on narrow screens) swing in, slap, and rebound once. A short burst of strokes in the two agents’ colors marks the contact, and each hand has its agent’s name tag under it: the last worker on the left, the orchestrator on the right. There is no panel or veil, so the page stays fully visible, and the clap never catches the pointer.</p>
+<p><code>finale: false</code> disables it; <code>finish()</code> reveals content without playing it. A deliberate wheel, touch, click, or key dismisses it after its initial half-second. It clears automatically after 3.54 seconds.</p>
 <p><a href="../site-demo.html?scene=finale" target="_blank" rel="noopener">Try the compact completion example</a>. This is a behavior reference, not a required section of your website.</p>`
   },
 ];

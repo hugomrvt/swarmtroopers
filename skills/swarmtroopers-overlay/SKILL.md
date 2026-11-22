@@ -24,9 +24,9 @@ Install with the site's package manager (`npm i swarmtroopers`), or use the no-b
 
 Choose the build deliberately:
 
-- `dist/swarmtroopers.core.iife.js`: lightweight, self-contained script with a vector completion fallback.
-- `dist/swarmtroopers.iife.js`: self-contained full script with the supplied layered high-five artwork.
-- ESM: import `create` and `controls` from `swarmtroopers`. Add `import 'swarmtroopers/finale'` only when the layered artwork is wanted. For a no-bundler ESM installation, copy the complete `dist` directory and keep its chunks adjacent.
+- `dist/swarmtroopers.core.iife.js`: lightweight, self-contained script; the finale draws vector hands in the two agents' colors.
+- `dist/swarmtroopers.iife.js`: self-contained full script with the supplied hand artwork (two illustrated hands embedded as `data:` URLs).
+- ESM: import `create` and `controls` from `swarmtroopers`. Add `import 'swarmtroopers/finale'` only when the illustrated hands are wanted. For a no-bundler ESM installation, copy the complete `dist` directory and keep its chunks adjacent.
 - CommonJS: `swarmtroopers` for core, `swarmtroopers/full` for the artwork profile.
 
 Use auto mode for a semantic content region. Use `data-swarmtroopers="type|frame|rule|stamp"`, `data-swarmtroopers="repeat"`, or `data-swarmtroopers="scan"` when the selection needs deliberate control.

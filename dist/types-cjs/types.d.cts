@@ -59,9 +59,9 @@ export interface SwarmTroopersOptions {
     labels?: boolean;
     /** Name tag on every pointer. true (default) uses built-in first names, or pass your own list for the workers. */
     names?: boolean | string[];
-    /** Language of tasks, names and the finale: "en", "fr"… Defaults to the lang attribute of the page. */
+    /** Language of tasks and names: "en", "fr"… Defaults to the lang attribute of the page. */
     locale?: string;
-    /** Once the whole page is built, a high five in the middle of the screen closes the show. Defaults to true. */
+    /** Once the whole page is built, a small clap where the orchestrator stands closes the show. Defaults to true. */
     finale?: boolean;
     /** Name of the orchestrator. Defaults to "Orchestrator" or its translation. */
     leadName?: string;

@@ -42,8 +42,6 @@ export interface Finale {
         name: string;
         color: string;
     };
-    title: string;
-    sub: string;
 }
 export declare const FINALE_END: number;
 export declare const FINALE_OUT = 0.3;

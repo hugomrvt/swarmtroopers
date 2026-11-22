@@ -44,12 +44,10 @@ export interface Finale {
   at: { x: number; y: number };
   left: { name: string; color: string };
   right: { name: string; color: string };
-  title: string;
-  sub: string;
 }
 
 /** Timeline of the finale, in seconds. */
-const F = { veil: 0.24, enter: 0.12, meet: 0.86, text: 1.02, hold: 3.12, out: 0.42 };
+const F = { veil: 0.24, enter: 0.12, meet: 0.86, hold: 3.12, out: 0.42 };
 export const FINALE_END = F.hold + F.out;
 export const FINALE_OUT = 0.3;
 

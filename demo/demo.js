@@ -6,9 +6,8 @@
     auto: true,
     inspect: true,
     plugins: ['tokens'],
-    palette: ['#0D0E11', '#7DB4FF', '#B98CFF', '#5FE3D0', '#FF7EB6'],
-    names: ['Ada', 'Mia', 'Noé', 'Iris', 'Eli'],
-    leadName: 'Swarm Troopers',
+    palette: ['#7DB4FF', '#B98CFF', '#5FE3D0', '#FF7EB6'],
+    names: ['ada', 'mia', 'noé', 'iris'],
   };
 
   function start() {

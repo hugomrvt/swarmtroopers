@@ -201,7 +201,7 @@ async function landing(browser, base) {
     await page.locator('[data-scene="page"]').click();
     await page.waitForFunction(() => document.querySelector('#live-preview').contentWindow?.swarmtroopers);
     const frame = await (await page.$('#live-preview')).contentFrame();
-    await frame.waitForFunction(() => window.swarmtroopers.stats.done === window.swarmtroopers.stats.tasks, null, { timeout: 35000 });
+    await frame.waitForFunction(() => window.swarmtroopers && window.swarmtroopers.stats.done === window.swarmtroopers.stats.tasks, null, { timeout: 35000 });
     check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `landing ${width}px: no horizontal overflow`);
     check(await frame.evaluate(() => document.documentElement.scrollHeight <= innerHeight + 1 && document.documentElement.scrollWidth <= innerWidth), `landing ${width}px: live scene fits without scrolling`);
     check(errors.length === 0, `landing ${width}px: no page errors`);

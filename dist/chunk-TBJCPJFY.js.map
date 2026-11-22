@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/high-five.ts", "../src/finale.ts"],
+  "sourcesContent": ["// The SVG hands are written by scripts/prepare-high-five.py.\nimport leftHand from '../assets/high-five/left-hand.svg';\nimport rightHand from '../assets/high-five/right-hand.svg';\n\n/** Both bare hands share one square around the contact point. The right one is drawn first, the left thumb overlaps its palm. */\nexport const HIGH_FIVE_LAYERS = [\n  { src: rightHand, group: 1 },\n  { src: leftHand, group: -1 },\n];\n", "import { setFinaleArtwork } from './finale-art.js';\nimport { HIGH_FIVE_LAYERS } from './high-five.js';\n\nsetFinaleArtwork({ layers: HIGH_FIVE_LAYERS });\n"],
+  "mappings": ";;;;;;;;;;;;AAKO,IAAM,mBAAmB;AAAA,EAC9B,EAAE,KAAK,oBAAW,OAAO,EAAE;AAAA,EAC3B,EAAE,KAAK,mBAAU,OAAO,GAAG;AAC7B;;;ACLA,iBAAiB,EAAE,QAAQ,iBAAiB,CAAC;",
+  "names": []
+}

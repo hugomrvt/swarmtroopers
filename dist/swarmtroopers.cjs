@@ -444,7 +444,7 @@ function pickTask(sorted, from, k, anchor) {
 var import_finale_art = require("./finale-art.cjs");
 var LEAD = 1.2;
 var MONO_STACK = 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace';
-var F = { veil: 0.24, enter: 0.12, meet: 0.86, text: 1.02, hold: 3.12, out: 0.42 };
+var F = { veil: 0.24, enter: 0.12, meet: 0.86, hold: 3.12, out: 0.42 };
 var FINALE_END = F.hold + F.out;
 var FINALE_OUT = 0.3;
 var unit = (t) => Math.min(1, Math.max(0, t));
@@ -1665,7 +1665,6 @@ var EN = {
     list: "the list",
     block: "a block"
   },
-  summary: "{t} elements \xB7 {a} agents \xB7 {d} s",
   lead: "Orchestrator"
 };
 var FR = {
@@ -1691,7 +1690,6 @@ var FR = {
     list: "la liste",
     block: "un bloc"
   },
-  summary: "{t} \xE9l\xE9ments \xB7 {a} agents \xB7 {d} s",
   lead: "Orchestrateur"
 };
 var LOCALES = { en: EN, fr: FR };
@@ -1703,7 +1701,6 @@ function chatPack(o = {}) {
     subjects: { ...base.subjects, ...o.subjects },
     tasks: { ...base.tasks, ...o.tasks },
     kinds: { ...base.kinds, ...o.kinds },
-    summary: o.summary ?? base.summary,
     lead: base.lead
   };
 }
@@ -1824,8 +1821,6 @@ var SwarmTroopers = class {
     this.lastWorker = null;
     /** The closing high five, drawn over the page once everything is built. */
     this.fin = null;
-    this.doneText = "";
-    this.summary = "";
     this.queue = [];
     this.tick = (now) => {
       this.raf = 0;
@@ -2161,8 +2156,6 @@ var SwarmTroopers = class {
     this.subjects = pack.subjects;
     this.leadName = this.s.leadName ?? pack.lead;
     this.words = { tasks: pack.tasks, kinds: pack.kinds };
-    this.doneText = pack.lines.done[0] ?? "";
-    this.summary = pack.summary;
     if (chat === true || typeof chat === "object" && chat.bubbles !== false) this.chat = { lines: pack.lines, subjects: pack.subjects };
     const sans = getComputedStyle(this.root).fontFamily || "system-ui, sans-serif";
     this.look = { halo: this.halo, ink: this.ink, sans, scale: this.s.scale ?? (this.narrow() ? 1.05 : 1.2) };
@@ -2968,9 +2961,7 @@ var SwarmTroopers = class {
         close: 0,
         at,
         left: { name: this.s.names !== false ? left.name : "", color: left.color },
-        right: { name: right.name, color: right.color },
-        title: this.doneText,
-        sub: this.summary.replace("{t}", String(this.tasks.length)).replace("{a}", String(this.spawned)).replace("{d}", String(Math.max(1, Math.round(duration))))
+        right: { name: right.name, color: right.color }
       };
     } else if (this.lead && this.q !== "off") {
       this.queue.length = 0;
@@ -2978,7 +2969,7 @@ var SwarmTroopers = class {
     }
     this.events.emit("done", { tasks: this.tasks.length, agents: this.spawned, duration });
   }
-  /** Runs the closing high five, and sends the troopers away under its veil. */
+  /** Runs the closing clap while the troopers fade out. */
   finale(dt) {
     const f = this.fin;
     if (!f) return;
