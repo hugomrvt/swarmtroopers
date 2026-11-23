@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Swarm Troopers sends an orchestrator and a squad of named cursor agents onto your existing HTML. They type, frame, rule and stamp your page into view, live, then hand it back. Scripted, no model. One script tag, 28 kB, zero dependencies.">
+  <meta name="description" content="Swarm Troopers sends an orchestrator and a squad of named cursor agents onto your existing HTML. They type, frame, rule and stamp your page into view, live, then hand it back. Scripted, no model. One script tag, 33 kB, zero dependencies.">
   <meta name="theme-color" content="#0D0E11">
   <link rel="canonical" href="https://swarmtroopers.mrvt.app/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://swarmtroopers.mrvt.app/">
   <meta property="og:title" content="Swarm Troopers — don't ship a page. Ship the build.">
-  <meta property="og:description" content="Named cursor agents build your existing page in front of your visitors, then hand it back. Your markup stays the source of truth. 28 kB, zero dependencies.">
+  <meta property="og:description" content="Named cursor agents build your existing page in front of your visitors, then hand it back. Your markup stays the source of truth. 33 kB, zero dependencies.">
   <meta property="og:image" content="https://swarmtroopers.mrvt.app/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -47,7 +47,8 @@
       <div class="hero-foot">
         <p class="copy" data-swarmtroopers="type"><b>Swarm Troopers sends an orchestrator and a squad of named cursor agents onto your existing HTML.</b> They type the headlines, frame the cards, draw the rules and stamp the lists, live, in front of your visitor. Then they hand the page back. They just built this headline.</p>
         <div>
-          <div class="actions"><button class="btn btn-ink cmd" type="button" id="copy-npm" aria-label="Copy npm i swarmtroopers"><span aria-hidden="true">$</span> npm i swarmtroopers <span class="cmd-state">copy</span></button><a class="btn btn-line" href="try.html">watch a full page build <span aria-hidden="true">→</span></a></div>
+          <div class="actions"><button class="btn btn-ink cmd" type="button" id="copy-npm" aria-label="Copy npm i swarmtroopers"><span aria-hidden="true">$</span> npm i swarmtroopers <span class="cmd-state">copy</span></button><button class="btn btn-line" type="button" id="copy-prompt" aria-label="Copy a prompt for Claude Code">copy prompt for claude code</button></div>
+          <p class="fine hero-links"><a href="try.html">watch a full page build →</a> · <a href="llms.txt">llms.txt</a> for agents</p>
           <p class="fine label">html · react · vue · svelte · astro · any stack</p>
         </div>
       </div>
@@ -91,11 +92,11 @@
       </section>
 
       <ul class="stats" aria-label="In numbers">
-        <li><strong>28 kB</strong><span>gzipped core</span></li>
+        <li><strong id="kpi-npm">700+</strong><span><a href="https://www.npmjs.com/package/swarmtroopers" target="_blank" rel="noopener">npm downloads</a>, last 30 days</span></li>
+        <li><strong>33 kB</strong><span>gzipped, finale included</span></li>
         <li><strong>0</strong><span>runtime dependencies</span></li>
         <li><strong>6</strong><span>agents at once, one orchestrator</span></li>
         <li><strong>4</strong><span>tools, picked from your markup</span></li>
-        <li><strong>1</strong><span>canvas, idle once built</span></li>
         <li><strong>3</strong><span>modes for readers: full, light, off</span></li>
       </ul>
 
@@ -154,7 +155,7 @@
             <tr><th scope="row">indexable from the first byte</th><td class="no">no</td><td class="ok">yes</td><td class="ok us">yes</td></tr>
             <tr><th scope="row">setup</th><td>record, export, embed</td><td>keyframes per element</td><td class="us">one script tag</td></tr>
             <tr><th scope="row">when the copy changes</th><td class="no">record again</td><td class="no">tune again</td><td class="ok us">nothing to do</td></tr>
-            <tr><th scope="row">weight</th><td>megabytes of video</td><td>depends on the stack</td><td class="us">28 kB gzipped</td></tr>
+            <tr><th scope="row">weight</th><td>megabytes of video</td><td>depends on the stack</td><td class="us">33 kB gzipped</td></tr>
             <tr><th scope="row">reduced motion</th><td>a second asset</td><td>if you remember</td><td class="ok us">built in</td></tr>
           </tbody>
         </table></div>
@@ -179,6 +180,7 @@
           <ul class="more">
             <li><a href="https://www.npmjs.com/package/swarmtroopers" target="_blank" rel="noopener">swarmtroopers on npm <span aria-hidden="true">↗</span></a></li>
             <li><a href="https://github.com/hugomrvt/swarmtroopers/tree/main/skills/swarmtroopers-overlay" target="_blank" rel="noopener">the agent skill on github <span aria-hidden="true">↗</span></a></li>
+            <li><a href="llms.txt">llms.txt, the short brief for coding agents <span aria-hidden="true">↗</span></a></li>
             <li><a href="docs/installation.html">installation guide <span aria-hidden="true">↗</span></a></li>
           </ul>
         </div>

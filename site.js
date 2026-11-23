@@ -247,6 +247,30 @@ npmButton?.addEventListener('click', async () => {
   setTimeout(() => { state.textContent = 'copy'; }, 1800);
 });
 
+// A ready brief for coding agents: install the skill, then let it do the integration.
+const PROMPT = 'Add Swarm Troopers (npm package "swarmtroopers") to this site. First run `npx swarmtroopers skill` to install its integration skill, then follow that skill: pick the main content root, keep the markup as the source of truth, add the quality controls, and call destroy() on unmount. Brief: https://swarmtroopers.mrvt.app/llms.txt';
+const promptButton = document.querySelector('#copy-prompt');
+promptButton?.addEventListener('click', async () => {
+  const label = promptButton.textContent;
+  try {
+    await navigator.clipboard.writeText(PROMPT);
+    promptButton.textContent = 'prompt copied, paste it in claude code';
+  } catch {
+    promptButton.textContent = 'copy failed';
+  }
+  setTimeout(() => { promptButton.textContent = label; }, 2200);
+});
+
+// Live usage from the public npm API; the markup keeps a floor if the request fails.
+const kpi = document.querySelector('#kpi-npm');
+// ponytail: production only, so local runs and tests never hit the network.
+if (kpi && location.hostname.endsWith('mrvt.app')) {
+  fetch('https://api.npmjs.org/downloads/point/last-month/swarmtroopers')
+    .then((r) => (r.ok ? r.json() : null))
+    .then((d) => { if (d && d.downloads > 0) kpi.textContent = d.downloads.toLocaleString('en'); })
+    .catch(() => {});
+}
+
 document.querySelectorAll('[data-install]').forEach((button) => {
   button.addEventListener('click', () => {
     install = button.dataset.install;

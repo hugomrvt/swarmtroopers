@@ -28,8 +28,8 @@ interface Pack {
   lead: string;
 }
 
-/** Short first names that read the same in most languages. */
-export const NAMES = ['Ada', 'Léo', 'Mia', 'Noé', 'Iris', 'Tom', 'Lou', 'Max', 'Zoé', 'Eli', 'Nina', 'Sam', 'Jade', 'Oscar', 'Lina', 'Théo'];
+/** Short Fullmetal Alchemist names, lower case like cursor tags. */
+export const NAMES = ['ed', 'al', 'win', 'roy', 'riza', 'maes', 'izumi', 'ling', 'mei', 'scar', 'havoc', 'fuery', 'breda', 'ross', 'sig', 'greed'];
 
 const EN: Pack = {
   lines: {

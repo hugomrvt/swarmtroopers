@@ -60,6 +60,7 @@ code{font:500 .84em var(--mono);background:var(--pane-2);border:1px solid var(--
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
 .hero-foot .actions{margin-top:0}
 .fine{margin-top:18px}
+.hero-links{margin-top:14px;font:400 12px/1.5 var(--mono);color:var(--ink-3)}.hero-links a{color:inherit;text-underline-offset:3px}
 
 /* Board: the live playground and its plan */
 .board{overflow:hidden;scroll-margin-top:16px}
@@ -249,6 +250,8 @@ html.st-wait [data-swarmtroopers]{opacity:0}
   .closing{padding:20px}
   .code pre{font-size:11px;padding:14px}
   .site-footer nav{margin-left:0}
+  .hero .actions{display:grid}.hero .actions .btn{justify-content:center}
+  body{padding-bottom:64px}
 }
 @media(max-width:360px){.scene-tabs button{padding:0 5px;font-size:11px}.pane-head{gap:6px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.btn:active{transform:none}}

@@ -80,7 +80,7 @@ export function defineElement(name = 'swarmtroopers-overlay'): void {
 
 defineElement();
 
-/** names="false" hides the tags, names="Ada, Léo, Mia" gives the workers' first names. */
+/** names="false" hides the tags, names="ed, al, win" gives the workers' first names. */
 function names(value: string | null): boolean | string[] {
   if (value === 'false') return false;
   const list = (value ?? '').split(',').map((n) => n.trim()).filter(Boolean);

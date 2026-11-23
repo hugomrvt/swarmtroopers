@@ -4,6 +4,8 @@
 
 ### Changed
 - The finale is now two pixel cursor hands that high five: six small poses (arrive, pull back, swing, slap, bounce, rest) on the same 3.54 s timeline. They ship in every build, about 8 kB of embedded PNGs.
+- The default worker names are sixteen short Fullmetal Alchemist names in lower case: ed, al, win, roy, riza, maes, izumi, ling, mei, scar, havoc, fuery, breda, ross, sig, greed.
+- On screens up to 560px wide the quality dock keeps its mark, drops the title text and uses smaller buttons.
 - `dist/swarmtroopers.iife.js`, `swarmtroopers/finale` and `swarmtroopers/full` are now aliases of the core, kept so 0.5.0 integrations keep working.
 
 ### Removed

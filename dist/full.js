@@ -3,12 +3,12 @@ import {
   create,
   defineTool,
   version
-} from "./chunk-PEYZ4ZCU.js";
+} from "./chunk-C3VF6F56.js";
 import {
   SwarmTroopers,
   controls,
   tokens
-} from "./chunk-ER6APXEC.js";
+} from "./chunk-XPJSWSA7.js";
 export {
   SwarmTroopers,
   controls,

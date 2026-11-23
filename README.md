@@ -38,6 +38,8 @@ For Claude Code, install the integration skill into your project (or add `--glob
 npx swarmtroopers skill
 ```
 
+Coding agents can also read the short brief at [swarmtroopers.mrvt.app/llms.txt](https://swarmtroopers.mrvt.app/llms.txt).
+
 As an HTML element, in any template language:
 
 ```html

@@ -1529,7 +1529,7 @@ var CSS2 = `
 .swarmtroopers-controls button:active{transform:scale(.96)}
 .swarmtroopers-controls button:focus-visible{outline:2px solid currentColor;outline-offset:3px}
 @media (hover:hover) and (pointer:fine){.swarmtroopers-controls button:not([aria-pressed=true]):hover{background:color-mix(in srgb,currentColor 8%,transparent)}}
-@media (max-width:380px){.swarmtroopers-controls .swarmtroopers-controls-title{padding-right:6px;font-size:11px}.swarmtroopers-controls button{padding-inline:10px}}
+@media (max-width:560px){.swarmtroopers-controls .swarmtroopers-controls-title{gap:0;padding:0 6px;font-size:0}.swarmtroopers-controls button{min-height:36px;padding-inline:10px;font-size:11px}}
 @media print{.swarmtroopers-pending{opacity:1!important;pointer-events:auto!important}.swarmtroopers-overlay,.swarmtroopers-controls{display:none!important}}
 @media (prefers-reduced-motion:reduce){.swarmtroopers-settle{animation:none}.swarmtroopers-pop,.swarmtroopers-controls button{transition:none!important}.swarmtroopers-controls button:active{transform:none}}
 `;
@@ -1621,7 +1621,7 @@ function resolveRoot(root) {
 }
 
 // src/chat.ts
-var NAMES = ["Ada", "L\xE9o", "Mia", "No\xE9", "Iris", "Tom", "Lou", "Max", "Zo\xE9", "Eli", "Nina", "Sam", "Jade", "Oscar", "Lina", "Th\xE9o"];
+var NAMES = ["ed", "al", "win", "roy", "riza", "maes", "izumi", "ling", "mei", "scar", "havoc", "fuery", "breda", "ross", "sig", "greed"];
 var EN = {
   lines: {
     plan: ["{s}, {n} on it", "{n} for {s}", "Taking {s}"],
@@ -3173,4 +3173,4 @@ export {
   SwarmTroopers,
   controls
 };
-//# sourceMappingURL=chunk-ER6APXEC.js.map
+//# sourceMappingURL=chunk-XPJSWSA7.js.map

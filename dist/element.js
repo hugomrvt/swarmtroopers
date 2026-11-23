@@ -2,7 +2,7 @@
 import {
   SwarmTroopers,
   controls
-} from "./chunk-ER6APXEC.js";
+} from "./chunk-XPJSWSA7.js";
 
 // src/element.ts
 var Base = typeof HTMLElement === "undefined" ? class {

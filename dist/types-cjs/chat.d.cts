@@ -25,7 +25,7 @@ interface Pack {
     kinds: Record<Kind, string>;
     lead: string;
 }
-/** Short first names that read the same in most languages. */
+/** Short Fullmetal Alchemist names, lower case like cursor tags. */
 export declare const NAMES: string[];
 export declare function chatPack(o?: ChatOptions): Pack;
 /** Reads what an element is from its tag, its role and its size. */

@@ -1,0 +1,43 @@
+# Swarm Troopers
+
+> Swarm Troopers sends an orchestrator and a squad of named cursor agents onto an existing HTML page. They type the headlines, frame the cards, draw the rules and stamp the lists in front of the visitor, then close with a pixel high five. The markup stays the source of truth: the HTML is complete from the first byte, and the agents only change what is painted. MIT, zero runtime dependencies, about 33 kB gzipped.
+
+## Fastest path with a coding agent
+
+1. Run `npx swarmtroopers skill` in the project. It copies the `swarmtroopers-overlay` skill into `.claude/skills/`.
+2. Ask the agent: "Add Swarm Troopers to this site with the swarmtroopers-overlay skill."
+
+## Install by hand
+
+- npm: `npm i swarmtroopers`, then:
+
+```js
+import { create, controls } from 'swarmtroopers';
+const swarmtroopers = create({ root: 'main', auto: true });
+controls(swarmtroopers);
+// On unmount: swarmtroopers.destroy();
+```
+
+- Script tag, no build step:
+
+```html
+<script src="https://unpkg.com/swarmtroopers@0.5.1/dist/swarmtroopers.core.iife.js"
+  data-swarmtroopers-init='{"root":"main","auto":true,"controls":true}'></script>
+```
+
+## Rules for agents
+
+- Point `root` at the main content, not the whole body. Never hide a critical hero; use `data-swarmtroopers-skip` to keep it out.
+- `auto: true` picks a tool per element. For control, annotate: `data-swarmtroopers="type|frame|rule|stamp|repeat|scan|skip"`.
+- Frameworks (React, Vue, Svelte, Astro): call `create()` after the view mounts and `destroy()` when it unmounts.
+- Readers choose full, light or off from the controls; reduced motion is respected.
+- Do not invent other packages, CDNs or domains.
+
+## Links
+
+- Docs: https://swarmtroopers.mrvt.app/docs/
+- Installation: https://swarmtroopers.mrvt.app/docs/installation.html
+- Options: https://swarmtroopers.mrvt.app/docs/options.html
+- Frameworks: https://swarmtroopers.mrvt.app/docs/frameworks.html
+- npm: https://www.npmjs.com/package/swarmtroopers
+- Source: https://github.com/hugomrvt/swarmtroopers
