@@ -28,7 +28,7 @@ controls(swarmtroopers);
 Or with one script tag from a pinned CDN, no build step:
 
 ```html
-<script src="https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtroopers.core.iife.js"
+<script src="https://unpkg.com/swarmtroopers@0.5.1/dist/swarmtroopers.core.iife.js"
         data-swarmtroopers-init='{"auto": true, "controls": true}'></script>
 ```
 
@@ -45,17 +45,11 @@ As an HTML element, in any template language:
 <swarmtroopers-overlay auto controls inspect tokens root="main"></swarmtroopers-overlay>
 ```
 
-To self-host the script, copy `dist/swarmtroopers.core.iife.js` from `node_modules/swarmtroopers` and serve it from your own site. To use native ES modules without a bundler, copy the entire `dist/` directory to your static files and import `create` and `controls` from its `swarmtroopers.js` entry. Keep the generated chunk files alongside it, and keep adjacent CommonJS registry files if copying artifacts manually.
+To self-host the script, copy `dist/swarmtroopers.core.iife.js` from `node_modules/swarmtroopers` and serve it from your own site. To use native ES modules without a bundler, copy the entire `dist/` directory to your static files and import `create` and `controls` from its `swarmtroopers.js` entry. Keep the generated chunk files alongside it, .
 
-### Finale artwork
+### Finale
 
-The lightweight core bundle includes the Swarm Troopers mark and draws the high-five hands as vectors in the two agents' colours. The full profile adds the illustrated hands: two SVG hands in two skin tones, embedded in the JavaScript as `data:` URLs, so there are no image files to host.
-
-- Script tag: use the self-contained `dist/swarmtroopers.iife.js` instead of the core file. Do not load both scripts on the same page.
-- ESM: add `import 'swarmtroopers/finale'` before creating instances.
-- CommonJS: use `require('swarmtroopers/full')` instead of the core entry.
-
-Even the full profile prepares the artwork only for enabled build work, not for inspection-only instances.
+Every build ships the same finale: two pixel cursor hands high five where the orchestrator stood, with both name tags. The six poses are tiny PNGs embedded in the JavaScript as `data:` URLs (about 8 kB), so there are no image files to host and no extra entry to import. `dist/swarmtroopers.iife.js`, `swarmtroopers/finale` and `swarmtroopers/full` still resolve for 0.5.0 integrations; they are now the same as the core.
 
 ## Orchestrator and squads
 
@@ -66,7 +60,7 @@ The page is split into sections: the outermost `section`, `header`, `footer`, `a
 3. Workers only take elements of their own section. Each new task shows next to the name ("Writing the title", "Framing the card") for a few seconds.
 4. When nothing is left in their section, workers come back to the orchestrator and disappear.
 5. Once every element of the section is built, the outline fades.
-6. Once the whole page is built, a small clap plays where the orchestrator stands (the centre of the viewport is only a fallback). Two emoji-sized hands swing in, slap and rebound once. A short burst of strokes in the two agents' colours marks the contact, and each hand carries its agent's name tag: the last worker on the left, the orchestrator on the right. There is no panel and no veil, so the finished page stays fully visible. The clap clears after 3.54 seconds, never catches the pointer, and a wheel, touch, click or key dismisses it after the first half-second.
+6. Once the whole page is built, a small clap plays where the orchestrator stands (the centre of the viewport is only a fallback). Two pixel cursor hands, seen from the side, arrive, pull back, swing, slap with a small burst, bounce and rest. Each hand carries its agent's name tag: the last worker on the left, the orchestrator on the right. There is no panel and no veil, so the finished page stays fully visible. The clap clears after 3.54 seconds, never catches the pointer, and a wheel, touch, click or key dismisses it after the first half-second.
 
 Gestures are paced to be followed, and a backlog only speeds them up by half at most. When the reader scrolls away, a task whose element left the screen is settled at once (shown if the reader went past it, put back for later if the reader went up), and its worker joins the squad working in view. An agent left far behind re-enters from the nearest edge. After a reload in the middle of the page, the orchestrator appears where the reader is and the troopers start there; what is above is built if the reader scrolls back up. Nothing in view waits forever. An element that stays on screen longer than `patience` without an agent simply appears, and anything scrolled past is shown at once. The name of a section comes from `data-swarmtroopers-section`, `aria-label`, its `id` or its first heading.
 
@@ -256,7 +250,7 @@ Content hidden at load is counted later for Largest Contentful Paint. If that me
 
 With a strict Content-Security-Policy, host the script on your own domain or allow its origin in `script-src`. Styles are added through constructable stylesheets, which `style-src` does not block. Give the preload snippet a nonce or a hash.
 
-The embedded artwork and quality-dock mark use `data:` image URLs. Allow `data:` in `img-src` to display them. If image decoding is blocked or fails, the finale uses its vector fallback and the dock keeps its text label without a broken image.
+The embedded artwork and quality-dock mark use `data:` image URLs. Allow `data:` in `img-src` to display them. If image decoding is blocked or fails, the finale draws vector hands instead and the dock keeps its text label without a broken image.
 
 Existing reveal animations (GSAP, AOS, Motion…) keep working: auto mode skips elements that are invisible when it starts. To hand an element to Swarm Troopers, remove its other animation.
 

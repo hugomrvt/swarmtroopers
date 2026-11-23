@@ -1,4 +1,4 @@
-/*! Swarm Troopers v0.5.0 | swarmtroopers | MIT */
+/*! Swarm Troopers v0.5.1 | swarmtroopers | MIT */
 "use strict";
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -440,8 +440,18 @@ function pickTask(sorted, from, k, anchor) {
   return best;
 }
 
+// src/clap.ts
+var CLAP_FRAMES = [
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAAxCAYAAABgSwHoAAADQElEQVR4AeyXPY4TQRCFBw4A0sZkCBFtAEIiIeAcnIKjcArOQUCChCDYCCEy4pXgAqDP6KFyuae6umZsyzBIj/6pelXvdbe9u3en/+DfZvJfueTtJrebvKAT2J5rdFlfvn3/5RHlV2K+PutKndJNqtmzJ9eTQHPtM18C6gBqqD4ja+0zz6JkkuJqyhxoXREB34N6wO77tY1F87JJFf3541bT3a3+XRQn/pCo/+79h2K1P7Rhk14EZdYQQh1BNyZzT68fKbQbWxp2gZn/hk1SBxEYA6xPAfWi92i/IZP2BD/dfB3ttSjf97NaeoWHTFKscpLw1oCe76iGYZOI1dNhfkr4z2a2d8lktviaeVWDaEiZ5P0DCIDPx5Km1KiAvpZnNU2TjezPUyah8DkA53qqaACVz2XaJA0uFcMmeTLneKocMH0B8xEMm8wU57Ni0eOM5PZqteJdkwhoEaM9PrsCeVENxZTPCCcL8aP8rknIasyXTu+5kEsesFzmc4BDTBzmEcgD4kW5xFImScyC5tncVt5Sfqvm6iZbTc69t5nM3sC9+1fTyxfPJ/2gzvLm8vRkqTmXM7K/yk0iCtgvJYwj5OPnG4ZhUA8MExuEVUw26u5tPX744M7ehlvoIHQwLrx4eRKTkcreAUTcbOwoJnUjuqGMGOWKm+Fkc0KTmd8meo0yN5XJifr0dIYmKZz9rYLccyCjr2tSwrPfdHpuen7iZ0Zx+Esnk5/VlDaZaerFjTzDbG5Gh8+ZNdl7574Qa/3w1o2wNwq41PEH1qsT6W2aFEHvPfMsvKjKzVQ4aJNO6fYHcmBSiSJ6QmuNQU6fGDfBuBTUo262jvRKv+UdmCQoAnPAlwlg7tESUrkRW1cHFRlFjyCu1639pkkF/UhRv8caMYwSx7wKHdAataQhNPn67e1kAQmjAmtvUCKJVaEaGFV9aqkvI2s+jxbstRCa9ISWYZsjcXavOre1MAWsIebZ2kMmbVEMa82Ja36sccSU1xCafPPqagKe1Frbk2/Fj7nHLYO5Hk2T3IwAEaMtEDsVMDEHaWVs6TkwyY0IECD2QN6x0OtNnN7SzMja4sCkDULIwvLWmmd7kxf1DE1GxEuK/QYAAP//b2x0cwAAAAZJREFUAwCdRdhyePNCOwAAAABJRU5ErkJggg==",
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAAxCAYAAABgSwHoAAADe0lEQVR4AeyWPapUQRCFRxeg8GIzEaMXKIKJgetwFS7FVbgOAxNBNHiRiJnxA92A8g0cONZUV3fP3Dvj6AjH+unuU3Wqey7v7uY/+HcR+a9c8uUmLzd5RhO4PNczuqyy1e5Nfvn2/VdEybjyYuyFuFeyFCmCZ0+uNwKEyuMfC9QE1FMvWGLl8TOUIjkgop8/bgm3YnF6xOxZCqpFL0C9wE+MrdAV6Ychf/f+wx9C1YDvW9IXv8RQH356wY5gSiSET68fYbZCVXibWPE/r6P6M+WmRUKuaeIfE9ntffx8022hKVLPJGPYZ5oZTy/nPWQCe+e13hTJBj2TU92c94CfQT1ma8qVIqun4JP1iYt4bfvp5utwiabIxw8f3BHLyxfP5e7YkUnuHFol0SZtioxHZiYXz546boqMT/BYH5tsIP7TiOvVT0p7myLZoKd4ig9PHDL9OBg6falHX4t+KbI3JZ8wTYFYYJ9YPD0B1bfC6zZF+ofHD7h/7/7VNqQZQKAG8feBzosPDtXBF2a+EU2RIsNmE1Nhv01vjHP7QjxwA3hUD38WTZGa6AihGhnZW+3xmktxUq8pkkWfKHGFpZpSzVgr8vPhibl4RnEpUptmrd/I7Nm4/5BnKq5SZPV1bU2xdRMquKQdHUBTZO/rGgsorgYzIvDQ81mNpkjfLAGei77fbG9A8azH8SU4r++b8YdEZoQUB9na0rlD6zRFzn48Rm57afHwjTzvpkgI9HQOnSRcoxhpWlz0pR6Vy2wpcqZgRj6bm/0tj76eUuTIlFzIkkMZEcBNqn718ypFiqBn/Y/l2dvoccf1LO5dRiqymkpWJPsDPts3m/PhzZ71/TsiJVDT8SfhB+Uv1Yj4sHr2I8Pz/tQ7HI4dkSzOCFQjaozzh0DPXXwjQ0Soes6EpiLVJD9+oLhl1ZAabO0bzTsPQ2wJpTcBbgnFd5Qi2fj67e1GRLLk8WkAH3hjxEtAw/M61BVGa5QiEQgRViCmCBaoEfwlEYdGTcDTzFDVLkVmB12s1mNDyi9hfYiI24ezFPnm1dUGODEx8NxafhweNxlrkQPkfSDEQiqSzUCbECUodyqLIIf6UL9xMKzviGQTYJGDwH1iB2trw+u5T13F+Oob37EjUoscAMQQYYkzsLYWsnrkqBf7IpehKVKbIRSU+xusesL2+umK7BGcw/pvAAAA///AMDkbAAAABklEQVQDALX1yHKS6SmrAAAAAElFTkSuQmCC",
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAAxCAYAAABgSwHoAAADwElEQVR4AeyXPYpUQRSFny5AYWIzEaMJFMHEwHW4CpfiKlyHgYkgGkwkYmY8oBtQPpivuX27XvWt994MM9rCoW7d33Oqqp/M/ek/+HcS+a9c8ukmTzd5h07g9Fzv0GV1qW56k99+/PyT0Z1+Fcw17K9CmyybiZTYi2fnkxhhaA0rdfbDXotNREpIgpGUseiLditun1Ys1lbt1SIlIrHfvy4nAAF95uCL0G8edYAcfebgW4pVIiUgoQ8fP+14aBvbBZJh3HzC2sacQ2wJVolkoESwn58/YVmN2Cf2X9p4sch8uj6zpURyXe6X5+X83n6RSAd6yj6v1qDPXy9a7p2vF7evc5y7Ky4ai0TS28EQic+LWMbTx4/uZR/76H/96uX05eI77h3oS38czsMexWKRvUGQhXQvZ/vYfMdhkUufzDyFsciS+cMioRSfDk8K3xr0fpf0X/tkh0TGU2Rw/gLOCY11czk9fxRK3mi/IZEMiLfI/hjMbxHTZ07ld2zusbkxPiwyFs/ZkOWWATk9YsTIA+Ty0WLdEpuKfPDwbAISlmjvN2cOK3UcED3Yb4WySJ+Wg/mdaFfW+H9izq+IyvMyn9wz7ssiKcpPC18PFfK9+hzjpgE8iFWFlkRWmzF4LRBR6aHQSm5JJI2ONfXWqiTp2YP9ejnVWFlkpSH/d1byYk7ro7SkT+yZ7c1EcoP548Cwlgj8YO5jRB/6kbMFNhOZycTnNicm1sT86G/ZowdwVGT86Iw2791iJF/NizXa8APuW2tXpMV8dEYFOuzYLcb4yG3SH14Au4euSAorTciLGCUba6v2yKHPivQWq0PNU+DoEzTfevtV1x7fpkgLvMXqqWWC8Sn2yOa83CfWRlte8pR3zMFuiiRgIfYovJWbqMtCWzMPRMbToAFoFWZfPv18Ozk/73M+/ap/dkWOkb8zDkQS8BYZJPDPgRxjS28x1tuDP7t6QpkrqJd3FronMgcpFDTTjqt+iAFi+VbwVUAdINdec0KdS26EQqNvTyQBk96+v5wiiNFYsPeUJQRBQGwN7GHf2CvO55lGxLxoH4iMwWgrWB/DOGWJSMz42tV+9GcO8wB9FYZdwazId2/OJpCbIDb7JJT9a/f2Rai9EKjtinjgPq8HImPDnOxeoZVca5auCqW+JRB/RIvTnkgbkggo5jZbIAaswb5ucFstMBe+ADtz2hNpgkkURRC/LYi8sOEFb4AdcSDSIMkR+GkWge+mEOdiMzfyw8bXwqzInEyTFnLedexbc/FVZ5VFVhvexry/AAAA///9CctgAAAABklEQVQDANWGF4HdbHLXAAAAAElFTkSuQmCC",
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAAxCAYAAABgSwHoAAADTUlEQVR4AeyZTWpVQRCFny5AwbEzEUcZKIITB67DVbgUV+E6HDgRRAcZiThzHDAbSPgC51FpuvpW961KAolw7Prrqjpdfd+7jzw+3IN/DySzh/z7778Li+z8Xr4bn+Tb1ycH4DVUYb9xkhUktnKmk1y9jnYf8lbjM/50khTXdYw2qzj2AXJkooQkDc42OxtPjShKSP74dXqsrynJgA9I7/nly1rTSb568fwRzUGknQ4+C+KA4tiDTgxrFtJJ0piaVNNMywPxxAFk7UXOQglJmqNZgMykBHQgnRWdWICcjTKSNMr0WCOYiY3kszGlJCnEpM7/nx2A9J4NXxXKSLaTefL02TUO6MAa2z3Wt0cuI0lTTIwVMEmADJAFdBuLnokSknYiX799n+rX7p3aOAguIUk9TebNyUvUK/w8/XO18p+VmSg27UGeh7+jjCQlZ6Y4E0vuGZSSnGmkMjadZMYzlZHDHlo6SZLzbHH97POIfQRi2cPeUdyKr4RkrxG+Ez+8f3d0IWM7GgqFVJLeNRuR8XxerpWzSCOpprzrpq8JNdnq2LmyrF4OfCtII0lxNQcBNYxdwC7ZWyMx3l7PnkpSvwm9YrdlTyNZ9Vsw42DSSHrN8MHCV0PPr6tJTM+fZUshyYcO6DUFkd7zqVj8QLpdvZw2JiKnkKQQHzoAOQOZudJIipg3Ffz2l4eV8VmMcti4qJxO0is8IuXtybLvJpn13HiEMvLvJklzen62rhnvq8QDK6O3IJfytr5ZfRfJjFOONGzrROLbmGWSKqzT5uTb5Fv61nNKTuVXva2cPf8ySZKpAeQt6Hry6geIlw15hJk6vTxLJNtT5cR7yWUbvdFEpqk81AXSo+sSSZLb042S0ATZL5lpekTJC4inHkCexTLJtpCaae2QwCZSvMgDa0OuxG6Sn76cHQBNQlSQzmoJogNLlIPQNLWflcdAYM8qdpNUYRGVTpOSWUUKWbA2iLZ7FLd3TSNJIxAFyIKmKL232hhNjrUXu2JbJqnGPn+8/tcqmmiJ2onht7A+j5gmrJp2f0ReIqnGVBSiLSLF2xjI9EAdQLxqI0exRJLkKkbxEYiNYCsH9UAkVxuzTJJEFI2A2BEycozy7yI5SnyXfJcAAAD//1wG1YYAAAAGSURBVAMAsm3UchpJpQcAAAAASUVORK5CYII=",
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAAxCAYAAABgSwHoAAADa0lEQVR4AeyYPY4UMRCFBw4A0sZkCBFtAEIiIeAcnIKjcArOQUCChCDYCCEy4pXgArAf8FrVNWW77O7pnWUH8bBdv++5PAPs3d0t+HUS+b8M+TTJ0yRv0A2cnusNGlaV6tAkv3z7/suj2mXA6etzHijzJ6VbpJo9e3K+E6gkO/u1oPqs1Bzt0S2SZmrKHvgztiWIxCzp0SXSN//543KmxftnzuRBNSSKHkDp8uucWbtEUtA25ywCsmNbCtV69/7DVIq97JMxuUmLHLnBJIdU2NPzR1NcL5e0SDroJjU9bJ8uvrJsgtFppkT23txSxR8/XzRL9HBKiaSjpsj+kHj88MGdVn1xyQpNi1Rj+1Rl22rlc8mTpZ+Esv+L8p9dItWgXO44PU2R2SeR+Rxd1xU0RUKs52lwKYC8XpAHlPfyxXNtp5UnOx2uNjb+6hj+Tokkk6fqG2AXuAhBtp5VZDM14EJtYllbSItsFfJfSCLdyrP+LGmbk9lXRWaI8qQkUOsSstQQEHDv/hnLDLUXNQv8d6iKJGYJYfKPAUWRfoq9tzcqLppcq5bn6uOLIgnUFHk+nLPY4q8TcRLHGreqyFoivtqtZ/55Ro0tsEgkBPV1zn5taFqly5S/1XeRSJrYz2qJTItEzU8PUItp+RaJbBXv9euzvPZlhSJb31YReRET0SimZtNneDS/xjkUCRl9a408FRGmTg9G88S11KsospQQ2TXFyDdqy9bMDGFPZG3sLcKjT83XHa1T4j4TqSCNP3NLnuDok1OdVr7i/CrO3s55JhKDgrMC9axGb5+eEain2pHf2ixXBgWsfxJpHTbJBvu9JzE6BV/X1vE9fKzOcGZAAJvVM4nEoQAKC9gj2J+3cutRzFY2z1U61H8mUsaeVQLt7ffk12JVGxGluJpPOXsiX7+93FlQRFASU+Q/yzofQqBqRkLFhxUOPFWBs8eeSB+AYNkoCiRQBORfe5VQ1aU30JkVcaw17Il88+psB2wSQoG1SaAnYmPW2quXrYc4YG3+AuSbiYyKKZBVQhW3hUD1UE94eHHYrEAbi28SaYsRxDQjkAQUz/7Q8L0Q5AEHeAP2NmcSKYecBHsQc0yI+MEfWJ4zkXIQ5IFPRdlfB9RfKxwintgtQpE2QPtMMcUeYvX9dc70SovMFDvWmN8AAAD///1YJKUAAAAGSURBVAMAG0zDchYmW8kAAAAASUVORK5CYII=",
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAAxCAYAAABgSwHoAAAC+0lEQVR4AeyXPW5VMRCFLywApNR0CFGlACHRULAOVsFSWAXroKBBQlCkQoiOOhJsAPRF+iLHz9fXY/tG+XmRTsYez5yZ8+b65uXhcg9+jiLvypCPkzxO8hZ9AsfH9RYNq9rqLpP88ev3vxS1DtI417X4nrPpImmURl69OF0Aa32sU+gnTnCun/UMTBVpczRsc64906/1fG2vf8ROFUkjNv3p85fl759zXMWJ5qKNvUiY/GuayLzpl6fPLlpFLAvFsxb6SgJzPnN67DSRFK81zfkWEAvk2YpvPZ8iMv/Uv539bK1/EJfm5rwHwY2OKSKp5afPJNiPAA75RnjMnSZSwptoh0XmjxSPmy+dHsHkwmFuzq//0K57hkVCPfPRgk/M4p0i0qa4S65H7UyuqSJHhe2VP1Ukd4k7tdXs1j2DA64tntbzIZFbzdLE2zevMZcwJ3LfzLkkCS6GRFLLZrlDTADfGoz1nBzWjx6fYK5ArjznSlDjZlhkrY7NIwYQS9PAvdZYYoRn7nvtriJ7m5qddxQ58omWHr8RvpHc3SfZcq/8n3NESC13N5GIA7XinvEmbY01J2J3ExlpYu/YaxOZf4PJ93sK7RY5+i0kKmqkXrdImuSPOrYFfr37+v1sAe5bciN1SnxDIiXc86Uxg3uKSMVGbc/f0mgN4rtERu+HYnhMKQrSNfsWROvKGRZpIe9J9HF6/vTJA2ADLW9ZaljP+ua32LBISC1IcfY1KKI0OXy8gIyp8XBm3ajQkMgoOc0jggZBOsF0TQyxxGxBoVtx6XlIJIlpEe6a4GwNTKznTG7sWn6LPyxS0vcfz5cUNCKMYUIKTCfneeojFr8cWPZciRT4ougWmRcqCTYmFaOvZEvCSnFR3zSR0cJpvNPGx9SwM9Et8sO7kwWUmmGq+NPm2ZcQmbKTLvHUfGGRNC4gRmgJnIFWEcQChJRgTSxxEYRE0rCgCAVrIKYVNR7O4LE2ln0rQiJTUgq1IM1ZW7fwELOWv+XvFrlFfJPO/wMAAP//N5Os1wAAAAZJREFUAwDAm51yS402PgAAAABJRU5ErkJggg=="
+];
+var CLAP_TIMES = [0, 0.3, 0.62, 0.86, 1.1, 1.36];
+
 // src/overlay.ts
-var import_finale_art = require("./finale-art.cjs");
 var LEAD = 1.2;
 var MONO_STACK = 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace';
 var F = { veil: 0.24, enter: 0.12, meet: 0.86, hold: 3.12, out: 0.42 };
@@ -464,8 +474,7 @@ function finalePose(age) {
 var Overlay = class {
   constructor(z, cap) {
     this.cap = cap;
-    this.highFiveImages = [];
-    this.artwork = null;
+    this.clap = [];
     this.dpr = 1;
     this.w = 0;
     this.h = 0;
@@ -499,16 +508,14 @@ var Overlay = class {
     }
   }
   prepareFinale() {
-    const artwork = (0, import_finale_art.getFinaleArtwork)();
-    if (artwork === this.artwork) return;
-    this.artwork = artwork;
-    this.highFiveImages = artwork?.layers.map(({ src }) => {
+    if (this.clap.length) return;
+    this.clap = CLAP_FRAMES.map((src) => {
       const image = new Image();
       image.decoding = "async";
       image.src = src;
       void image.decode().catch(() => void 0);
       return image;
-    }) ?? [];
+    });
   }
   setCap(cap) {
     this.cap = cap;
@@ -560,34 +567,37 @@ var Overlay = class {
     ctx.globalAlpha = 1;
     this.painted = true;
   }
-  /** The closing clap, Figma style: no panel, two emoji-sized hands slap where the orchestrator stood. */
+  /** The closing clap: two pixel cursor hands high five where the orchestrator stood. */
   finale(f) {
     this.prepareFinale();
     const { ctx } = this;
     const out = f.close ? unit(f.close / FINALE_OUT) : unit((f.age - F.hold) / F.out);
     const life = (1 - out) * easeOut(f.age / F.veil);
     if (life <= 0) return;
-    const size = this.w < 600 ? 64 : 76;
+    const z = 2;
+    const size = 49 * z;
     const mx = Math.min(this.w / 2, size + 64);
     const cx = Math.min(this.w - mx, Math.max(mx, f.at.x));
     const cy = Math.min(this.h - size - 30, Math.max(size, f.at.y));
-    const pose = finalePose(f.age);
-    const s = size / 100;
-    const pop = 1 + 0.1 * pose.impact;
-    const art = this.artwork && this.highFiveImages.length && this.highFiveImages.every((image) => image.complete && image.naturalWidth > 0) ? this.artwork : null;
+    const sprite = this.clap.every((image) => image.complete && image.naturalWidth > 0);
     ctx.save();
     ctx.globalAlpha = life * easeOut((f.age - F.enter) / 0.18);
-    if (art) {
-      for (const [i, layer] of art.layers.entries()) {
-        ctx.save();
-        ctx.translate(cx + layer.group * pose.spread * s, cy + pose.lift * s);
-        ctx.rotate(layer.group * pose.tilt);
-        ctx.scale(pop, pop);
-        ctx.drawImage(this.highFiveImages[i], -size / 2, -size / 2, size, size);
-        ctx.restore();
-      }
+    if (sprite) {
+      let i = 0;
+      while (i < CLAP_TIMES.length - 1 && f.age >= CLAP_TIMES[i + 1]) i++;
+      const hit = f.age - CLAP_TIMES[3];
+      const shake = i === 3 && hit < 0.08 ? Math.floor(hit / 0.04) % 2 ? z : -z : 0;
+      const image = this.clap[i];
+      const w = image.naturalWidth * z;
+      const h = image.naturalHeight * z;
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(image, Math.round(cx - w / 2 + shake), Math.round(cy - h / 2), w, h);
     } else {
-      const k = size / 46;
+      const v = 76;
+      const pose = finalePose(f.age);
+      const s = v / 100;
+      const pop = 1 + 0.1 * pose.impact;
+      const k = v / 46;
       for (const [side, color] of [[-1, f.left.color], [1, f.right.color]]) {
         ctx.save();
         ctx.translate(cx + side * pose.spread * s, cy + 6 * k + pose.lift * s);
@@ -596,26 +606,26 @@ var Overlay = class {
         this.highFiveHand(color);
         ctx.restore();
       }
-    }
-    if (pose.impact > 0) {
-      const t = 1 - pose.impact;
-      ctx.globalAlpha = life * pose.impact;
-      ctx.lineWidth = 2.5;
-      ctx.lineCap = "round";
-      const oy = cy - size * 0.42;
-      for (let i = 0; i < 7; i++) {
-        const angle = -Math.PI / 2 + (i - 3) * 0.42;
-        const r = size * (0.3 + 0.25 * easeOut(t));
-        const len = size * 0.16 * (1 - t);
-        ctx.strokeStyle = i % 2 ? f.left.color : f.right.color;
-        ctx.beginPath();
-        ctx.moveTo(cx + Math.cos(angle) * r, oy + Math.sin(angle) * r);
-        ctx.lineTo(cx + Math.cos(angle) * (r + len), oy + Math.sin(angle) * (r + len));
-        ctx.stroke();
+      if (pose.impact > 0) {
+        const t = 1 - pose.impact;
+        ctx.globalAlpha = life * pose.impact;
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = "round";
+        const oy = cy - v * 0.42;
+        for (let i = 0; i < 7; i++) {
+          const angle = -Math.PI / 2 + (i - 3) * 0.42;
+          const r = v * (0.3 + 0.25 * easeOut(t));
+          const len = v * 0.16 * (1 - t);
+          ctx.strokeStyle = i % 2 ? f.left.color : f.right.color;
+          ctx.beginPath();
+          ctx.moveTo(cx + Math.cos(angle) * r, oy + Math.sin(angle) * r);
+          ctx.lineTo(cx + Math.cos(angle) * (r + len), oy + Math.sin(angle) * (r + len));
+          ctx.stroke();
+        }
       }
     }
-    const tagsY = cy + size / 2 + 8;
-    const nameFont = `600 ${size < 70 ? 11 : 12}px ${this.st.sans}`;
+    const tagsY = cy + size / 2 + 4;
+    const nameFont = `600 12px ${this.st.sans}`;
     for (const [i, agent] of [f.left, f.right].entries()) {
       if (!agent.name) continue;
       const name = this.fit(agent.name, nameFont, 120);
@@ -3188,7 +3198,7 @@ function controls(swarmtroopers, options = {}) {
 }
 
 // src/index.ts
-var version = true ? "0.5.0" : "dev";
+var version = true ? "0.5.1" : "dev";
 function create(options) {
   return new SwarmTroopers(options);
 }

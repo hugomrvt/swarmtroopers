@@ -19,9 +19,9 @@ try {
   execFileSync(process.execPath, ['-e', 'const core=require("swarmtroopers"),full=require("swarmtroopers/full");if(core.SwarmTroopers!==full.SwarmTroopers)throw Error("shared engine")'], { cwd: temp });
   const core = fs.readFileSync(path.join(target, 'dist/swarmtroopers.core.iife.js'));
   const full = fs.readFileSync(path.join(target, 'dist/swarmtroopers.iife.js'));
-  const skin = encodeURIComponent('rgb(249,192,134)'); assert(!core.includes('249,192,134') && !core.includes(skin)); assert(full.includes('249,192,134') || full.includes(skin));
+  assert(core.includes('data:image/png') && core.equals(full), 'the pixel clap ships in the core and the full script is an alias');
   assert(gzipSync(core).length < 35 * 1024, 'lightweight script gzip budget');
   const source = fs.readFileSync(path.join(target, 'skills/swarmtroopers-overlay/SKILL.md'), 'utf8');
   assert(source.startsWith('---\nname: swarmtroopers-overlay\n')); assert(!/^version:|^author:/m.test(source));
-  console.log(`PASS  SSR imports, optional artwork and core gzip budget (${gzipSync(core).length} bytes)`);
+  console.log(`PASS  SSR imports, pixel clap in core and gzip budget (${gzipSync(core).length} bytes)`);
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }

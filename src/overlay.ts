@@ -1,7 +1,7 @@
 import type { Agent } from './model.js';
 import type { Point, Rect } from './types.js';
 import { cssToRgba, relativeLuminance } from './palette.js';
-import { getFinaleArtwork, type FinaleArtwork } from './finale-art.js';
+import { CLAP_FRAMES, CLAP_TIMES } from './clap.js';
 
 export type AnnotationKind = 'drag' | 'select' | 'ghost' | 'line' | 'caret' | 'ripple' | 'zone' | 'spark';
 
@@ -87,8 +87,7 @@ export class Overlay {
   private dart: Path2D;
   private palm: Path2D;
   private slap: Path2D;
-  private highFiveImages: HTMLImageElement[] = [];
-  private artwork: FinaleArtwork | null = null;
+  private clap: HTMLImageElement[] = [];
   private dpr = 1;
   private w = 0;
   private h = 0;
@@ -128,16 +127,14 @@ export class Overlay {
   }
 
   prepareFinale(): void {
-    const artwork = getFinaleArtwork();
-    if (artwork === this.artwork) return;
-    this.artwork = artwork;
-    this.highFiveImages = artwork?.layers.map(({ src }) => {
+    if (this.clap.length) return;
+    this.clap = CLAP_FRAMES.map((src) => {
       const image = new Image();
       image.decoding = 'async';
       image.src = src;
       void image.decode().catch(() => undefined);
       return image;
-    }) ?? [];
+    });
   }
 
   setCap(cap: number): void {
@@ -195,38 +192,42 @@ export class Overlay {
     this.painted = true;
   }
 
-  /** The closing clap, Figma style: no panel, two emoji-sized hands slap where the orchestrator stood. */
+  /** The closing clap: two pixel cursor hands high five where the orchestrator stood. */
   private finale(f: Finale): void {
     this.prepareFinale();
     const { ctx } = this;
     const out = f.close ? unit(f.close / FINALE_OUT) : unit((f.age - F.hold) / F.out);
     const life = (1 - out) * easeOut(f.age / F.veil);
     if (life <= 0) return;
-    const size = this.w < 600 ? 64 : 76;
+    // Sprite pixels are drawn 2× and never smoothed.
+    const z = 2;
+    const size = 49 * z;
     // Room for the name tags on each side.
     const mx = Math.min(this.w / 2, size + 64);
     const cx = Math.min(this.w - mx, Math.max(mx, f.at.x));
     const cy = Math.min(this.h - size - 30, Math.max(size, f.at.y));
-    const pose = finalePose(f.age);
-    // The pose was authored for hands about 100 px wide.
-    const s = size / 100;
-    const pop = 1 + 0.1 * pose.impact;
-    const art = this.artwork && this.highFiveImages.length && this.highFiveImages.every((image) => image.complete && image.naturalWidth > 0) ? this.artwork : null;
+    const sprite = this.clap.every((image) => image.complete && image.naturalWidth > 0);
     ctx.save();
     ctx.globalAlpha = life * easeOut((f.age - F.enter) / 0.18);
-    if (art) {
-      // Both hands share one square around the contact point: drawn together, they restore the authored slap.
-      for (const [i, layer] of art.layers.entries()) {
-        ctx.save();
-        ctx.translate(cx + layer.group * pose.spread * s, cy + pose.lift * s);
-        ctx.rotate(layer.group * pose.tilt);
-        ctx.scale(pop, pop);
-        ctx.drawImage(this.highFiveImages[i], -size / 2, -size / 2, size, size);
-        ctx.restore();
-      }
+    if (sprite) {
+      let i = 0;
+      while (i < CLAP_TIMES.length - 1 && f.age >= CLAP_TIMES[i + 1]) i++;
+      // A two-frame shake on the slap, one sprite pixel each way.
+      const hit = f.age - CLAP_TIMES[3];
+      const shake = i === 3 && hit < 0.08 ? (Math.floor(hit / 0.04) % 2 ? z : -z) : 0;
+      const image = this.clap[i];
+      const w = image.naturalWidth * z;
+      const h = image.naturalHeight * z;
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(image, Math.round(cx - w / 2 + shake), Math.round(cy - h / 2), w, h);
     } else {
-      // The core entry ships no artwork, and a decode failure still gets a clap: vector hands in the troopers' colours.
-      const k = size / 46;
+      // A decode failure (strict img-src CSP) still gets a clap: vector hands in the troopers' colours.
+      const v = 76;
+      const pose = finalePose(f.age);
+      // The pose was authored for hands about 100 px wide.
+      const s = v / 100;
+      const pop = 1 + 0.1 * pose.impact;
+      const k = v / 46;
       for (const [side, color] of [[-1, f.left.color], [1, f.right.color]] as const) {
         ctx.save();
         ctx.translate(cx + side * pose.spread * s, cy + 6 * k + pose.lift * s);
@@ -235,27 +236,27 @@ export class Overlay {
         this.highFiveHand(color);
         ctx.restore();
       }
-    }
-    if (pose.impact > 0) {
-      const t = 1 - pose.impact;
-      ctx.globalAlpha = life * pose.impact;
-      ctx.lineWidth = 2.5;
-      ctx.lineCap = 'round';
-      const oy = cy - size * 0.42;
-      for (let i = 0; i < 7; i++) {
-        const angle = -Math.PI / 2 + (i - 3) * 0.42;
-        const r = size * (0.3 + 0.25 * easeOut(t));
-        const len = size * 0.16 * (1 - t);
-        ctx.strokeStyle = i % 2 ? f.left.color : f.right.color;
-        ctx.beginPath();
-        ctx.moveTo(cx + Math.cos(angle) * r, oy + Math.sin(angle) * r);
-        ctx.lineTo(cx + Math.cos(angle) * (r + len), oy + Math.sin(angle) * (r + len));
-        ctx.stroke();
+      if (pose.impact > 0) {
+        const t = 1 - pose.impact;
+        ctx.globalAlpha = life * pose.impact;
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        const oy = cy - v * 0.42;
+        for (let i = 0; i < 7; i++) {
+          const angle = -Math.PI / 2 + (i - 3) * 0.42;
+          const r = v * (0.3 + 0.25 * easeOut(t));
+          const len = v * 0.16 * (1 - t);
+          ctx.strokeStyle = i % 2 ? f.left.color : f.right.color;
+          ctx.beginPath();
+          ctx.moveTo(cx + Math.cos(angle) * r, oy + Math.sin(angle) * r);
+          ctx.lineTo(cx + Math.cos(angle) * (r + len), oy + Math.sin(angle) * (r + len));
+          ctx.stroke();
+        }
       }
     }
     // Name tags right under the hands, like cursor tags.
-    const tagsY = cy + size / 2 + 8;
-    const nameFont = `600 ${size < 70 ? 11 : 12}px ${this.st.sans}`;
+    const tagsY = cy + size / 2 + 4;
+    const nameFont = `600 12px ${this.st.sans}`;
     for (const [i, agent] of [f.left, f.right].entries()) {
       if (!agent.name) continue;
       const name = this.fit(agent.name, nameFont, 120);

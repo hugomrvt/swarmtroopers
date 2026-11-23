@@ -163,7 +163,7 @@ async function run(browser, base, name, test, options = {}) {
     await run(browser, base, 'the full profile does not decode completion images when finale is disabled', async page => {
       assert.equal(await page.evaluate(() => { let images = 0; const Original = window.Image; window.Image = function (...args) { images++; return new Original(...args); }; const swarmtroopers = SwarmTroopers.create({ root: 'main', finale: false, trigger: 'manual' }); swarmtroopers.destroy(); return images; }), 0);
     }, { full: true });
-    await run(browser, base, 'optional ESM artwork remains SSR-safe and shared with the core renderer', async page => {
+    await run(browser, base, 'the 0.5.0 ESM finale alias still resolves next to the core renderer', async page => {
       await page.evaluate(async () => {
         const { create } = await import('/dist/swarmtroopers.js'); await import('/dist/finale.js');
         window.swarmtroopers = create({ root: 'main', speed: 3 });
@@ -190,10 +190,10 @@ async function run(browser, base, name, test, options = {}) {
         const swarmtroopers = SwarmTroopers.create({ root: 'main', trigger: 'manual' }); document.querySelector('main').style.display = 'none'; swarmtroopers.refresh(); const empty = swarmtroopers.stats.tasks === 0; swarmtroopers.destroy(); return empty && !document.querySelector('.swarmtroopers-pending');
       }));
     });
-    await run(browser, base, 'the full script draws the supplied layered finale', async page => {
+    await run(browser, base, 'the full script draws the pixel clap sprite', async page => {
       await page.evaluate(() => {
         window.layerDraws = 0; const draw = CanvasRenderingContext2D.prototype.drawImage;
-        CanvasRenderingContext2D.prototype.drawImage = function (source, ...args) { if (source.src?.startsWith('data:image/svg')) window.layerDraws++; return Reflect.apply(draw, this, [source, ...args]); };
+        CanvasRenderingContext2D.prototype.drawImage = function (source, ...args) { if (source.src?.startsWith('data:image/png')) window.layerDraws++; return Reflect.apply(draw, this, [source, ...args]); };
         window.swarmtroopers = SwarmTroopers.create({ root: 'main', speed: 3 });
       });
       await page.waitForFunction(() => layerDraws > 0, null, { timeout: 15000 });
@@ -274,14 +274,14 @@ async function run(browser, base, name, test, options = {}) {
       await page.emulateMedia({ reducedMotion: 'no-preference' });
       await page.waitForFunction(() => swarmtroopers.quality === 'full');
     });
-    await run(browser, base, 'the core finale draws its vector hands in the troopers colours', async page => {
+    await run(browser, base, 'the core finale draws the haloed pixel hands, not the old colours', async page => {
       await page.evaluate(() => { window.swarmtroopers = SwarmTroopers.create({ root: 'main', speed: 3, palette: ['#00aa00'] }); });
       await page.waitForFunction(() => swarmtroopers.fin && swarmtroopers.fin.age > 1.2, null, { timeout: 15000 });
       assert.deepEqual(await page.evaluate(() => {
         const canvas = document.querySelector('canvas.swarmtroopers-overlay'); const { data } = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
         const count = (r, g, b) => { let n = 0; for (let i = 0; i < data.length; i += 4) if (data[i] === r && data[i + 1] === g && data[i + 2] === b && data[i + 3] === 255) n++; return n; };
-        return { palette: count(0, 170, 0) > 500, blue: count(55, 88, 249), orange: count(255, 120, 79) };
-      }), { palette: true, blue: 0, orange: 0 });
+        return { halo: count(217, 221, 228) > 100, blue: count(55, 88, 249), orange: count(255, 120, 79) };
+      }), { halo: true, blue: 0, orange: 0 });
     });
     await run(browser, base, 'an unreadable numeric attribute falls back instead of failing the element', async page => {
       await page.evaluate(() => { addEventListener('swarmtroopers-ready', event => window.readyDetail = event.detail); document.body.insertAdjacentHTML('beforeend', '<swarmtroopers-overlay root="main" speed="fast" scale="" quality="Full" trigger="click"></swarmtroopers-overlay>'); });

@@ -1,11 +1,11 @@
-/*! Swarm Troopers v0.5.0 | swarmtroopers | MIT */
+/*! Swarm Troopers v0.5.1 | swarmtroopers | MIT */
 import {
   SwarmTroopers,
   TOOLS
-} from "./chunk-EQXGE2WT.js";
+} from "./chunk-ER6APXEC.js";
 
 // src/index.ts
-var version = true ? "0.5.0" : "dev";
+var version = true ? "0.5.1" : "dev";
 function create(options) {
   return new SwarmTroopers(options);
 }
@@ -18,4 +18,4 @@ export {
   create,
   defineTool
 };
-//# sourceMappingURL=chunk-BSBFW2VA.js.map
+//# sourceMappingURL=chunk-PEYZ4ZCU.js.map

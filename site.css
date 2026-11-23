@@ -3,7 +3,7 @@
   --shell:var(--st-shell);--pane:var(--st-pane);--pane-2:var(--st-pane-2);--line:var(--st-line);--line-2:var(--st-line-2);
   --ink:var(--st-ink);--ink-2:var(--st-ink-2);--ink-3:var(--st-ink-3);--on-ink:var(--st-on-ink);
   --run:var(--st-run);--run-soft:var(--st-run-soft);--done:var(--st-done);--wait:var(--st-wait);--fail:var(--st-fail);
-  --lead:var(--st-lead);--ada:var(--st-ada);--mia:var(--st-mia);--noe:var(--st-noe);--iris:var(--st-iris);
+  --lead:var(--st-lead);--ed:var(--st-ed);--win:var(--st-win);--roy:var(--st-roy);--riza:var(--st-riza);
   --mono:var(--st-mono);--sans:var(--st-sans);
   --dispatch:var(--st-dispatch);--act:var(--st-act);--r:var(--st-r);
   /* The preview stands for the visitor's own page: it keeps one light paper in both themes. */
@@ -52,11 +52,11 @@ code{font:500 .84em var(--mono);background:var(--pane-2);border:1px solid var(--
 .hero-foot{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px;align-items:end}
 .hero .copy{font-size:19px;color:var(--ink-2);max-width:52ch}
 .hero .copy b{color:var(--ink);font-weight:600}
-.kicker .live{border-color:color-mix(in srgb,var(--run) 50%,transparent);color:var(--ink)}
-.kicker .live .g{color:var(--run);animation:st-pulse 1.4s ease-in-out infinite}
-.kicker .live[data-s=done]{border-color:color-mix(in srgb,var(--done) 50%,transparent)}
-.kicker .live[data-s=done] .g{color:var(--done);animation:none}
-@keyframes st-pulse{50%{opacity:.25}}
+
+
+
+
+
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
 .hero-foot .actions{margin-top:0}
 .fine{margin-top:18px}
@@ -131,11 +131,11 @@ code{font:500 .84em var(--mono);background:var(--pane-2);border:1px solid var(--
 .viz{position:relative;height:140px;border-radius:5px;background:var(--paper);border:1px solid var(--line);overflow:hidden}
 .viz-type{position:absolute;left:22px;top:50px;font:700 24px var(--sans);letter-spacing:-.035em;color:var(--paper-ink);white-space:nowrap}
 .viz-type::after{content:"";display:inline-block;width:2px;height:.9em;background:var(--paper-ink);vertical-align:-.1em;margin-left:2px}
-.viz-frame{position:absolute;left:26px;top:24px;width:130px;height:80px;border:1.5px solid var(--st-mia);background:rgba(185,140,255,.14);border-radius:6px}
+.viz-frame{position:absolute;left:26px;top:24px;width:130px;height:80px;border:1.5px solid var(--st-win);background:rgba(185,140,255,.14);border-radius:6px}
 .viz-rule{position:absolute;left:26px;top:74px;width:150px;height:1.5px;background:var(--paper-ink)}
 .viz-stamp{position:absolute;left:26px;top:28px;display:grid;gap:9px}
 .viz-stamp i{display:block;width:140px;height:14px;border-radius:3px;background:var(--paper-line)}
-.viz-stamp i:first-child{outline:1.5px solid var(--st-iris);outline-offset:3px}
+.viz-stamp i:first-child{outline:1.5px solid var(--st-riza);outline-offset:3px}
 .cursor{position:absolute;left:0;top:0;display:flex;align-items:flex-start;pointer-events:none;transform:translate(var(--x),var(--y))}
 .cursor svg{width:17px;height:23px;overflow:visible;flex:none}
 .cursor svg use{fill:var(--c);stroke:#0D0E11;stroke-width:1.4px;stroke-linejoin:round}
@@ -208,7 +208,7 @@ html.st-wait [data-swarmtroopers]{opacity:0}
 }
 
 .closing{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end;margin-block:24px 64px;padding:48px;background:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 1.4px) 0 0/22px 22px,var(--pane)}
-.clap{display:block;width:132px;height:132px;padding:12px;margin-bottom:22px;border-radius:50%;background:var(--paper);rotate:-6deg}
+.clap{display:block;width:114px;height:auto;margin-bottom:22px;image-rendering:pixelated}
 .closing pre{margin:0 0 18px;font:12.5px/1.7 var(--mono);color:var(--ink-3);white-space:pre-wrap}
 .closing pre .ok{color:var(--done)}
 .closing h2{max-width:16ch;font:700 clamp(30px,5vw,64px)/1 var(--mono);letter-spacing:-.05em;margin-bottom:14px}

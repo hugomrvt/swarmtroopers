@@ -191,22 +191,10 @@ function handle(data) {
   }
 }
 
-// The hero runs the library on itself: the kicker reports the live run, then its receipt.
-const selfRun = document.querySelector('#self-run');
-const selfText = document.querySelector('#self-run-text');
-addEventListener('swarmtroopers-ready', ({ detail: s }) => {
-  const done = (text) => { selfRun.dataset.s = 'done'; selfText.textContent = text; };
-  if (s.quality === 'off' || reduce.matches) return done('this hero · built');
-  const progress = () => { selfText.textContent = `this hero · ${s.stats.done}/${s.stats.tasks} built live`; };
-  s.on('task', progress);
-  s.on('quality', ({ quality }) => quality === 'off' && done('this hero · built'));
-  s.on('done', ({ tasks, duration }) => done(`this hero · ${tasks} steps built live in ${duration.toFixed(1)}s`));
-}, { once: true });
-
 const snippets = {
   script: `<!-- No build step: pinned CDN, or self-host from node_modules. -->
 <script
-  src="https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtroopers.core.iife.js"
+  src="https://unpkg.com/swarmtroopers@0.5.1/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{
     "root": "main",
     "auto": true,

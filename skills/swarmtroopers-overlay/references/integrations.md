@@ -12,7 +12,7 @@ Serve the chosen script from the site's approved origin, after the target region
   data-swarmtroopers-init='{"root":"#demo","controls":true}'></script>
 ```
 
-Choose `swarmtroopers.iife.js` instead when the supplied hand artwork is wanted. Do not load both profiles on one page.
+Load it once per page; `swarmtroopers.iife.js` is now the same script.
 
 ## React / Next.js
 

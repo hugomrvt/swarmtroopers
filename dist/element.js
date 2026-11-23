@@ -1,9 +1,8 @@
-/*! Swarm Troopers v0.5.0 | swarmtroopers | MIT */
+/*! Swarm Troopers v0.5.1 | swarmtroopers | MIT */
 import {
   SwarmTroopers,
   controls
-} from "./chunk-EQXGE2WT.js";
-import "./chunk-2UYDPHDG.js";
+} from "./chunk-ER6APXEC.js";
 
 // src/element.ts
 var Base = typeof HTMLElement === "undefined" ? class {

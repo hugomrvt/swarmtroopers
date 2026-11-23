@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "sources": ["../src/full.ts", "../src/finale.ts", "../src/high-five.ts"],
-  "sourcesContent": ["import './finale.js';\nexport * from './index.js';\n", "import { setFinaleArtwork } from './finale-art.js';\nimport { HIGH_FIVE_LAYERS } from './high-five.js';\n\nsetFinaleArtwork({ layers: HIGH_FIVE_LAYERS });\n", "// The SVG hands are written by scripts/prepare-high-five.py.\nimport leftHand from '../assets/high-five/left-hand.svg';\nimport rightHand from '../assets/high-five/right-hand.svg';\n\n/** Both bare hands share one square around the contact point. The right one is drawn first, the left thumb overlaps its palm. */\nexport const HIGH_FIVE_LAYERS = [\n  { src: rightHand, group: 1 },\n  { src: leftHand, group: -1 },\n];\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;;;ACAA,wBAAiC;A;;;;;;;;ACK1B,IAAM,mBAAmB;AAAA,EAC9B,EAAE,KAAK,oBAAW,OAAO,EAAE;AAAA,EAC3B,EAAE,KAAK,mBAAU,OAAO,GAAG;AAC7B;;;IDLA,oCAAiB,EAAE,QAAQ,iBAAiB,CAAC;;;ADF7C,yBAAc,gCADd;",
+  "sources": ["../src/full.ts"],
+  "sourcesContent": ["// ponytail: alias kept for 0.5.0 imports; core and full are now the same build.\nexport * from './index.js';\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AACA,yBAAc,gCADd;",
   "names": []
 }

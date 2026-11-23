@@ -7,7 +7,7 @@
     inspect: true,
     plugins: ['tokens'],
     palette: ['#7DB4FF', '#B98CFF', '#5FE3D0', '#FF7EB6'],
-    names: ['ada', 'mia', 'noé', 'iris'],
+    names: ['ed', 'win', 'roy', 'riza'],
   };
 
   function start() {

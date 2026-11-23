@@ -42,7 +42,7 @@
 
   <main id="main">
     <section class="hero wrap" aria-labelledby="hero-title">
-      <div class="row kicker"><span class="st live" id="self-run" data-s="running"><span class="g" aria-hidden="true">●</span><span id="self-run-text">this hero is being built right now</span></span><span class="st">v0.5.0</span><span class="st">MIT</span><span class="st">0 dependencies</span><span class="st">scripted · no model</span></div>
+      <div class="row kicker"><span class="st">v0.5.1</span></div>
       <h1 id="hero-title"><span data-swarmtroopers="type">don't ship a page.</span><br><span class="dim" data-swarmtroopers="type">ship the build.</span></h1>
       <div class="hero-foot">
         <p class="copy" data-swarmtroopers="type"><b>Swarm Troopers sends an orchestrator and a squad of named cursor agents onto your existing HTML.</b> They type the headlines, frame the cards, draw the rules and stamp the lists, live, in front of your visitor. Then they hand the page back. They just built this headline.</p>
@@ -104,7 +104,7 @@
         <ol class="steps">
           <li class="pane"><span class="n">01</span><h3>Drop it in</h3><p>Add the script tag or <code>npm i swarmtroopers</code>. Point it at your main element.</p><span class="log">create({ root: 'main' })</span></li>
           <li class="pane"><span class="n">02</span><h3>The orchestrator surveys</h3><p>It splits the page into sections and sends a squad to each one as it scrolls into view.</p><span class="log">orchestrator · 7 sections</span></li>
-          <li class="pane"><span class="n">03</span><h3>The squad builds</h3><p>Text is typed, boxes framed, lines drawn, lists stamped. Every gesture lands on your real content.</p><span class="log">ada · type() · h1</span></li>
+          <li class="pane"><span class="n">03</span><h3>The squad builds</h3><p>Text is typed, boxes framed, lines drawn, lists stamped. Every gesture lands on your real content.</p><span class="log">ed · type() · h1</span></li>
           <li class="pane"><span class="n">04</span><h3>Hand back</h3><p>The overlay goes idle and steps aside. What's left is your plain, untouched page.</p><span class="log"><span class="ok">✓</span> run complete</span></li>
         </ol>
       </section>
@@ -115,10 +115,10 @@
           <thead><tr><th scope="col">id</th><th scope="col">role</th><th scope="col">tools</th><th scope="col">colour</th></tr></thead>
           <tbody>
             <tr style="--c:var(--lead)"><td class="id">orchestrator</td><td>lead · surveys sections, sends the squads, hands back</td><td>plan, done</td><td>ink</td></tr>
-            <tr style="--c:var(--ada)"><td class="id">ada</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#7DB4FF</td></tr>
-            <tr style="--c:var(--mia)"><td class="id">mia</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#B98CFF</td></tr>
-            <tr style="--c:var(--noe)"><td class="id">noé</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#5FE3D0</td></tr>
-            <tr style="--c:var(--iris)"><td class="id">iris</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#FF7EB6</td></tr>
+            <tr style="--c:var(--ed)"><td class="id">ed</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#7DB4FF</td></tr>
+            <tr style="--c:var(--win)"><td class="id">win</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#B98CFF</td></tr>
+            <tr style="--c:var(--roy)"><td class="id">roy</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#5FE3D0</td></tr>
+            <tr style="--c:var(--riza)"><td class="id">riza</td><td>agent</td><td>type() frame() rule() stamp()</td><td>#FF7EB6</td></tr>
           </tbody>
         </table></div>
       </section>
@@ -126,10 +126,10 @@
       <section class="lsec" aria-labelledby="tools-title">
         <div class="lsec-head"><div><span class="label">04 / the toolkit</span><h2 id="tools-title">four tools. zero keyframes.</h2></div><p>Picked from your markup. Text gets typed, boxes get framed, lines get drawn, lists get stamped.</p></div>
         <div class="tools">
-          <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-type">Made with care</span><span class="cursor" style="--c:var(--ada);--x:200px;--y:58px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">ada <i>type</i></span></span></div><div class="txt"><span class="sig">type<span>(el, text)</span></span><h3>Words with a human rhythm</h3><p>A click, a caret, bursts and pauses. Text appears where it already sits, so the layout never jumps.</p></div></article>
-          <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-frame"></span><span class="cursor" style="--c:var(--mia);--x:148px;--y:96px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">mia <i>frame</i></span></span></div><div class="txt"><span class="sig">frame<span>(el)</span></span><h3>A precise drag for every box</h3><p>Cards, images and fields open from one corner to the other behind a soft edge, then release.</p></div></article>
-          <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-rule"></span><span class="cursor" style="--c:var(--noe);--x:170px;--y:66px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">noé <i>rule</i></span></span></div><div class="txt"><span class="sig">rule<span>(el)</span></span><h3>Lines drawn end to end</h3><p>Separators and borders get one steady stroke.</p></div></article>
-          <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-stamp"><i></i><i></i><i></i></span><span class="cursor" style="--c:var(--iris);--x:150px;--y:72px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">iris <i>stamp</i></span></span></div><div class="txt"><span class="sig">stamp<span>(list)</span></span><h3>Lists pressed into place</h3><p>The first item is framed. The rest are copied down and set in place, one stamp at a time.</p></div></article>
+          <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-type">Made with care</span><span class="cursor" style="--c:var(--ed);--x:200px;--y:58px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">ed <i>type</i></span></span></div><div class="txt"><span class="sig">type<span>(el, text)</span></span><h3>Words with a human rhythm</h3><p>A click, a caret, bursts and pauses. Text appears where it already sits, so the layout never jumps.</p></div></article>
+          <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-frame"></span><span class="cursor" style="--c:var(--win);--x:148px;--y:96px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">win <i>frame</i></span></span></div><div class="txt"><span class="sig">frame<span>(el)</span></span><h3>A precise drag for every box</h3><p>Cards, images and fields open from one corner to the other behind a soft edge, then release.</p></div></article>
+          <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-rule"></span><span class="cursor" style="--c:var(--roy);--x:170px;--y:66px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">roy <i>rule</i></span></span></div><div class="txt"><span class="sig">rule<span>(el)</span></span><h3>Lines drawn end to end</h3><p>Separators and borders get one steady stroke.</p></div></article>
+          <article class="pane"><div class="viz" aria-hidden="true"><span class="viz-stamp"><i></i><i></i><i></i></span><span class="cursor" style="--c:var(--riza);--x:150px;--y:72px"><svg viewBox="-1.5 -1.5 17 23"><use href="#arrow"/></svg><span class="tag">riza <i>stamp</i></span></span></div><div class="txt"><span class="sig">stamp<span>(list)</span></span><h3>Lists pressed into place</h3><p>The first item is framed. The rest are copied down and set in place, one stamp at a time.</p></div></article>
         </div>
       </section>
 
@@ -213,7 +213,7 @@ controls(swarmtroopers);</code></pre>
 
       <section class="pane closing" aria-labelledby="closing-title">
         <div>
-          <img class="clap" src="assets/high-five-clap.svg" alt="Two hands from two different people meeting in a high five" width="132" height="132" loading="lazy">
+          <img class="clap" src="assets/clap.png" alt="Two pixel cursor hands meeting in a high five" width="114" height="98" loading="lazy">
           <pre aria-hidden="true"><span class="ok">✓</span> <span id="closing-run">html served · content complete from the first byte</span>
 <span class="ok">✓</span> agents handed back</pre>
           <h2 id="closing-title">your next launch deserves a squad.</h2>
@@ -229,6 +229,6 @@ controls(swarmtroopers);</code></pre>
     <span>a side project by <a href="https://hugo.mourlev.at" target="_blank" rel="noopener">Hugo Mourlevat</a></span>
     <nav aria-label="Footer"><a href="docs/">docs</a><a href="https://github.com/hugomrvt/swarmtroopers/blob/main/CHANGELOG.md" target="_blank" rel="noopener">changelog ↗</a><a href="https://github.com/hugomrvt/swarmtroopers/issues" target="_blank" rel="noopener">issues ↗</a><a href="https://www.npmjs.com/package/swarmtroopers" target="_blank" rel="noopener">npm ↗</a><a href="https://github.com/hugomrvt/swarmtroopers" data-github-link title="Swarm Troopers on GitHub" target="_blank" rel="noopener">source ↗</a><span>© 2026</span></nav>
   </footer>
-  <script src="dist/swarmtroopers.iife.js" data-swarmtroopers-init='{"root":".hero","names":["ada","mia","noé","iris"],"palette":["#7DB4FF","#B98CFF","#5FE3D0","#FF7EB6"],"controls":{"position":"bottom-right","labels":{"title":"agents"}},"speed":1.1}'></script>
+  <script src="dist/swarmtroopers.iife.js" data-swarmtroopers-init='{"root":".hero","names":["ed","win","roy","riza"],"palette":["#7DB4FF","#B98CFF","#5FE3D0","#FF7EB6"],"controls":{"position":"bottom-right","labels":{"title":"agents"}},"speed":1.1}'></script>
 </body>
 </html>

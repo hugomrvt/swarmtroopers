@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.1 (2026-11-23)
+
+### Changed
+- The finale is now two pixel cursor hands that high five: six small poses (arrive, pull back, swing, slap, bounce, rest) on the same 3.54 s timeline. They ship in every build, about 8 kB of embedded PNGs.
+- `dist/swarmtroopers.iife.js`, `swarmtroopers/finale` and `swarmtroopers/full` are now aliases of the core, kept so 0.5.0 integrations keep working.
+
+### Removed
+- The SVG hand artwork and its registration entry.
+
 ## 0.5.0 (2026-11-22)
 
 ### Changed

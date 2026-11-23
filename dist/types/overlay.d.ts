@@ -71,8 +71,7 @@ export declare class Overlay {
     private dart;
     private palm;
     private slap;
-    private highFiveImages;
-    private artwork;
+    private clap;
     private dpr;
     private w;
     private h;
@@ -89,7 +88,7 @@ export declare class Overlay {
     resize(): void;
     destroy(): void;
     render(anns: readonly Annotation[], agents: readonly Agent[], sx: number, sy: number, style: OverlayStyle, fin?: Finale | null): void;
-    /** The closing clap, Figma style: no panel, two emoji-sized hands slap where the orchestrator stood. */
+    /** The closing clap: two pixel cursor hands high five where the orchestrator stood. */
     private finale;
     private measure;
     /** Dark or light text, whichever reads better on the agent colour. */

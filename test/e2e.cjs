@@ -48,7 +48,7 @@ async function openPage(browser, url, options = {}) {
     window.swarmtroopersLayerDraws = 0;
     const draw = CanvasRenderingContext2D.prototype.drawImage;
     CanvasRenderingContext2D.prototype.drawImage = function (source, ...args) {
-      if (source instanceof HTMLImageElement && /^data:image\/(webp|svg)/.test(source.src)) window.swarmtroopersLayerDraws++;
+      if (source instanceof HTMLImageElement && /^data:image\/png/.test(source.src)) window.swarmtroopersLayerDraws++;
       return Reflect.apply(draw, this, [source, ...args]);
     };
   });
@@ -156,7 +156,7 @@ async function landing(browser, base) {
     check(await frame.evaluate(() => document.documentElement.scrollHeight <= innerHeight + 1 && document.documentElement.scrollWidth <= innerWidth), `landing ${scene}: entire scene fits its frame`);
     await frame.waitForFunction(() => window.swarmtroopers.fin && window.swarmtroopers.fin.age >= 1.08, null, { timeout: 35000 });
     check(await frame.evaluate(() => window.swarmtroopers.stats.done === window.swarmtroopers.stats.tasks), `landing ${scene}: natural completion plays the real finale`);
-    check(await frame.evaluate(() => window.swarmtroopersLayerDraws > 0), `landing ${scene}: finale draws the supplied artwork layers`);
+    check(await frame.evaluate(() => window.swarmtroopersLayerDraws > 0), `landing ${scene}: finale draws the pixel clap sprite`);
     await page.screenshot({ path: path.join(OUT, `landing-${scene}-finale.png`) });
     if (scene === 'finale') {
       await frame.locator('body').click({ position: { x: 10, y: 10 } });

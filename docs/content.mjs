@@ -15,12 +15,12 @@ export const pages = [
 <p>Your HTML remains complete. Swarm Troopers does not generate copy, duplicate elements, or rearrange your layout. When JavaScript is unavailable, the page remains readable. Readers can skip the effect with the quality controls.</p>
 <aside class="note"><strong>Install.</strong> Run <code>npm i swarmtroopers</code>, or add one script tag from a pinned CDN. No build step is required.</aside>
 <h2 id="first-build">Your first build</h2>
-<ol><li>Add the pinned script from the CDN (<code>https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtroopers.core.iife.js</code>), or self-host it: install the package with <code>npm i swarmtroopers</code> and copy <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your website’s public files.</li><li>Add the script after your page content. Swarm Troopers starts when the DOM is ready.</li></ol>
+<ol><li>Add the pinned script from the CDN (<code>https://unpkg.com/swarmtroopers@0.5.1/dist/swarmtroopers.core.iife.js</code>), or self-host it: install the package with <code>npm i swarmtroopers</code> and copy <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your website’s public files.</li><li>Add the script after your page content. Swarm Troopers starts when the DOM is ready.</li></ol>
 ${code('html', `<main>
   <h1>A page with a little character.</h1>
   <p>Your own content, already here.</p>
 </main>
-<script src="https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtroopers.core.iife.js"
+<script src="https://unpkg.com/swarmtroopers@0.5.1/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{"root":"main","auto":true,"controls":true}'></script>`)}
 <p>The script creates <code>window.swarmtroopers</code>, exposes helpers through <code>window.SwarmTroopers</code>, and adds Full, Light, and Off controls. Keep the controls outside the animated content; the built-in helper handles this for you.</p>
 <h2 id="how-it-works">What happens on the page</h2>
@@ -43,7 +43,7 @@ python3 -m http.server 8765`)}
 <p>Open <code>http://localhost:8765/</code> for the landing page, or <code>/demo/index.html</code> for the everyday-website demo. Serve files over HTTP; opening an ES module directly from a <code>file:</code> URL is not an equivalent test.</p>
 <h2 id="script-tag">One script tag</h2>
 <p>Load the pinned file from the CDN, or self-host it by copying <code>dist/swarmtroopers.core.iife.js</code> from <code>node_modules/swarmtroopers</code> into your public directory. This lightweight script embeds the mark and draws the finale hands as vectors in the two agents’ colors. Choose <code>dist/swarmtroopers.iife.js</code> instead for the self-contained bundle with the illustrated hands. Do not load both script profiles on one page.</p>
-${code('html', `<script src="https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtroopers.core.iife.js"
+${code('html', `<script src="https://unpkg.com/swarmtroopers@0.5.1/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{
     "root": "main",
     "auto": true,
@@ -51,7 +51,7 @@ ${code('html', `<script src="https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtro
     "controls": { "position": "bottom-right" }
   }'></script>`)}
 <p><code>data-swarmtroopers-init</code> must contain valid JSON, including double-quoted keys. An empty attribute uses default options. Without that attribute, the script only makes <code>window.SwarmTroopers</code> available and registers the custom element; it does not create an instance automatically.</p>
-${code('html', `<script src="https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtroopers.core.iife.js"></script>
+${code('html', `<script src="https://unpkg.com/swarmtroopers@0.5.1/dist/swarmtroopers.core.iife.js"></script>
 <script>
   const swarmtroopers = SwarmTroopers.create({ root: 'main', auto: true });
   SwarmTroopers.controls(swarmtroopers);
@@ -69,23 +69,18 @@ controls(swarmtroopers);`)}
 <p>To let Claude Code integrate Swarm Troopers for you, copy the packaged skill into your project. Add <code>--global</code> to install it for every project, or <code>--dir &lt;path&gt;</code> to choose the folder.</p>
 ${code('sh', `npx swarmtroopers skill`)}
 <p>Then ask Claude Code to add Swarm Troopers to a section of your site. Read the skill before installing it: <a href="https://github.com/hugomrvt/swarmtroopers/tree/main/skills/swarmtroopers-overlay">skills/swarmtroopers-overlay on GitHub</a>. The package itself is <a href="https://www.npmjs.com/package/swarmtroopers">swarmtroopers on npm</a>.</p>
-<h2 id="optional-artwork">Optional finale artwork</h2>
-<p>The main ESM and CommonJS entries ship no finale artwork; the closing clap draws vector hands in the two agents’ colors. The supplied hand artwork is two SVG hands in two skin tones, embedded as <code>data:</code> URLs. Enable it in ESM with a side-effect import before creating instances:</p>
-${code('js', `import { create } from 'swarmtroopers';
-import 'swarmtroopers/finale';
-const swarmtroopers = create({ root: 'main', auto: true });`)}
-<p>For CommonJS, use <code>require('swarmtroopers/full')</code>. The self-contained <code>dist/swarmtroopers.iife.js</code> script includes the same artwork for classic-script integrations. Even in that full build, the hand images are prepared only when enabled build work starts; disabled finales and inspection-only instances do not decode them.</p>
+<h2 id="finale">The finale</h2>
+<p>Every entry ships the same finale: two pixel cursor hands high five where the orchestrator stood, with both name tags. The six poses are tiny PNGs embedded as <code>data:</code> URLs, about 8 kB in all. There is nothing extra to import. <code>swarmtroopers/finale</code>, <code>swarmtroopers/full</code> and <code>dist/swarmtroopers.iife.js</code> still resolve for 0.5.0 integrations and now match the core. The images are decoded only when enabled build work starts; disabled finales and inspection-only instances never decode them.</p>
 <h2 id="browser-modules">Native ES modules and CommonJS</h2>
 <p>For browser-native modules, copy the entire <code>dist/</code> directory, including generated <code>chunk-*.js</code> files. Its small <code>swarmtroopers.js</code> entry imports a shared chunk; copying that entry alone will fail.</p>
 ${code('html', `<script type="module">
   import { create } from '/vendor/swarmtroopers/swarmtroopers.js';
   create({ root: 'main', auto: true });
 </script>`)}
-<p>Keep adjacent CommonJS registry files when copying artifacts manually; installing the complete package handles this. Node toolchains can resolve the CommonJS entry with <code>require('swarmtroopers')</code>. Importing the package is safe during server rendering, but calling <code>create()</code> requires a mounted browser document.</p>
+<p>Node toolchains can resolve the CommonJS entry with <code>require('swarmtroopers')</code>. Importing the package is safe during server rendering, but calling <code>create()</code> requires a mounted browser document.</p>
 ${table(['Entry', 'Purpose'], [
 ['<code>dist/swarmtroopers.core.iife.js</code>', 'Lightweight self-contained classic script; exposes <code>window.SwarmTroopers</code>.'],
-['<code>dist/swarmtroopers.iife.js</code>', 'Full single-file profile with the illustrated finale hands.'],
-['<code>dist/finale.js</code>', 'Optional ESM artwork registration; retain its shared chunks.'],
+['<code>dist/swarmtroopers.iife.js</code>', 'Same file as the core script, kept for existing links.'],
 ['<code>dist/swarmtroopers.js</code>', 'ES module entry with adjacent shared chunks.'],
 ['<code>dist/swarmtroopers.cjs</code>', 'CommonJS entry for compatible toolchains.'],
 ['<code>dist/element.js</code>', 'Custom-element registration entry; keep its chunks alongside it.'],
@@ -281,9 +276,9 @@ ${table(['Attribute', 'Value / default', 'Effect'], [
 ${code('html', `<swarmtroopers-overlay
   root="main" auto inspect tokens
   controls="bottom-right" labels="false"
-  names="Ada, Mia, Iris" lang="en"
+  names="ed, win, roy" lang="en"
 ></swarmtroopers-overlay>`)}
-<p>Boolean attributes are on when present unless their string value is exactly <code>"false"</code>. For example, <code>chat="0"</code> still enables chat. A single custom name such as <code>names="Ada"</code> currently uses the built-in name pool; JavaScript’s <code>names: ['Ada']</code> supports a one-name pool.</p>
+<p>Boolean attributes are on when present unless their string value is exactly <code>"false"</code>. For example, <code>chat="0"</code> still enables chat. A single custom name such as <code>names="ed"</code> currently uses the built-in name pool; JavaScript’s <code>names: ['ed']</code> supports a one-name pool.</p>
 <h2 id="ready-event">Access the instance</h2>
 ${code('js', `const element = document.createElement('swarmtroopers-overlay');
 element.setAttribute('root', 'main');
@@ -510,7 +505,7 @@ const plugin = tokens({ css: false, source });`)}
 ${code('js', `create({
   root: 'main', auto: true,
   locale: 'en',
-  names: ['Ada', 'Mia', 'Iris'],
+  names: ['ed', 'win', 'roy'],
   leadName: 'Swarm Troopers',
   chat: false,
 });`)}
@@ -626,11 +621,11 @@ create({
 <p>The preload snippet avoids flashing content before the animation starts, but that tradeoff is deliberate. It is opt-in, belongs in head, uses explicit <code>data-swarmtroopers-preload</code> markers, and needs its safety timer. It must not hide excluded or critical content. Never replace it with a permanent CSS rule that hides the page when the script fails.</p>
 <h2 id="rendering-budget">Rendering budget</h2>
 <p>Swarm Troopers uses one fixed canvas. Full mode caps device pixel ratio at 1.5; Light caps it at 1. The loop sleeps when nothing moves and pauses updates in background tabs. Layout rectangles and token lookups are cached and invalidated when necessary.</p>
-<p>Use a focused root, a modest worker count, and the task limit on large pages. The core has no finale artwork; the optional full profile embeds two SVG hands. Decode is skipped for disabled finales and inspection-only instances; measure your actual built output with <code>npm run size</code> rather than assuming a historical size. Profile the real page on target devices; desktop emulation cannot establish performance on a physical phone.</p>
+<p>Use a focused root, a modest worker count, and the task limit on large pages. The pixel finale adds about 8 kB of embedded PNGs; decode is skipped for disabled finales and inspection-only instances; measure your actual built output with <code>npm run size</code> rather than assuming a historical size. Profile the real page on target devices; desktop emulation cannot establish performance on a physical phone.</p>
 <h2 id="content-security-policy">Content Security Policy</h2>
 <p>Serve the library from a domain allowed by <code>script-src</code>. Give inline initialization and the preload script/style valid nonces or hashes, or use external initialization and omit the preload. The self-hosted script path is under your control.</p>
 <p>Styles normally use constructable stylesheets. When those are unavailable, Swarm Troopers falls back to a style element, which a strict <code>style-src</code> policy can block. If neither stylesheet path is available, Swarm Troopers uses visible quality Off instead of enrolling hidden tasks. The preload style also needs to satisfy that policy.</p>
-<p>The high-five artwork and dock mark are embedded <code>data:</code> image URLs. Allow <code>data:</code> in <code>img-src</code> if those images should display. When decoding is blocked or fails, the finale uses its vector fallback and the dock keeps its text label. No remote image host is required by the library.</p>
+<p>The pixel high-five and dock mark are embedded <code>data:</code> image URLs. Allow <code>data:</code> in <code>img-src</code> if those images should display. When decoding is blocked or fails, the finale draws vector hands instead and the dock keeps its text label. No remote image host is required by the library.</p>
 <h2 id="existing-animations">Existing animations and browser checks</h2>
 <p>Choose one owner for an element’s visibility and clip-path. Auto mode skips initially invisible elements, but two systems controlling the same visible element can still conflict. Remove the other reveal animation or exclude the element from Swarm Troopers.</p>
 <p>The implementation uses Canvas 2D, Path2D, CSS clip-path, generators, and modern observer APIs. An absent IntersectionObserver makes tasks count as visible; ResizeObserver is optional. Validate your supported browser matrix, fonts, nested scrolling, touch behavior, and strict CSP on the site itself. Shadow-tree roots and transformed documents that invalidate viewport coordinates fall back to visible quality Off with a diagnostic. Overlapping instance roots are refused. Portability and real React Strict Mode/navigation fixtures are tested in Chrome, Firefox and Playwright WebKit. The full landing/demo suite runs in Chrome. Physical devices, Safari itself, assistive technologies and other framework runtimes still require validation. Include 320px layouts, no-JavaScript rendering, mid-build <code>destroy()</code>, and route changes in your checks.</p>`
@@ -692,7 +687,7 @@ ${code('html', `<main id="showcase">
     </ul>
   </section>
 </main>
-<script src="https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtroopers.core.iife.js"
+<script src="https://unpkg.com/swarmtroopers@0.5.1/dist/swarmtroopers.core.iife.js"
   data-swarmtroopers-init='{"root":"#showcase","inspect":true,"controls":true}'></script>`)}
 <p>Add your normal typography, spacing, card surfaces, and list styling. The annotations choose tools; they do not replace the host design.</p>
 <h2 id="manual-starter">Start on an intentional action</h2>
@@ -707,7 +702,7 @@ document.querySelector('#start-demo').addEventListener('click', () => {
   swarmtroopers.start();
 }, { once: true });`)}
 <h2 id="completion-example">Completion behavior</h2>
-<p>The closing clap plays after a natural build with at least one spawned agent, where the orchestrator stands; the center of the viewport is only a fallback. Two emoji-sized hands (76px, 64px on narrow screens) swing in, slap, and rebound once. A short burst of strokes in the two agents’ colors marks the contact, and each hand has its agent’s name tag under it: the last worker on the left, the orchestrator on the right. There is no panel or veil, so the page stays fully visible, and the clap never catches the pointer.</p>
+<p>The closing clap plays after a natural build with at least one spawned agent, where the orchestrator stands; the center of the viewport is only a fallback. Two pixel cursor hands, seen from the side and drawn at 2×, arrive, pull back, swing, slap with a small burst, bounce and rest. Each hand has its agent’s name tag under it: the last worker on the left, the orchestrator on the right. There is no panel or veil, so the page stays fully visible, and the clap never catches the pointer.</p>
 <p><code>finale: false</code> disables it; <code>finish()</code> reveals content without playing it. A deliberate wheel, touch, click, or key dismisses it after its initial half-second. It clears automatically after 3.54 seconds.</p>
 <p><a href="../site-demo.html?scene=finale" target="_blank" rel="noopener">Try the compact completion example</a>. This is a behavior reference, not a required section of your website.</p>`
   },

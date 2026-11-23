@@ -2,7 +2,7 @@
 name: swarmtroopers-overlay
 description: Integrate Swarm Troopers' coordinated cursor animations into an existing website, preserving its content, styles and lifecycle. Use when adding Swarm Troopers or replacing a reveal effect with named cursor agents.
 metadata:
-  version: "0.5.0"
+  version: "0.5.1"
   author: Hugo Mourlevat
 ---
 
@@ -20,14 +20,13 @@ Install the tested engine; do not copy or regenerate its internals for each site
 
 ## Install and integrate
 
-Install with the site's package manager (`npm i swarmtroopers`), or use the no-build script tag from a pinned CDN, `https://unpkg.com/swarmtroopers@0.5.0/dist/swarmtroopers.core.iife.js`, or self-host by copying `dist/swarmtroopers.core.iife.js` from `node_modules/swarmtroopers`. The skill itself installs with `npx swarmtroopers skill`. Do not invent other packages, CDNs, domains, or deployments.
+Install with the site's package manager (`npm i swarmtroopers`), or use the no-build script tag from a pinned CDN, `https://unpkg.com/swarmtroopers@0.5.1/dist/swarmtroopers.core.iife.js`, or self-host by copying `dist/swarmtroopers.core.iife.js` from `node_modules/swarmtroopers`. The skill itself installs with `npx swarmtroopers skill`. Do not invent other packages, CDNs, domains, or deployments.
 
 Choose the build deliberately:
 
-- `dist/swarmtroopers.core.iife.js`: lightweight, self-contained script; the finale draws vector hands in the two agents' colors.
-- `dist/swarmtroopers.iife.js`: self-contained full script with the supplied hand artwork (two illustrated hands embedded as `data:` URLs).
-- ESM: import `create` and `controls` from `swarmtroopers`. Add `import 'swarmtroopers/finale'` only when the illustrated hands are wanted. For a no-bundler ESM installation, copy the complete `dist` directory and keep its chunks adjacent.
-- CommonJS: `swarmtroopers` for core, `swarmtroopers/full` for the artwork profile.
+- `dist/swarmtroopers.core.iife.js`: self-contained script, including the pixel high-five finale. `dist/swarmtroopers.iife.js` is now the same file.
+- ESM: import `create` and `controls` from `swarmtroopers`. For a no-bundler ESM installation, copy the complete `dist` directory and keep its chunks adjacent.
+- CommonJS: `require('swarmtroopers')`.
 
 Use auto mode for a semantic content region. Use `data-swarmtroopers="type|frame|rule|stamp"`, `data-swarmtroopers="repeat"`, or `data-swarmtroopers="scan"` when the selection needs deliberate control.
 
